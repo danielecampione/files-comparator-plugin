@@ -32,7 +32,7 @@ import javax.swing.JFrame;
 
 import net.sourceforge.open_teradata_viewer.ApplicationFrame;
 import net.sourceforge.open_teradata_viewer.Main;
-import net.sourceforge.open_teradata_viewer.SwingUtil;
+import net.sourceforge.open_teradata_viewer.util.SwingUtil;
 
 import org.files_comparator.ui.FilesComparatorPanel;
 import org.files_comparator.ui.util.ImageUtil;
