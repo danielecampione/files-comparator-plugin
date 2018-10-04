@@ -32,10 +32,10 @@ import java.util.List;
  * @see Delta
  */
 public class Chunk extends org.apache.commons.jrcs.util.ToString {
+
     protected int anchor;
     protected int count;
-    @SuppressWarnings("rawtypes")
-    protected List chunk;
+    protected List<Object> chunk;
 
     /**
      * Creates a chunk that doesn't copy the original text.
@@ -81,8 +81,8 @@ public class Chunk extends org.apache.commons.jrcs.util.ToString {
      * @param pos the start position in the text.
      * @param count the size of the chunk.
      */
-    @SuppressWarnings("rawtypes")
-    public Chunk(List iseq, int pos, int count) {
+
+    public Chunk(List<Object> iseq, int pos, int count) {
         this(pos, count);
         chunk = slice(iseq, pos, count);
     }
@@ -96,8 +96,8 @@ public class Chunk extends org.apache.commons.jrcs.util.ToString {
      * @param count the size of the chunk.
      * @param offset the position the chunk should have in the resulting text.
      */
-    @SuppressWarnings("rawtypes")
-    public Chunk(List iseq, int pos, int count, int offset) {
+
+    public Chunk(List<Object> iseq, int pos, int count, int offset) {
         this(offset, count);
         chunk = slice(iseq, pos, count);
     }
@@ -153,8 +153,8 @@ public class Chunk extends org.apache.commons.jrcs.util.ToString {
      * 
      * @return the text.
      */
-    @SuppressWarnings("rawtypes")
-    public List chunk() {
+
+    public List<Object> chunk() {
         return chunk;
     }
 
@@ -165,8 +165,8 @@ public class Chunk extends org.apache.commons.jrcs.util.ToString {
      * @param target the sequence to verify against.
      * @return true if the texts match.
      */
-    @SuppressWarnings("rawtypes")
-    public boolean verify(List target) {
+
+    public boolean verify(List<?> target) {
         if (chunk == null) {
             return true;
         }
@@ -189,8 +189,8 @@ public class Chunk extends org.apache.commons.jrcs.util.ToString {
      * 
      * @param target the text to delete from.
      */
-    @SuppressWarnings("rawtypes")
-    public void applyDelete(List target) {
+
+    public void applyDelete(List<?> target) {
         for (int i = last(); i >= first(); i--) {
             target.remove(i);
         }
@@ -202,9 +202,9 @@ public class Chunk extends org.apache.commons.jrcs.util.ToString {
      * @param start where to add the text.
      * @param target the text to add to.
      */
-    @SuppressWarnings({"rawtypes", "unchecked"})
+
     public void applyAdd(int start, List target) {
-        Iterator i = chunk.iterator();
+        Iterator<Object> i = chunk.iterator();
 
         while (i.hasNext()) {
             target.add(start++, i.next());
@@ -227,10 +227,9 @@ public class Chunk extends org.apache.commons.jrcs.util.ToString {
      * @param prefix the text thatshould prefix each line.
      * @param postfix the text that should end each line.
      */
-    @SuppressWarnings("rawtypes")
     public StringBuffer toString(StringBuffer s, String prefix, String postfix) {
         if (chunk != null) {
-            Iterator i = chunk.iterator();
+            Iterator<Object> i = chunk.iterator();
 
             while (i.hasNext()) {
                 s.append(prefix);
@@ -250,12 +249,11 @@ public class Chunk extends org.apache.commons.jrcs.util.ToString {
      * @param count the number of items in the slice.
      * @return a {@link List List} containing the specified items.
      */
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    public static List slice(List seq, int pos, int count) {
+    public static List<Object> slice(List<Object> seq, int pos, int count) {
         if (count <= 0) {
-            return new ArrayList(seq.subList(pos, pos));
+            return new ArrayList<Object>(seq.subList(pos, pos));
         } else {
-            return new ArrayList(seq.subList(pos, pos + count));
+            return new ArrayList<Object>(seq.subList(pos, pos + count));
         }
     }
 
@@ -267,8 +265,7 @@ public class Chunk extends org.apache.commons.jrcs.util.ToString {
      * @param count the number of items in the slice.
      * @return a {@link List List} containing the specified items.
      */
-    @SuppressWarnings("rawtypes")
-    public static List slice(Object[] seq, int pos, int count) {
+    public static List<Object> slice(Object[] seq, int pos, int count) {
         return slice(Arrays.asList(seq), pos, count);
     }
 

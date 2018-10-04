@@ -27,5 +27,7 @@ import net.sourceforge.open_teradata_viewer.actions.CustomAction;
  *
  */
 public class Actions {
+
     public static final CustomAction FILES_COMPARATOR = new FilesComparatorAction();
+
 }

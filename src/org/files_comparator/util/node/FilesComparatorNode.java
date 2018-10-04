@@ -81,7 +81,7 @@ public class FilesComparatorNode implements Comparable<FilesComparatorNode> {
     }
 
     public void print() {
-        ApplicationFrame.getInstance().changeLog.append(name + "\n");
+        ApplicationFrame.getInstance().getConsole().println(name);
     }
 
     public void resetContent() {

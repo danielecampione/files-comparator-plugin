@@ -139,21 +139,28 @@ public class FilesComparatorDiff {
                 }
 
                 if (a.length > 1000) {
-                    ApplicationFrame.getInstance().changeLog
-                            .append("diff took " + sp.getElapsedTime()
-                                    + " msec. [filter=" + filteredTime
-                                    + " msec][" + algorithm.getClass() + "]\n");
+                    ApplicationFrame
+                            .getInstance()
+                            .getConsole()
+                            .println(
+                                    "diff took " + sp.getElapsedTime()
+                                            + " msec. [filter=" + filteredTime
+                                            + " msec][" + algorithm.getClass()
+                                            + "]");
                 }
 
                 return revision;
-            } catch (FilesComparatorException ex) {
-                if (ex.getCause() instanceof MaxTimeExceededException) {
-                    ApplicationFrame.getInstance().changeLog.append(
-                            "Time exceeded for " + algorithm.getClass()
-                                    + ": try next algorithm.\n",
-                            ApplicationFrame.WARNING_FOREGROUND_COLOR_LOG);
+            } catch (FilesComparatorException fce) {
+                if (fce.getCause() instanceof MaxTimeExceededException) {
+                    ApplicationFrame
+                            .getInstance()
+                            .getConsole()
+                            .println(
+                                    "Time exceeded for " + algorithm.getClass()
+                                            + ": try next algorithm.",
+                                    ApplicationFrame.WARNING_FOREGROUND_COLOR_LOG);
                 } else {
-                    throw ex;
+                    throw fce;
                 }
             }
         }
@@ -171,7 +178,7 @@ public class FilesComparatorDiff {
 
         for (FilesComparatorDelta delta : revision.getDeltas()) {
             chunk = delta.getOriginal();
-            // ApplicationFrame.getInstance().changeLog.append("  original=" + chunk);
+            // ApplicationFrame.getInstance().getConsole().print("  original=" + chunk);
             index = chunk.getAnchor();
             if (index < orgArrayFiltered.length) {
                 anchor = orgArrayFiltered[index].lineNumber;
@@ -195,13 +202,13 @@ public class FilesComparatorDiff {
             }
             chunk.setAnchor(anchor);
             chunk.setSize(size);
-            // ApplicationFrame.getInstance().changeLog.append(" => " + chunk + "\n");
+            // ApplicationFrame.getInstance().getConsole().println(" => " + chunk);
 
             chunk = delta.getRevised();
-            // ApplicationFrame.getInstance().changeLog.append("  revised=" + chunk);
+            // ApplicationFrame.getInstance().getConsole().print("  revised=" + chunk);
             index = chunk.getAnchor();
             if (index < revArrayFiltered.length) {
-                // ApplicationFrame.getInstance().changeLog.append(" [index=" + index + ", text="
+                // ApplicationFrame.getInstance().getConsole().print(" [index=" + index + ", text="
                 //  + revArrayFiltered[index].s + "]");
                 anchor = revArrayFiltered[index].lineNumber;
             } else {
@@ -223,7 +230,7 @@ public class FilesComparatorDiff {
             }
             chunk.setAnchor(anchor);
             chunk.setSize(size);
-            // ApplicationFrame.getInstance().changeLog.append(" => " + chunk + "\n");
+            // ApplicationFrame.getInstance().getConsole().println(" => " + chunk);
         }
     }
 
@@ -233,7 +240,7 @@ public class FilesComparatorDiff {
         int lineNumber;
 
         synchronized (inputLine) {
-            // ApplicationFrame.getInstance().changeLog.append("> start\n");
+            // ApplicationFrame.getInstance().getConsole().println("> start");
             result = new ArrayList<FilesComparatorString>(array.length);
             lineNumber = -1;
             for (Object o : array) {
@@ -251,7 +258,7 @@ public class FilesComparatorDiff {
                 filesComparatorString.lineNumber = lineNumber;
                 result.add(filesComparatorString);
 
-                // ApplicationFrame.getInstance().changeLog.append("  " + filesComparatorString + "\n");
+                // ApplicationFrame.getInstance().getConsole().println("  " + filesComparatorString);
             }
         }
 

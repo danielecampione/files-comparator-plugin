@@ -41,6 +41,8 @@ import java.util.concurrent.locks.ReentrantLock;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
+import net.sourceforge.open_teradata_viewer.ExceptionDialog;
+
 /**
  * An abstract class to perform lengthy GUI-interacting tasks in a
  * dedicated thread.
@@ -850,8 +852,8 @@ public abstract class SwingWorker<T, V> implements Future<T>, Runnable {
                         while (isPaused) {
                             unpaused.await();
                         }
-                    } catch (InterruptedException ignore) {
-
+                    } catch (InterruptedException ie) {
+                        ExceptionDialog.ignoreException(ie);
                     } finally {
                         pauseLock.unlock();
                     }

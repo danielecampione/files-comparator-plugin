@@ -51,9 +51,8 @@ public abstract class FilesComparatorTreeTableModel
         return ((UINode) parent).getChildCount();
     }
 
-    @SuppressWarnings("rawtypes")
     public Column addColumn(String id, String columnGroupName,
-            String columnName, Class columnClass, int columnSize,
+            String columnName, Class<?> columnClass, int columnSize,
             boolean editable) {
         Column column;
 
@@ -74,7 +73,6 @@ public abstract class FilesComparatorTreeTableModel
         return getColumn(columnIndex).columnName;
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     public Class getColumnClass(int columnIndex) {
         Class clazz;
 
@@ -130,16 +128,14 @@ public abstract class FilesComparatorTreeTableModel
         private int columnIndex;
         private String columnGroupName;
         private String columnName;
-        @SuppressWarnings("rawtypes")
-        private Class columnClass;
+        private Class<?> columnClass;
         private int columnSize;
         private boolean editable;
         private TableCellRenderer renderer;
         private TableCellEditor editor;
 
-        @SuppressWarnings("rawtypes")
         public Column(String id, int columnIndex, String columnGroupName,
-                String columnName, Class columnClass, int columnSize,
+                String columnName, Class<?> columnClass, int columnSize,
                 boolean editable) {
             this.id = id;
             this.columnIndex = columnIndex;
@@ -166,8 +162,7 @@ public abstract class FilesComparatorTreeTableModel
             return columnName;
         }
 
-        @SuppressWarnings("rawtypes")
-        public Class getColumnClass() {
+        public Class<?> getColumnClass() {
             return columnClass;
         }
 

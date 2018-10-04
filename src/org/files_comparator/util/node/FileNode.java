@@ -85,9 +85,13 @@ public class FileNode extends FilesComparatorNode implements BufferNode {
         outOfDate = file.lastModified() != fileLastModified;
 
         if (outOfDate) {
-            ApplicationFrame.getInstance().changeLog.append("FileNode[" + this
-                    + "] is out of date [" + file.lastModified() + " != "
-                    + fileLastModified + "]\n");
+            ApplicationFrame
+                    .getInstance()
+                    .getConsole()
+                    .println(
+                            "FileNode[" + this + "] is out of date ["
+                                    + file.lastModified() + " != "
+                                    + fileLastModified + "]");
         }
         return outOfDate;
     }

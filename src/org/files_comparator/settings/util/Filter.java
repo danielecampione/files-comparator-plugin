@@ -39,7 +39,6 @@ import org.files_comparator.util.conf.AbstractConfigurationElement;
 @XmlAccessorType(XmlAccessType.NONE)
 public class Filter extends AbstractConfigurationElement {
 
-    @SuppressWarnings("unused")
     @XmlAttribute
     private Boolean includeDefault;
     @XmlAttribute
@@ -142,10 +141,9 @@ public class Filter extends AbstractConfigurationElement {
         HashSet<FilterRule> result = new HashSet<FilterRule>();
         HashSet<Filter> evaluatedFilters = new HashSet<Filter>();
 
-        @SuppressWarnings({"rawtypes", "unchecked"})
         List<FilterRule> getRules() {
             collectRules(Filter.this);
-            return new ArrayList(result);
+            return new ArrayList<FilterRule>(result);
         }
 
         void collectRules(Filter filter) {

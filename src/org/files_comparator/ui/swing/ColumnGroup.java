@@ -24,7 +24,6 @@ import java.util.Enumeration;
 import java.util.Vector;
 
 import javax.swing.JTable;
-import javax.swing.ListCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
@@ -37,18 +36,15 @@ import javax.swing.table.TableColumn;
 public class ColumnGroup {
 
     protected TableCellRenderer renderer;
-    @SuppressWarnings("rawtypes")
-    protected Vector v;
+    protected Vector<Object> v;
     protected String text;
 
     public ColumnGroup(String text) {
         this(null, text);
     }
 
-    @SuppressWarnings({"unused", "rawtypes"})
     public ColumnGroup(TableCellRenderer renderer, String text) {
         MultiLineHeaderRenderer multiHeaderRenderer;
-        ListCellRenderer internalRenderer;
 
         if (renderer == null) {
             multiHeaderRenderer = new MultiLineHeaderRenderer();
@@ -66,13 +62,12 @@ public class ColumnGroup {
             this.renderer = renderer;
         }
         this.text = text;
-        v = new Vector();
+        v = new Vector<Object>();
     }
 
     /**
      * @param obj    TableColumn or ColumnGroup
      */
-    @SuppressWarnings("unchecked")
     public void add(Object obj) {
         if (obj == null) {
             return;
@@ -84,20 +79,20 @@ public class ColumnGroup {
      * @param c    TableColumn
      * @param v    ColumnGroups
      */
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    public Vector getColumnGroups(TableColumn c, Vector g) {
+    public Vector<ColumnGroup> getColumnGroups(TableColumn c,
+            Vector<ColumnGroup> g) {
         g.addElement(this);
         if (v.contains(c)) {
             return g;
         }
-        Enumeration enumerate = v.elements();
+        Enumeration<Object> enumerate = v.elements();
 
         while (enumerate.hasMoreElements()) {
             Object obj = enumerate.nextElement();
 
             if (obj instanceof ColumnGroup) {
-                Vector groups = (Vector) ((ColumnGroup) obj).getColumnGroups(c,
-                        (Vector) g.clone());
+                Vector<ColumnGroup> groups = (Vector<ColumnGroup>) ((ColumnGroup) obj)
+                        .getColumnGroups(c, (Vector<ColumnGroup>) g.clone());
 
                 if (groups != null) {
                     return groups;
@@ -121,12 +116,11 @@ public class ColumnGroup {
         return text;
     }
 
-    @SuppressWarnings("rawtypes")
     public Dimension getSize(JTable table) {
         Component comp;
         int height;
         int width;
-        Enumeration enumerate;
+        Enumeration<Object> enumerate;
         Object obj;
         TableColumn aColumn;
 

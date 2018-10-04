@@ -37,15 +37,13 @@ public class AddDelta extends Delta {
         init(new Chunk(origpos, 0), rev);
     }
 
-    @SuppressWarnings("rawtypes")
-    public void verify(List target) throws PatchFailedException {
+    public void verify(List<?> target) throws PatchFailedException {
         if (original.first() > target.size()) {
             throw new PatchFailedException("original.first() > target.size()");
         }
     }
 
-    @SuppressWarnings("rawtypes")
-    public void applyTo(List target) {
+    public void applyTo(List<?> target) {
         revised.applyAdd(original.first(), target);
     }
 

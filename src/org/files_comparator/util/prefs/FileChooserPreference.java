@@ -23,6 +23,8 @@ import java.io.IOException;
 
 import javax.swing.JFileChooser;
 
+import net.sourceforge.open_teradata_viewer.ExceptionDialog;
+
 /**
  * 
  * 
@@ -63,8 +65,8 @@ public class FileChooserPreference extends Preference {
             try {
                 fileName = file.getCanonicalPath();
                 putString(FILE, fileName);
-            } catch (IOException ex) {
-                ex.printStackTrace();
+            } catch (IOException ioe) {
+                ExceptionDialog.hideException(ioe);
             }
         }
     }

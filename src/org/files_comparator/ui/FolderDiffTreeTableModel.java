@@ -31,7 +31,6 @@ import org.files_comparator.util.node.FilesComparatorDiffNode;
  * @author D. Campione
  *
  */
-@SuppressWarnings("unchecked")
 public class FolderDiffTreeTableModel extends FilesComparatorTreeTableModel {
 
     private Column fileNameColumn;

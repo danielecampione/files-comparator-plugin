@@ -69,9 +69,12 @@ public class DiffUtil {
         }
 
         if (debug) {
-            ApplicationFrame.getInstance().changeLog.append(String.format(
-                    "%03d-%02d, %03d-%02d == ", originalAnchor, originalSize,
-                    revisedAnchor, revisedSize));
+            ApplicationFrame
+                    .getInstance()
+                    .getConsole()
+                    .print(String.format("%03d-%02d, %03d-%02d == ",
+                            originalAnchor, originalSize, revisedAnchor,
+                            revisedSize));
         }
 
         return revisedLine;
@@ -109,9 +112,12 @@ public class DiffUtil {
         }
 
         if (debug) {
-            ApplicationFrame.getInstance().changeLog.append(String.format(
-                    "%03d-%02d, %03d-%02d == ", originalAnchor, originalSize,
-                    revisedAnchor, revisedSize));
+            ApplicationFrame
+                    .getInstance()
+                    .getConsole()
+                    .print(String.format("%03d-%02d, %03d-%02d == ",
+                            originalAnchor, originalSize, revisedAnchor,
+                            revisedSize));
         }
 
         return originalLine;

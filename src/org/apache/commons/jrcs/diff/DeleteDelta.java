@@ -37,15 +37,13 @@ public class DeleteDelta extends Delta {
         init(orig, null);
     }
 
-    @SuppressWarnings("rawtypes")
-    public void verify(List target) throws PatchFailedException {
+    public void verify(List<?> target) throws PatchFailedException {
         if (!original.verify(target)) {
             throw new PatchFailedException();
         }
     }
 
-    @SuppressWarnings("rawtypes")
-    public void applyTo(List target) {
+    public void applyTo(List<?> target) {
         original.applyDelete(target);
     }
 

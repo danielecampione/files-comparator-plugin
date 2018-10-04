@@ -30,6 +30,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JViewport;
 import javax.swing.text.JTextComponent;
 
+import net.sourceforge.open_teradata_viewer.ExceptionDialog;
+
 import org.files_comparator.diff.FilesComparatorChunk;
 import org.files_comparator.diff.FilesComparatorDelta;
 import org.files_comparator.diff.FilesComparatorRevision;
@@ -182,14 +184,12 @@ public class ScrollSynchronizer {
         scroll(true);
     }
 
-    @SuppressWarnings("unused")
     private int getCurrentLineCenter(FilePanel fp) {
         JScrollPane scrollPane;
         BufferDocumentIF bd;
         JTextComponent editor;
         JViewport viewport;
         int line;
-        Rectangle rect;
         int offset;
         Point p;
 
@@ -212,9 +212,7 @@ public class ScrollSynchronizer {
         return line;
     }
 
-    @SuppressWarnings("unused")
     public void scrollToLine(FilePanel fp, int line) {
-        JScrollPane scrollPane;
         FilePanel fp2;
         BufferDocumentIF bd;
         JTextComponent editor;
@@ -225,7 +223,6 @@ public class ScrollSynchronizer {
         Rectangle viewRect;
         Dimension viewSize;
         Dimension extentSize;
-        int x;
 
         fp2 = fp == filePanelLeft ? filePanelRight : filePanelLeft;
 
@@ -268,8 +265,8 @@ public class ScrollSynchronizer {
             p.x = viewRect.x;
 
             viewport.setViewPosition(p);
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (Exception e) {
+            ExceptionDialog.hideException(e);
         }
     }
 
@@ -309,8 +306,8 @@ public class ScrollSynchronizer {
             if (rect != null) {
                 return p.y - rect.getLocation().y;
             }
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (Exception e) {
+            ExceptionDialog.hideException(e);
         }
 
         return 0;
@@ -360,9 +357,8 @@ public class ScrollSynchronizer {
     private AdjustmentListener getVerticalAdjustmentListener() {
         if (verticalAdjustmentListener == null) {
             verticalAdjustmentListener = new AdjustmentListener() {
+
                 private boolean insideScroll;
-                @SuppressWarnings("unused")
-                private int counter;
 
                 public void adjustmentValueChanged(AdjustmentEvent e) {
                     boolean leftScrolled;

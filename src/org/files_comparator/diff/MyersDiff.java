@@ -44,9 +44,9 @@ public class MyersDiff extends AbstractFilesComparatorDiffAlgorithm {
             diff = new org.apache.commons.jrcs.diff.myers.MyersDiff();
             diff.checkMaxTime(isMaxTimeChecked());
             revision = diff.diff(orig, rev);
-        } catch (Exception ex) {
+        } catch (Exception e) {
             throw new FilesComparatorException("Diff failed [" + getClass()
-                    + "]", ex);
+                    + "]", e);
         }
 
         return buildRevision(revision, orig, rev);

@@ -27,6 +27,7 @@ import javax.swing.undo.UndoManager;
 import javax.swing.undo.UndoableEdit;
 
 import net.sourceforge.open_teradata_viewer.ApplicationFrame;
+import net.sourceforge.open_teradata_viewer.ExceptionDialog;
 
 import org.files_comparator.ui.search.SearchHits;
 import org.files_comparator.util.ObjectUtil;
@@ -74,10 +75,12 @@ public class AbstractContentPanel extends JPanel
             if (getUndoHandler().canUndo()) {
                 getUndoHandler().undo();
             }
-        } catch (CannotUndoException ex) {
-            ApplicationFrame.getInstance().changeLog.append(
-                    "Unable to undo.\n",
-                    ApplicationFrame.WARNING_FOREGROUND_COLOR_LOG);
+        } catch (CannotUndoException cue) {
+            ApplicationFrame
+                    .getInstance()
+                    .getConsole()
+                    .println("Unable to undo.",
+                            ApplicationFrame.WARNING_FOREGROUND_COLOR_LOG);
         }
     }
 
@@ -90,9 +93,9 @@ public class AbstractContentPanel extends JPanel
             if (getUndoHandler().canRedo()) {
                 getUndoHandler().redo();
             }
-        } catch (CannotUndoException ex) {
-            System.out.println("Unable to undo: " + ex);
-            ex.printStackTrace();
+        } catch (CannotUndoException cue) {
+            System.err.println("Unable to undo: " + cue);
+            ExceptionDialog.hideException(cue);
         }
     }
 

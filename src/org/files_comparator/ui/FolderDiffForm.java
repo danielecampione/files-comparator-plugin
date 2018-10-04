@@ -229,7 +229,7 @@ public class FolderDiffForm extends AbstractContentPanel {
     protected org.files_comparator.ui.swing.DiffLabel folder1Label;
     protected org.files_comparator.ui.swing.DiffLabel folder2Label;
     protected org.files_comparator.ui.swing.table.FilesComparatorTreeTable folderTreeTable;
-    protected javax.swing.JComboBox hierarchyComboBox;
+    protected javax.swing.JComboBox<?> hierarchyComboBox;
     protected javax.swing.JScrollPane jScrollPane1;
     protected javax.swing.JToggleButton leftRightChangedButton;
     protected javax.swing.JToggleButton leftRightUnChangedButton;
@@ -237,5 +237,4 @@ public class FolderDiffForm extends AbstractContentPanel {
     protected javax.swing.JToggleButton onlyRightButton;
     protected javax.swing.JButton refreshButton;
     // End of variables declaration//GEN-END:variables
-
 }

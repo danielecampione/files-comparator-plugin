@@ -21,6 +21,8 @@ package org.files_comparator.util.conf;
 import java.io.File;
 import java.io.IOException;
 
+import net.sourceforge.open_teradata_viewer.ExceptionDialog;
+
 import org.files_comparator.util.prefs.Preference;
 
 /**
@@ -35,12 +37,10 @@ public class ConfigurationPreference extends Preference {
     private static String FILENAME = "FILENAME";
 
     // Instance variables:
-    @SuppressWarnings("rawtypes")
-    private Class clazz;
+    private Class<?> clazz;
     private File file;
 
-    @SuppressWarnings("rawtypes")
-    public ConfigurationPreference(Class clazz) {
+    public ConfigurationPreference(Class<?> clazz) {
         super("Configuration-" + clazz);
 
         this.clazz = clazz;
@@ -61,8 +61,8 @@ public class ConfigurationPreference extends Preference {
         try {
             defaultFileName = new File(System.getProperty("user.home"),
                     defaultFileName).getCanonicalPath();
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (Exception e) {
+            ExceptionDialog.hideException(e);
         }
         defaultFileName += ".xml";
 
@@ -83,8 +83,8 @@ public class ConfigurationPreference extends Preference {
     public void save() {
         try {
             putString(FILENAME, file.getCanonicalPath());
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        } catch (IOException ioe) {
+            ExceptionDialog.hideException(ioe);
         }
     }
 }

@@ -41,9 +41,9 @@ public class GNUDiff extends AbstractFilesComparatorDiffAlgorithm {
         try {
             diff = new Diff(orig, rev);
             change = diff.diff_2();
-        } catch (Exception ex) {
+        } catch (Exception e) {
             throw new FilesComparatorException("Diff failed [" + getClass()
-                    + "]", ex);
+                    + "]", e);
         }
 
         return buildRevision(change, orig, rev);

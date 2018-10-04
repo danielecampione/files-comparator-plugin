@@ -657,7 +657,7 @@ public class EditorSettingsForm extends javax.swing.JPanel {
     protected javax.swing.JPanel jPanel1;
     protected javax.swing.JPanel jPanel2;
     protected javax.swing.JCheckBox leftsideReadonlyCheckBox;
-    protected javax.swing.JComboBox lookAndFeelComboBox;
+    protected javax.swing.JComboBox<?> lookAndFeelComboBox;
     protected javax.swing.JButton restoreOriginalColorsButton;
     protected javax.swing.JCheckBox rightsideReadonlyCheckBox;
     protected javax.swing.JCheckBox showLineNumbersCheckBox;
@@ -667,5 +667,4 @@ public class EditorSettingsForm extends javax.swing.JPanel {
     protected javax.swing.JComboBox toolbarButtonIconComboBox;
     protected javax.swing.JCheckBox toolbarButtonTextEnabledCheckBox;
     // End of variables declaration//GEN-END:variables
-
 }

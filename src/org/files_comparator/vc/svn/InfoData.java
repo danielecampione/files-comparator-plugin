@@ -73,7 +73,6 @@ public class InfoData {
         private WcInfo wcInfo;
         @XmlElement
         private Commit commit;
-        @SuppressWarnings("unused")
         @XmlElement
         private Lock lock;
 
@@ -148,20 +147,16 @@ public class InfoData {
 
         @XmlElement
         private String schedule;
-        @SuppressWarnings("unused")
         @XmlElement(name = "copy-from-url")
         private String copyFromUrl;
-        @SuppressWarnings("unused")
         @XmlElement(name = "copy-from-rev")
         private String copyFromRev;
         @XmlElement(name = "text-updated")
         private Date textUpdated;
-        @SuppressWarnings("unused")
         @XmlElement(name = "prop-updated")
         private Date propUpdated;
         @XmlElement
         private String checksum;
-        @SuppressWarnings("unused")
         @XmlElement
         private Confict conflict;
 
@@ -189,16 +184,12 @@ public class InfoData {
      */
     static class Confict {
 
-        @SuppressWarnings("unused")
         @XmlElement(name = "prev-base-file")
         private String prevBaseFile;
-        @SuppressWarnings("unused")
         @XmlElement(name = "prev-wc-file")
         private String prevWcFile;
-        @SuppressWarnings("unused")
         @XmlElement(name = "cur-base-file")
         private String curBaseFile;
-        @SuppressWarnings("unused")
         @XmlElement(name = "prop-file")
         private String propFile;
 
@@ -245,19 +236,14 @@ public class InfoData {
      */
     static class Lock {
 
-        @SuppressWarnings("unused")
         @XmlElement
         private String token;
-        @SuppressWarnings("unused")
         @XmlElement
         private String owner;
-        @SuppressWarnings("unused")
         @XmlElement
         private String comment;
-        @SuppressWarnings("unused")
         @XmlElement
         private Date created;
-        @SuppressWarnings("unused")
         @XmlElement
         private Date expires;
 

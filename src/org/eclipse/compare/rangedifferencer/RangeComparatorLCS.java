@@ -17,6 +17,7 @@ import java.util.List;
 import org.eclipse.compare.internal.LCS;
 
 public class RangeComparatorLCS extends LCS {
+
     private final IRangeComparator comparator1;
     private final IRangeComparator comparator2;
     private int[][] lcs;
@@ -56,9 +57,8 @@ public class RangeComparatorLCS extends LCS {
         lcs[1][sl1] = sl2 + 1;
     }
 
-    @SuppressWarnings({"rawtypes", "unchecked"})
     public RangeDifference[] getDifferences() {
-        List differences = new ArrayList();
+        List<RangeDifference> differences = new ArrayList<RangeDifference>();
         int length = getLength();
         if (length == 0) {
             differences

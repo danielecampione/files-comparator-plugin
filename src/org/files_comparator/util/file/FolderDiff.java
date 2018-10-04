@@ -44,7 +44,6 @@ public abstract class FolderDiff {
     private String leftFolderShortName;
     private String rightFolderName;
     private String leftFolderName;
-    @SuppressWarnings("unused")
     private Mode mode;
 
     public FolderDiff(Mode mode) {

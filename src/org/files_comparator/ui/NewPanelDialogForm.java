@@ -340,7 +340,7 @@ public class NewPanelDialogForm extends javax.swing.JPanel {
     protected javax.swing.JButton fileBrowseLeftButton;
     protected javax.swing.JButton fileBrowseRightButton;
     protected javax.swing.JComboBox fileFilterComboBox;
-    protected javax.swing.JComboBox fileLeftComboBox;
+    protected javax.swing.JComboBox<?> fileLeftComboBox;
     protected javax.swing.JLabel fileLeftLabel;
     protected javax.swing.JCheckBox fileLeftReadonlyCheckBox;
     protected javax.swing.JComboBox fileRightComboBox;
@@ -361,5 +361,4 @@ public class NewPanelDialogForm extends javax.swing.JPanel {
     protected javax.swing.JPanel jPanel2;
     protected javax.swing.JTabbedPane jTabbedPane1;
     // End of variables declaration//GEN-END:variables
-
 }

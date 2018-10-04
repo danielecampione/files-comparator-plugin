@@ -39,10 +39,10 @@ public class ComboBoxPreference extends Preference {
     private static String ITEMS = "ITEMS";
 
     // Instance variables:
-    private JComboBox target;
+    private JComboBox<String> target;
     private int maxItems = 10;
 
-    public ComboBoxPreference(String preferenceName, JComboBox target) {
+    public ComboBoxPreference(String preferenceName, JComboBox<String> target) {
         super("ComboBox-" + preferenceName);
 
         this.target = target;
@@ -51,9 +51,9 @@ public class ComboBoxPreference extends Preference {
     }
 
     private void init() {
-        DefaultComboBoxModel model;
+        DefaultComboBoxModel<String> model;
 
-        model = new DefaultComboBoxModel();
+        model = new DefaultComboBoxModel<String>();
         for (String item : getListOfString(ITEMS, maxItems)) {
             model.addElement(item);
         }
@@ -67,7 +67,7 @@ public class ComboBoxPreference extends Preference {
 
     private void save() {
         List<String> list;
-        ComboBoxModel model;
+        ComboBoxModel<String> model;
         String item;
 
         list = new ArrayList<String>();

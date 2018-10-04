@@ -42,6 +42,8 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.Highlighter;
 
+import net.sourceforge.open_teradata_viewer.ExceptionDialog;
+
 import org.files_comparator.diff.FilesComparatorChunk;
 import org.files_comparator.diff.FilesComparatorDelta;
 import org.files_comparator.diff.FilesComparatorRevision;
@@ -81,7 +83,7 @@ public class FilePanel
     private String name;
     private int position;
     private DiffLabel fileLabel;
-    private JComboBox fileBox;
+    private JComboBox<String> fileBox;
     private JScrollPane scrollPane;
     private JTextArea editor;
     private BufferDocumentIF bufferDocument;
@@ -124,7 +126,7 @@ public class FilePanel
                     "JScrollBar.isFreeStanding", Boolean.TRUE);
         }
 
-        fileBox = new JComboBox();
+        fileBox = new JComboBox<String>();
         fileBox.addActionListener(getFileBoxAction());
 
         fileLabel = new DiffLabel();
@@ -152,7 +154,7 @@ public class FilePanel
         return filePanelBar;
     }
 
-    JComboBox getFileBox() {
+    JComboBox<String> getFileBox() {
         return fileBox;
     }
 
@@ -210,11 +212,11 @@ public class FilePanel
 
             checkActions();
             initConfiguration();
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (Exception e) {
+            ExceptionDialog.hideException(e);
 
             JOptionPane.showMessageDialog(diffPanel, "Could not read file: "
-                    + bufferDocument.getName() + "\n" + ex.getMessage(),
+                    + bufferDocument.getName() + "\n" + e.getMessage(),
                     "Error opening file", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -233,7 +235,6 @@ public class FilePanel
         doSearch();
     }
 
-    @SuppressWarnings("unused")
     SearchHits doSearch() {
         int numberOfLines;
         BufferDocumentIF doc;
@@ -243,7 +244,6 @@ public class FilePanel
         String searchText;
         SearchHit searchHit;
         int offset;
-        int length;
         SearchCommand searchCommand;
 
         searchCommand = diffPanel.getSearchCommand();
@@ -488,8 +488,8 @@ public class FilePanel
             Highlighter.HighlightPainter highlight) {
         try {
             getHighlighter().addHighlight(layer, offset, size, highlight);
-        } catch (BadLocationException ex) {
-            ex.printStackTrace();
+        } catch (BadLocationException ble) {
+            ExceptionDialog.hideException(ble);
         }
     }
 
@@ -498,11 +498,11 @@ public class FilePanel
             public void actionPerformed(ActionEvent ae) {
                 try {
                     bufferDocument.write();
-                } catch (Exception ex) {
+                } catch (Exception e) {
                     JOptionPane.showMessageDialog(
                             SwingUtilities.getRoot(editor),
                             "Could not save file: " + bufferDocument.getName()
-                                    + "\n" + ex.getMessage(),
+                                    + "\n" + e.getMessage(),
                             "Error saving file", JOptionPane.ERROR_MESSAGE);
                 }
             }
@@ -512,7 +512,7 @@ public class FilePanel
     public ActionListener getFileBoxAction() {
         return new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
-                // ApplicationFrame.getInstance().changeLog.append("fileBox: " + fileBox.getSelectedItem() + "\n");
+                // ApplicationFrame.getInstance().getConsole().println("fileBox: " + fileBox.getSelectedItem());
             }
         };
     }

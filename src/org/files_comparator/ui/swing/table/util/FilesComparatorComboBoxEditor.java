@@ -34,11 +34,10 @@ public class FilesComparatorComboBoxEditor extends DefaultCellEditor {
     private static final long serialVersionUID = 7850441017510119350L;
 
     public FilesComparatorComboBoxEditor(Object[] items) {
-        super(new JComboBox(items));
+        super(new JComboBox<Object>(items));
     }
 
-    @SuppressWarnings("rawtypes")
-    public FilesComparatorComboBoxEditor(List items) {
+    public FilesComparatorComboBoxEditor(List<?> items) {
         this(items.toArray());
     }
 }

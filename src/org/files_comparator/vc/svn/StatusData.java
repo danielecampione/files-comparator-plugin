@@ -61,7 +61,6 @@ public class StatusData {
         private String path;
         @XmlElement(name = "entry")
         private List<Entry> entryList;
-        @SuppressWarnings("unused")
         @XmlElement
         private Against against;
 
@@ -89,7 +88,6 @@ public class StatusData {
         private String path;
         @XmlElement(name = "wc-status")
         private WcStatus wcStatus;
-        @SuppressWarnings("unused")
         @XmlElement(name = "repos-status")
         private ReposStatus reposStatus;
 
@@ -119,19 +117,14 @@ public class StatusData {
         private String props;
         @XmlAttribute
         private Integer revision;
-        @SuppressWarnings("unused")
         @XmlAttribute(name = "wc-locked")
         private Boolean wcLocked;
-        @SuppressWarnings("unused")
         @XmlAttribute
         private Boolean copied;
-        @SuppressWarnings("unused")
         @XmlAttribute
         private Boolean switched;
-        @SuppressWarnings("unused")
         @XmlElement
         private Commit commit;
-        @SuppressWarnings("unused")
         @XmlElement
         private Lock lock;
 
@@ -167,7 +160,6 @@ public class StatusData {
         private String item;
         @XmlAttribute
         private String props;
-        @SuppressWarnings("unused")
         @XmlElement
         private Lock lock;
 
@@ -191,7 +183,6 @@ public class StatusData {
      */
     static class Against {
 
-        @SuppressWarnings("unused")
         @XmlAttribute
         private Integer revision;
 
@@ -238,19 +229,14 @@ public class StatusData {
      */
     static class Lock {
 
-        @SuppressWarnings("unused")
         @XmlElement
         private String token;
-        @SuppressWarnings("unused")
         @XmlElement
         private String owner;
-        @SuppressWarnings("unused")
         @XmlElement
         private String comment;
-        @SuppressWarnings("unused")
         @XmlElement
         private Date created;
-        @SuppressWarnings("unused")
         @XmlElement
         private Date expires;
 

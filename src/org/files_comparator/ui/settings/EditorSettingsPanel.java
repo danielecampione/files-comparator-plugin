@@ -109,7 +109,7 @@ public class EditorSettingsPanel extends EditorSettingsForm
         detectEncodingRadioButton.addActionListener(getDetectEncodingAction());
         specificEncodingRadioButton
                 .addActionListener(getSpecificEncodingAction());
-        specificEncodingComboBox.setModel(new DefaultComboBoxModel(
+        specificEncodingComboBox.setModel(new DefaultComboBoxModel<Object>(
                 CharsetDetector.getInstance().getCharsetNameList().toArray()));
         specificEncodingComboBox.setSelectedItem(getEditorSettings()
                 .getSpecificFileEncodingName());
@@ -390,8 +390,8 @@ public class EditorSettingsPanel extends EditorSettingsForm
         return fontChooser.showFontDialog(this, "");
     }
 
-    private ComboBoxModel getToolbarButtonIconModel() {
-        return new DefaultComboBoxModel(getEditorSettings()
+    private ComboBoxModel<?> getToolbarButtonIconModel() {
+        return new DefaultComboBoxModel<Object>(getEditorSettings()
                 .getToolbarButtonIcons());
     }
 

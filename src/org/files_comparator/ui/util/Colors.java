@@ -73,8 +73,8 @@ public class Colors {
 
     public static Color getSelectionColor() {
         // DO NOT USE UIManager to get colors because it is not lookandfeel
-        //   independent! (Learned it the hard way with Nimbus l&f)
-        return new JList().getSelectionBackground();
+        // independent (learned it the hard way with Nimbus l&f)
+        return new JList<Object>().getSelectionBackground();
     }
 
     public static Color getPanelBackground() {

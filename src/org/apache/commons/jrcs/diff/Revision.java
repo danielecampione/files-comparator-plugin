@@ -39,8 +39,7 @@ import org.apache.commons.jrcs.util.ToString;
  */
 public class Revision extends ToString {
 
-    @SuppressWarnings("rawtypes")
-    private List deltas_ = new LinkedList();
+    private List<Delta> deltas_ = new LinkedList<Delta>();
     private int orgSize;
     private int revSize;
 
@@ -70,7 +69,6 @@ public class Revision extends ToString {
      * Adds a delta to this revision.
      * @param delta the {@link Delta Delta} to add.
      */
-    @SuppressWarnings("unchecked")
     public synchronized void addDelta(Delta delta) {
         if (delta == null) {
             throw new IllegalArgumentException("new delta is null");
@@ -83,7 +81,6 @@ public class Revision extends ToString {
      * Adds a delta to the start of this revision.
      * @param delta the {@link Delta Delta} to add.
      */
-    @SuppressWarnings("unchecked")
     public synchronized void insertDelta(Delta delta) {
         if (delta == null) {
             throw new IllegalArgumentException("new delta is null");
@@ -116,9 +113,8 @@ public class Revision extends ToString {
      * @return the resulting text after the patches have been applied.
      * @throws PatchFailedException if any of the patches cannot be applied.
      */
-    @SuppressWarnings({"rawtypes", "unchecked"})
     public Object[] patch(Object[] src) throws PatchFailedException {
-        List target = new ArrayList(Arrays.asList(src));
+        List<Object> target = new ArrayList<Object>(Arrays.asList(src));
 
         applyTo(target);
         return target.toArray();
@@ -130,9 +126,9 @@ public class Revision extends ToString {
      * @param target the text to patch.
      * @throws PatchFailedException if any of the patches cannot be applied.
      */
-    @SuppressWarnings("rawtypes")
-    public synchronized void applyTo(List target) throws PatchFailedException {
-        ListIterator i = deltas_.listIterator(deltas_.size());
+    public synchronized void applyTo(List<Object> target)
+            throws PatchFailedException {
+        ListIterator<Delta> i = deltas_.listIterator(deltas_.size());
 
         while (i.hasPrevious()) {
             Delta delta = (Delta) i.previous();
@@ -146,9 +142,8 @@ public class Revision extends ToString {
      * @param s a {@link StringBuffer StringBuffer} to which the string
      * representation will be appended.
      */
-    @SuppressWarnings("rawtypes")
     public synchronized void toString(StringBuffer s) {
-        Iterator i = deltas_.iterator();
+        Iterator<Delta> i = deltas_.iterator();
 
         while (i.hasNext()) {
             ((Delta) i.next()).toString(s);
@@ -161,9 +156,8 @@ public class Revision extends ToString {
      * representation will be appended.
      * @param EOL the string to use as line separator.
      */
-    @SuppressWarnings("rawtypes")
     public synchronized void toRCSString(StringBuffer s, String EOL) {
-        Iterator i = deltas_.iterator();
+        Iterator<Delta> i = deltas_.iterator();
 
         while (i.hasNext()) {
             ((Delta) i.next()).toRCSString(s, EOL);
@@ -202,10 +196,9 @@ public class Revision extends ToString {
      * Accepts a visitor.
      * @param visitor the {@link Visitor} visiting this instance
      */
-    @SuppressWarnings("rawtypes")
     public void accept(RevisionVisitor visitor) {
         visitor.visit(this);
-        Iterator iter = deltas_.iterator();
+        Iterator<Delta> iter = deltas_.iterator();
 
         while (iter.hasNext()) {
             ((Delta) iter.next()).accept(visitor);

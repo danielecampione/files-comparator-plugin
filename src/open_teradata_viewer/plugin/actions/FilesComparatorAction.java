@@ -20,7 +20,7 @@ package open_teradata_viewer.plugin.actions;
 
 import java.awt.event.ActionEvent;
 
-import net.sourceforge.open_teradata_viewer.ApplicationFrame;
+import net.sourceforge.open_teradata_viewer.ExceptionDialog;
 import net.sourceforge.open_teradata_viewer.actions.CustomAction;
 import open_teradata_viewer.plugin.FilesComparatorPlugin;
 
@@ -46,7 +46,7 @@ public class FilesComparatorAction extends CustomAction {
         try {
             performThreaded(e);
         } catch (Throwable t) {
-            ApplicationFrame.getInstance().printStackTraceOnGUI(t);
+            ExceptionDialog.notifyException(t);
         }
     }
 

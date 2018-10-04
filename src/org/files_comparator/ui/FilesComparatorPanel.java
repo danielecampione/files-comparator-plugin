@@ -48,6 +48,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import net.sourceforge.open_teradata_viewer.ApplicationFrame;
+import net.sourceforge.open_teradata_viewer.ExceptionDialog;
 
 import org.files_comparator.settings.FilesComparatorSettings;
 import org.files_comparator.settings.util.Filter;
@@ -689,8 +690,8 @@ public class FilesComparatorPanel extends JPanel
             tabbedPane.addTab("Help",
                     ImageUtil.getSmallImageIcon("stock_help-agent"), content);
             tabbedPane.setSelectedComponent(content);
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (Exception e) {
+            ExceptionDialog.hideException(e);
         }
     }
 
@@ -755,8 +756,8 @@ public class FilesComparatorPanel extends JPanel
     private AbstractContentPanel getAlreadyOpen(String contentId) {
         for (AbstractContentPanel contentPanel : getContentPanelList()) {
             if (ObjectUtil.equals(contentPanel.getId(), contentId)) {
-                ApplicationFrame.getInstance().changeLog
-                        .append("already open: " + contentId + "\n");
+                ApplicationFrame.getInstance().getConsole()
+                        .println("already open: " + contentId);
                 return contentPanel;
             }
         }
@@ -866,10 +867,10 @@ public class FilesComparatorPanel extends JPanel
                 if (contentPanel == null) {
                     diffNode.diff();
                 }
-            } catch (Exception ex) {
-                ex.printStackTrace();
+            } catch (Exception e) {
+                ExceptionDialog.hideException(e);
 
-                return ex.getMessage();
+                return e.getMessage();
             }
 
             return null;
@@ -905,12 +906,12 @@ public class FilesComparatorPanel extends JPanel
                         panel.repaint();
 
                         // Goto the first delta:
-                        // This should be invoked after the panel is displayed!
+                        // This should be invoked after the panel is displayed
                         SwingUtilities.invokeLater(getDoGoToFirst());
                     }
                 }
-            } catch (Exception ex) {
-                ex.printStackTrace();
+            } catch (Exception e) {
+                ExceptionDialog.hideException(e);
             }
         }
 
@@ -1013,8 +1014,8 @@ public class FilesComparatorPanel extends JPanel
                         tabbedPane.setSelectedComponent(panel);
                     }
                 }
-            } catch (Exception ex) {
-                ex.printStackTrace();
+            } catch (Exception e) {
+                ExceptionDialog.hideException(e);
             }
         }
     }
@@ -1091,8 +1092,8 @@ public class FilesComparatorPanel extends JPanel
                         tabbedPane.setSelectedComponent(panel);
                     }
                 }
-            } catch (Exception ex) {
-                ex.printStackTrace();
+            } catch (Exception e) {
+                ExceptionDialog.hideException(e);
             }
         }
     }
@@ -1218,8 +1219,8 @@ public class FilesComparatorPanel extends JPanel
 
         public void enable() {
             if (started) {
-                ApplicationFrame.getInstance().changeLog
-                        .append("Cannot change an option after start!\n");
+                ApplicationFrame.getInstance().getConsole()
+                        .println("Cannot change an option after start.");
                 return;
             }
 
@@ -1228,8 +1229,8 @@ public class FilesComparatorPanel extends JPanel
 
         public void disable() {
             if (started) {
-                ApplicationFrame.getInstance().changeLog
-                        .append("Cannot change an option after start!\n");
+                ApplicationFrame.getInstance().getConsole()
+                        .println("Cannot change an option after start.");
                 return;
             }
 

@@ -23,6 +23,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import net.sourceforge.open_teradata_viewer.ApplicationFrame;
+import net.sourceforge.open_teradata_viewer.ExceptionDialog;
 
 import org.files_comparator.util.DiffUtil;
 import org.files_comparator.util.Ignore;
@@ -102,13 +103,13 @@ public class FilesComparatorRevision {
             return false;
         }
 
-        ApplicationFrame.getInstance().changeLog.append((original
-                ? "left"
-                : "right")
-                + " changed starting at line "
-                + startLine
-                + " #"
-                + numberOfLines + "\n");
+        ApplicationFrame
+                .getInstance()
+                .getConsole()
+                .println(
+                        (original ? "left" : "right")
+                                + " changed starting at line " + startLine
+                                + " #" + numberOfLines);
 
         if (original) {
             orgStartLine = startLine;
@@ -126,14 +127,14 @@ public class FilesComparatorRevision {
                     + (numberOfLines > 0 ? 0 : -numberOfLines)) + 1;
         }
 
-        ApplicationFrame.getInstance().changeLog.append("orgStartLine="
-                + orgStartLine + "\n");
-        ApplicationFrame.getInstance().changeLog.append("orgEndLine  ="
-                + orgEndLine + "\n");
-        ApplicationFrame.getInstance().changeLog.append("revStartLine="
-                + revStartLine + "\n");
-        ApplicationFrame.getInstance().changeLog.append("revEndLine  ="
-                + revEndLine + "\n");
+        ApplicationFrame.getInstance().getConsole()
+                .println("orgStartLine=" + orgStartLine);
+        ApplicationFrame.getInstance().getConsole()
+                .println("orgEndLine  =" + orgEndLine);
+        ApplicationFrame.getInstance().getConsole()
+                .println("revStartLine=" + revStartLine);
+        ApplicationFrame.getInstance().getConsole()
+                .println("revEndLine  =" + revEndLine);
 
         deltaListToRemove = new ArrayList<FilesComparatorDelta>();
         chunkListToChange = new ArrayList<FilesComparatorChunk>();
@@ -196,17 +197,17 @@ public class FilesComparatorRevision {
 
         try {
             for (int i = 0; i < orgArrayDelta.length; i++) {
-                ApplicationFrame.getInstance().changeLog.append("  org[" + i
-                        + "]:" + orgArrayDelta[i] + "\n");
+                ApplicationFrame.getInstance().getConsole()
+                        .println("  org[" + i + "]:" + orgArrayDelta[i]);
             }
             for (int i = 0; i < revArrayDelta.length; i++) {
-                ApplicationFrame.getInstance().changeLog.append("  rev[" + i
-                        + "]:" + revArrayDelta[i] + "\n");
+                ApplicationFrame.getInstance().getConsole()
+                        .println("  rev[" + i + "]:" + revArrayDelta[i]);
             }
             deltaRevision = new FilesComparatorDiff().diff(orgArrayDelta,
                     revArrayDelta, ignore);
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (Exception e) {
+            ExceptionDialog.hideException(e);
             return false;
         }
 
@@ -253,47 +254,6 @@ public class FilesComparatorRevision {
         return true;
     }
 
-    @SuppressWarnings("unused")
-    private void insert(FilesComparatorDelta delta) {
-        int index;
-        int anchor;
-
-        index = 0;
-        anchor = delta.getOriginal().getAnchor();
-        for (FilesComparatorDelta d : deltaList) {
-            if (d.getOriginal().getAnchor() > anchor) {
-                deltaList.add(index, delta);
-                return;
-            }
-
-            index++;
-        }
-
-        deltaList.add(delta);
-    }
-
-    @SuppressWarnings("unused")
-    private FilesComparatorDelta findDelta(boolean original, int anchor,
-            int size) {
-        FilesComparatorChunk chunk;
-
-        size = size == 0 ? 1 : size;
-        for (FilesComparatorDelta delta : deltaList) {
-            chunk = original ? delta.getOriginal() : delta.getRevised();
-            if (anchor >= chunk.getAnchor()
-                    && anchor <= chunk.getAnchor() + chunk.getSize()) {
-                return delta;
-            }
-
-            if (anchor + size >= chunk.getAnchor()
-                    && anchor + size <= chunk.getAnchor() + chunk.getSize()) {
-                return delta;
-            }
-        }
-
-        return null;
-    }
-
     public int getOrgSize() {
         return orgArray == null ? 0 : orgArray.length;
     }
@@ -310,9 +270,7 @@ public class FilesComparatorRevision {
         return getObjects(revArray, chunk);
     }
 
-    @SuppressWarnings("unused")
     private String getObjects(Object[] objects, FilesComparatorChunk chunk) {
-        Object[] result;
         StringBuffer sb;
         int end;
 

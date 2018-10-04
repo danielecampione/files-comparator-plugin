@@ -31,12 +31,7 @@ import org.files_comparator.vc.util.VcCmd;
  */
 public class ActiveCmd extends VcCmd<Boolean> {
 
-    @SuppressWarnings("unused")
-    private File file;
-
     public ActiveCmd(File file) {
-        this.file = file;
-
         initWorkingDirectory(file);
     }
 

@@ -30,6 +30,7 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.PlainDocument;
 
+import net.sourceforge.open_teradata_viewer.ExceptionDialog;
 import open_teradata_viewer.plugin.FilesComparatorException;
 
 import org.files_comparator.diff.FilesComparatorChunk;
@@ -227,8 +228,8 @@ public class BufferDiffPanel extends AbstractContentPanel {
                         diffNode.getIgnore());
 
                 reDisplay();
-            } catch (Exception ex) {
-                ex.printStackTrace();
+            } catch (Exception e) {
+                ExceptionDialog.hideException(e);
             }
         }
     }
@@ -325,8 +326,8 @@ public class BufferDiffPanel extends AbstractContentPanel {
 
             try {
                 document.write();
-            } catch (FilesComparatorException ex) {
-                ex.printStackTrace();
+            } catch (FilesComparatorException fce) {
+                ExceptionDialog.hideException(fce);
                 JOptionPane.showMessageDialog(mainPanel, "Can't write file"
                         + document.getName(), "Problem writing file",
                         JOptionPane.ERROR_MESSAGE);
@@ -567,17 +568,14 @@ public class BufferDiffPanel extends AbstractContentPanel {
 
             setSelectedDelta(null);
             setSelectedLine(delta.getOriginal().getAnchor());
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (Exception e) {
+            ExceptionDialog.hideException(e);
         }
     }
 
-    @SuppressWarnings("unused")
     void runDelete(int fromPanelIndex, int toPanelIndex) {
         FilesComparatorDelta delta;
         BufferDocumentIF bufferDocument;
-        PlainDocument document;
-        String s;
         int fromLine;
         int fromOffset;
         int toOffset;
@@ -612,7 +610,7 @@ public class BufferDiffPanel extends AbstractContentPanel {
                 return;
             }
 
-            document = bufferDocument.getDocument();
+            bufferDocument.getDocument();
             fromLine = chunk.getAnchor();
             size = chunk.getSize();
             fromOffset = bufferDocument.getOffsetForLine(fromLine);
@@ -633,8 +631,8 @@ public class BufferDiffPanel extends AbstractContentPanel {
 
             setSelectedDelta(null);
             setSelectedLine(delta.getOriginal().getAnchor());
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (Exception e) {
+            ExceptionDialog.hideException(e);
         }
     }
 
@@ -758,15 +756,14 @@ public class BufferDiffPanel extends AbstractContentPanel {
             p.x = 0;
 
             viewport.setViewPosition(p);
-        } catch (BadLocationException ex) {
+        } catch (BadLocationException ble) {
+            ExceptionDialog.ignoreException(ble);
         }
     }
 
-    @SuppressWarnings("unused")
     @Override
     public void doZoom(boolean direction) {
         JTextComponent c;
-        Font font;
         float size;
         Zoom zoom;
 
@@ -799,10 +796,8 @@ public class BufferDiffPanel extends AbstractContentPanel {
         showSelectedDelta();
     }
 
-    @SuppressWarnings("unused")
     @Override
     public void doGoToFirst() {
-        FilesComparatorDelta d;
         List<FilesComparatorDelta> deltas;
 
         if (currentRevision == null) {
@@ -816,10 +811,8 @@ public class BufferDiffPanel extends AbstractContentPanel {
         }
     }
 
-    @SuppressWarnings("unused")
     @Override
     public void doGoToLast() {
-        FilesComparatorDelta d;
         List<FilesComparatorDelta> deltas;
 
         if (currentRevision == null) {

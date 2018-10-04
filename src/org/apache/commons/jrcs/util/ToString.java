@@ -19,9 +19,12 @@
 package org.apache.commons.jrcs.util;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.StringReader;
 import java.util.LinkedList;
 import java.util.List;
+
+import net.sourceforge.open_teradata_viewer.ExceptionDialog;
 
 /**
  * This class delegates handling of the to a StringBuffer based version.
@@ -61,18 +64,17 @@ public class ToString {
      * as the linebreak character.
      * @param value the string to convert.
      */
-    @SuppressWarnings({"rawtypes", "unchecked"})
     public static String[] stringToArray(String value) {
         BufferedReader reader = new BufferedReader(new StringReader(value));
-        List l = new LinkedList();
+        List<String> l = new LinkedList<String>();
         String s;
 
         try {
             while ((s = reader.readLine()) != null) {
                 l.add(s);
             }
-        } catch (java.io.IOException e) {
-            e.printStackTrace();
+        } catch (IOException ioe) {
+            ExceptionDialog.hideException(ioe);
         }
 
         return (String[]) l.toArray(new String[l.size()]);

@@ -31,7 +31,7 @@ import javax.swing.table.TableCellRenderer;
  * @author D. Campione
  *
  */
-public class FilesComparatorComboBoxRenderer extends JComboBox
+public class FilesComparatorComboBoxRenderer extends JComboBox<Object>
         implements
             TableCellRenderer {
 
@@ -41,8 +41,7 @@ public class FilesComparatorComboBoxRenderer extends JComboBox
         super(items);
     }
 
-    @SuppressWarnings("rawtypes")
-    public FilesComparatorComboBoxRenderer(List items) {
+    public FilesComparatorComboBoxRenderer(List<?> items) {
         this(items.toArray());
     }
 

@@ -50,6 +50,7 @@ import org.apache.commons.jrcs.util.ToString;
  * @see DiffAlgorithm
  */
 public class Diff extends ToString {
+
     /** The standard line separator. */
     public static final String NL = System.getProperty("line.separator");
 
@@ -204,9 +205,8 @@ public class Diff extends ToString {
      * @param seed A seed value for the randomizer.
      * @return The sequence with random edits performed.
      */
-    @SuppressWarnings({"rawtypes", "unchecked"})
     public static Object[] randomEdit(Object[] text, long seed) {
-        List result = new ArrayList(Arrays.asList(text));
+        List<Object> result = new ArrayList<Object>(Arrays.asList(text));
         Random r = new Random(seed);
         int nops = r.nextInt(10);
 
@@ -243,9 +243,8 @@ public class Diff extends ToString {
      * @param seed A seed value for randomizing the suffle.
      * @return The shuffled sequence.
      */
-    @SuppressWarnings({"rawtypes", "unchecked"})
     public static Object[] shuffle(Object[] text, long seed) {
-        List result = new ArrayList(Arrays.asList(text));
+        List<Object> result = new ArrayList<Object>(Arrays.asList(text));
 
         Collections.shuffle(result);
         return result.toArray();

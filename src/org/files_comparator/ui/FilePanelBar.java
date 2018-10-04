@@ -87,13 +87,13 @@ public class FilePanelBar extends JPanel {
         caretPosition = editor.getCaretPosition();
         try {
             line = editor.getLineOfOffset(caretPosition);
-        } catch (Exception ex) {
+        } catch (Exception e) {
             line = -1;
         }
 
         try {
             column = caretPosition - editor.getLineStartOffset(line);
-        } catch (Exception ex) {
+        } catch (Exception e) {
             column = -1;
         }
 

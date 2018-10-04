@@ -54,7 +54,7 @@ public class SettingsPanel extends SettingsPanelForm
 
     private static final long serialVersionUID = -6121287484337988862L;
 
-    private DefaultListModel listModel;
+    private DefaultListModel<Settings> listModel;
     private FilesComparatorPanel mainPanel;
 
     public SettingsPanel(FilesComparatorPanel mainPanel) {
@@ -85,7 +85,7 @@ public class SettingsPanel extends SettingsPanelForm
 
         fileLabel.setText("");
 
-        listModel = new DefaultListModel();
+        listModel = new DefaultListModel<Settings>();
         for (Settings setting : Settings.values()) {
             listModel.addElement(setting);
         }

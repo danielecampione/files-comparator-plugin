@@ -36,6 +36,7 @@ import java.util.List;
  * @see RangeDifference
  */
 public final class RangeDifferencer {
+
     private static final RangeDifference[] EMPTY_RESULT = new RangeDifference[0];
 
     /* (non Javadoc)
@@ -71,7 +72,6 @@ public final class RangeDifferencer {
      * @param right the right range comparator
      * @return an array of range differences, or an empty array if no differences were found
      */
-    @SuppressWarnings({"rawtypes", "unchecked"})
     public static RangeDifference[] findDifferences(IRangeComparator ancestor,
             IRangeComparator left, IRangeComparator right) {
         if (ancestor == null) {
@@ -91,7 +91,7 @@ public final class RangeDifferencer {
         DifferencesIterator yourIter = new DifferencesIterator(
                 leftAncestorScript);
 
-        List diff3 = new ArrayList();
+        List<RangeDifference> diff3 = new ArrayList<RangeDifference>();
         diff3.add(new RangeDifference(RangeDifference.ERROR)); // add a sentinel
 
         int changeRangeStart = 0;
@@ -155,11 +155,10 @@ public final class RangeDifferencer {
      * @param right the right range comparator
      * @return an array of range differences
      */
-    @SuppressWarnings({"rawtypes", "unchecked"})
     public static RangeDifference[] findRanges(IRangeComparator left,
             IRangeComparator right) {
         RangeDifference[] in = findDifferences(left, right);
-        List out = new ArrayList();
+        List<RangeDifference> out = new ArrayList<RangeDifference>();
 
         RangeDifference rd;
 
@@ -202,7 +201,6 @@ public final class RangeDifferencer {
      * @param right the right range comparator
      * @return an array of range differences
      */
-    @SuppressWarnings({"rawtypes", "unchecked"})
     public static RangeDifference[] findRanges(IRangeComparator ancestor,
             IRangeComparator left, IRangeComparator right) {
         if (ancestor == null) {
@@ -210,7 +208,7 @@ public final class RangeDifferencer {
         }
 
         RangeDifference[] in = findDifferences(ancestor, left, right);
-        List out = new ArrayList();
+        List<RangeDifference> out = new ArrayList<RangeDifference>();
 
         RangeDifference rd;
 
@@ -250,11 +248,10 @@ public final class RangeDifferencer {
      * Creates a <code>RangeDifference3</code> given the
      * state of two DifferenceIterators.
      */
-    @SuppressWarnings("rawtypes")
     private static RangeDifference createRangeDifference3(
             DifferencesIterator myIter, DifferencesIterator yourIter,
-            List diff3, IRangeComparator right, IRangeComparator left,
-            int changeRangeStart, int changeRangeEnd) {
+            List<RangeDifference> diff3, IRangeComparator right,
+            IRangeComparator left, int changeRangeStart, int changeRangeEnd) {
         int rightStart;
         int rightEnd;
         int leftStart;

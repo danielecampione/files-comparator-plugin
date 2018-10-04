@@ -25,7 +25,6 @@ import java.awt.Dimension;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 
 import org.files_comparator.ui.util.ImageUtil;
@@ -36,7 +35,7 @@ import org.files_comparator.ui.util.ImageUtil;
  * @author D. Campione
  *
  */
-class SettingCellRenderer extends JLabel implements ListCellRenderer {
+class SettingCellRenderer extends JLabel implements ListCellRenderer<Object> {
 
     private static final long serialVersionUID = 580656984651621751L;
 
@@ -52,11 +51,9 @@ class SettingCellRenderer extends JLabel implements ListCellRenderer {
         setPreferredSize(new Dimension(70, 70));
     }
 
-    @SuppressWarnings("unused")
-    public Component getListCellRendererComponent(JList list, Object value,
+    public Component getListCellRendererComponent(JList<?> list, Object value,
             int index, boolean isSelected, boolean cellHasFocus) {
         Settings settings;
-        JPanel panel;
 
         settings = (Settings) value;
 

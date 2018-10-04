@@ -20,8 +20,7 @@ import java.util.List;
  */
 /* package */class DifferencesIterator {
 
-    @SuppressWarnings("rawtypes")
-    List fRange;
+    List<RangeDifference> fRange;
     int fIndex;
     RangeDifference[] fArray;
     RangeDifference fDifference;
@@ -29,12 +28,10 @@ import java.util.List;
     /*
      * Creates a differences iterator on an array of <code>RangeDifference</code>s.
      */
-    @SuppressWarnings("rawtypes")
     DifferencesIterator(RangeDifference[] differenceRanges) {
-
         fArray = differenceRanges;
         fIndex = 0;
-        fRange = new ArrayList();
+        fRange = new ArrayList<RangeDifference>();
         if (fIndex < fArray.length)
             fDifference = fArray[fIndex++];
         else
@@ -51,7 +48,6 @@ import java.util.List;
     /*
      * Appends the edit to its list and moves to the next <code>RangeDifference</code>.
      */
-    @SuppressWarnings("unchecked")
     void next() {
         fRange.add(fDifference);
         if (fDifference != null) {

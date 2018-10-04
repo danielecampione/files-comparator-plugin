@@ -19,7 +19,7 @@
 
 <plugin>
 <entry>
-<name>FilesComparator plugin</name>
+<name>FilesComparator plugin</name> 
 <main>open_teradata_viewer.plugin.FilesComparatorPlugin</main> 
 <author>D. Campione</author>
 <description>An extension created to compare text files.</description>

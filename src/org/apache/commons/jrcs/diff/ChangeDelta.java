@@ -37,8 +37,7 @@ public class ChangeDelta extends Delta {
         init(orig, rev);
     }
 
-    @SuppressWarnings("rawtypes")
-    public void verify(List target) throws PatchFailedException {
+    public void verify(List<?> target) throws PatchFailedException {
         if (!original.verify(target)) {
             throw new PatchFailedException();
         }
@@ -48,8 +47,7 @@ public class ChangeDelta extends Delta {
         }
     }
 
-    @SuppressWarnings("rawtypes")
-    public void applyTo(List target) {
+    public void applyTo(List<?> target) {
         original.applyDelete(target);
         revised.applyAdd(original.first(), target);
     }

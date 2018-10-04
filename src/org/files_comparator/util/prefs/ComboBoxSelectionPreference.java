@@ -35,11 +35,10 @@ public class ComboBoxSelectionPreference extends Preference {
     private static String SELECTED_ITEM = "SELECTED_ITEM";
 
     // Instance variables:
-    private JComboBox target;
-    @SuppressWarnings("unused")
-    private int maxItems = 10;
+    private JComboBox<?> target;
 
-    public ComboBoxSelectionPreference(String preferenceName, JComboBox target) {
+    public ComboBoxSelectionPreference(String preferenceName,
+            JComboBox<?> target) {
         super("ComboBox-" + preferenceName);
 
         this.target = target;
@@ -77,7 +76,7 @@ public class ComboBoxSelectionPreference extends Preference {
     }
 
     private void save() {
-        ComboBoxModel model;
+        ComboBoxModel<?> model;
         Object item;
 
         model = target.getModel();

@@ -35,6 +35,8 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
+import net.sourceforge.open_teradata_viewer.ExceptionDialog;
+
 /**
  * 
  * 
@@ -47,7 +49,6 @@ public class JaxbPersister {
     private static JaxbPersister instance = new JaxbPersister();
 
     // instance variables:
-    @SuppressWarnings("rawtypes")
     private Map<Class, Context> contexts = new HashMap<Class, Context>();
 
     private JaxbPersister() {
@@ -66,7 +67,6 @@ public class JaxbPersister {
 
     /** Load a object of type 'clazz' from a file.
      */
-    @SuppressWarnings("unchecked")
     public <T> T load(Class<T> clazz, InputStream is) throws JAXBException {
         Context context;
         T object;
@@ -107,8 +107,7 @@ public class JaxbPersister {
     /** Each class has it's own context to marshal and unmarshal.
      *   The context contains a jaxbcontext.
      */
-    @SuppressWarnings("rawtypes")
-    private Context getContext(Class clazz) {
+    private Context getContext(Class<?> clazz) {
         Context c;
 
         synchronized (contexts) {
@@ -129,12 +128,12 @@ public class JaxbPersister {
      *
      */
     class Context {
+
         private JAXBContext jaxbContext;
         private Marshaller marshaller;
         private Unmarshaller unmarshaller;
 
-        @SuppressWarnings("rawtypes")
-        Context(Class clazz) {
+        Context(Class<?> clazz) {
             try {
                 jaxbContext = JAXBContext.newInstance(clazz);
 
@@ -145,8 +144,8 @@ public class JaxbPersister {
 
                 unmarshaller = jaxbContext.createUnmarshaller();
                 unmarshaller.setSchema(null);
-            } catch (JAXBException e) {
-                e.printStackTrace();
+            } catch (JAXBException jaxbe) {
+                ExceptionDialog.hideException(jaxbe);
             }
         }
 

@@ -55,7 +55,6 @@ public class StatusResult {
         entryList.add(entry);
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     public List<Entry> getEntryList() {
         List<Entry> list;
 

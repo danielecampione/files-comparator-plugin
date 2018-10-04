@@ -22,6 +22,8 @@ import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
+import net.sourceforge.open_teradata_viewer.UISupport;
+
 import org.files_comparator.settings.FilesComparatorSettings;
 import org.files_comparator.ui.FilesComparatorPanel;
 import org.files_comparator.ui.SaveSettingsPanel;
@@ -43,7 +45,6 @@ public class SaveSettingsDialog {
         this.filesComparatorPanel = filesComparatorPanel;
     }
 
-    @SuppressWarnings("deprecation")
     public void show() {
         JOptionPane pane;
         JDialog dialog;
@@ -54,7 +55,7 @@ public class SaveSettingsDialog {
         dialog = pane.createDialog(filesComparatorPanel, "Save settings");
         dialog.setResizable(true);
         try {
-            dialog.show();
+            UISupport.showDialog(dialog);
 
             if (ObjectUtil.equals(pane.getValue(), JOptionPane.YES_OPTION)) {
                 ok = true;

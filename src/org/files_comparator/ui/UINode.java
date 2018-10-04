@@ -143,7 +143,7 @@ public class UINode implements TreeTableNode, Comparable<UINode> {
     }
 
     public void print(String indent) {
-        ApplicationFrame.getInstance().changeLog.append(indent + name + "\n");
+        ApplicationFrame.getInstance().getConsole().println(indent + name);
         indent += "  ";
         checkSort();
         for (UINode node : children) {

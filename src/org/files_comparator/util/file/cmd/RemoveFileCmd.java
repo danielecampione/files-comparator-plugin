@@ -72,16 +72,16 @@ public class RemoveFileCmd extends AbstractCmd {
                         "backup");
 
                 if (debug) {
-                    ApplicationFrame.getInstance().changeLog.append("copy : "
-                            + file + " -> " + originalFile + "\n");
+                    ApplicationFrame.getInstance().getConsole()
+                            .println("copy : " + file + " -> " + originalFile);
                 }
 
                 FileUtil.copy(file, originalFile);
             }
 
             if (debug) {
-                ApplicationFrame.getInstance().changeLog.append("delete : "
-                        + file + "\n");
+                ApplicationFrame.getInstance().getConsole()
+                        .println("delete : " + file);
             }
             file.delete();
         }
@@ -90,13 +90,16 @@ public class RemoveFileCmd extends AbstractCmd {
             try {
                 if (originalFile != null) {
                     if (debug) {
-                        ApplicationFrame.getInstance().changeLog
-                                .append("copy : " + originalFile + " -> "
-                                        + file + "\n");
+                        ApplicationFrame
+                                .getInstance()
+                                .getConsole()
+                                .println(
+                                        "copy : " + originalFile + " -> "
+                                                + file);
                     }
                     FileUtil.copy(originalFile, file);
                 }
-            } catch (Exception ex) {
+            } catch (Exception e) {
                 throw new CannotUndoException();
             }
         }
@@ -105,8 +108,8 @@ public class RemoveFileCmd extends AbstractCmd {
         public void discard() {
             if (originalFile != null) {
                 if (debug) {
-                    ApplicationFrame.getInstance().changeLog.append("delete : "
-                            + originalFile + "\n");
+                    ApplicationFrame.getInstance().getConsole()
+                            .println("delete : " + originalFile);
                 }
                 originalFile.delete();
             }

@@ -491,8 +491,7 @@ public final class SelectorUtils {
      *
      * @return a Vector of path elements from the tokenized path
      */
-    @SuppressWarnings("rawtypes")
-    public static Vector tokenizePath(String path) {
+    public static Vector<String> tokenizePath(String path) {
         return tokenizePath(path, File.separator);
     }
 
@@ -504,9 +503,9 @@ public final class SelectorUtils {
      *
      * @return a Vector of path elements from the tokenized path
      */
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    public static Vector tokenizePath(String path, String separator) {
-        Vector ret = new Vector();
+
+    public static Vector<String> tokenizePath(String path, String separator) {
+        Vector<String> ret = new Vector<String>();
         StringTokenizer st = new StringTokenizer(path, separator);
         while (st.hasMoreTokens()) {
             ret.addElement(st.nextToken());
@@ -640,9 +639,8 @@ public final class SelectorUtils {
      * @param input the input string
      * @return the leftmost part of the pattern without wildcards
      */
-    @SuppressWarnings("rawtypes")
     public static String rtrimWildcardTokens(String input) {
-        Vector v = tokenizePath(input, File.separator);
+        Vector<String> v = tokenizePath(input, File.separator);
         StringBuffer sb = new StringBuffer();
         for (int counter = 0; counter < v.size(); counter++) {
             if (hasWildcards((String) v.elementAt(counter))) {

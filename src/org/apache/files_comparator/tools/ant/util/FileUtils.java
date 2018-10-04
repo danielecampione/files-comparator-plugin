@@ -37,6 +37,8 @@ import java.util.Random;
 import java.util.Stack;
 import java.util.StringTokenizer;
 
+import net.sourceforge.open_teradata_viewer.ExceptionDialog;
+
 import org.apache.files_comparator.tools.ant.BuildException;
 import org.apache.files_comparator.tools.ant.taskdefs.condition.Os;
 
@@ -233,7 +235,6 @@ public class FileUtils {
      * @throws java.lang.NullPointerException if the file path is
      * equal to null.
      */
-    @SuppressWarnings({"rawtypes", "unchecked"})
     public File normalize(String path) {
         String orig = path;
 
@@ -287,7 +288,7 @@ public class FileUtils {
                 path = path.substring(1);
             }
         }
-        Stack s = new Stack();
+        Stack<String> s = new Stack<String>();
         s.push(root);
         StringTokenizer tok = new StringTokenizer(path, File.separator);
         while (tok.hasMoreTokens()) {
@@ -695,8 +696,9 @@ public class FileUtils {
             if (!path.startsWith(File.separator)) {
                 sb.append("/");
             }
-        } catch (BuildException e) {
+        } catch (BuildException be) {
             // relative path
+            ExceptionDialog.ignoreException(be);
         }
 
         path = path.replace('\\', '/');
@@ -817,8 +819,8 @@ public class FileUtils {
         if (device != null) {
             try {
                 device.close();
-            } catch (IOException ioex) {
-                //ignore
+            } catch (IOException ioe) {
+                ExceptionDialog.ignoreException(ioe);
             }
         }
     }
@@ -833,8 +835,8 @@ public class FileUtils {
         if (device != null) {
             try {
                 device.close();
-            } catch (IOException ioex) {
-                //ignore
+            } catch (IOException ioe) {
+                ExceptionDialog.ignoreException(ioe);
             }
         }
     }
@@ -849,8 +851,8 @@ public class FileUtils {
         if (device != null) {
             try {
                 device.close();
-            } catch (IOException ioex) {
-                //ignore
+            } catch (IOException ioe) {
+                ExceptionDialog.ignoreException(ioe);
             }
         }
     }
@@ -865,8 +867,8 @@ public class FileUtils {
         if (device != null) {
             try {
                 device.close();
-            } catch (IOException ioex) {
-                //ignore
+            } catch (IOException ioe) {
+                ExceptionDialog.ignoreException(ioe);
             }
         }
     }

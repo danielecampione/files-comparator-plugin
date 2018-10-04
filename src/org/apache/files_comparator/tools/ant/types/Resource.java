@@ -28,8 +28,8 @@ package org.apache.files_comparator.tools.ant.types;
  * @author D. Campione
  * 
  */
-@SuppressWarnings("rawtypes")
-public class Resource implements Cloneable, Comparable {
+
+public class Resource implements Cloneable, Comparable<Object> {
     /** Constant unknown size */
     public static final long UNKNOWN_SIZE = -1;
     private String name = null;
@@ -201,7 +201,7 @@ public class Resource implements Cloneable, Comparable {
     public Object clone() {
         try {
             return super.clone();
-        } catch (CloneNotSupportedException e) {
+        } catch (CloneNotSupportedException cnse) {
             throw new Error("CloneNotSupportedException for a "
                     + "Clonable Resource caught?");
         }

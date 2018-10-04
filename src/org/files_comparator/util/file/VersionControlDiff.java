@@ -24,7 +24,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.files_comparator.tools.ant.DirectoryScanner;
+import net.sourceforge.open_teradata_viewer.ExceptionDialog;
+
 import org.files_comparator.ui.StatusBar;
 import org.files_comparator.util.StopWatch;
 import org.files_comparator.util.StringUtil;
@@ -57,8 +58,8 @@ public class VersionControlDiff extends FolderDiff {
             setRightFolderShortName("");
             setLeftFolderName(directory.getCanonicalPath());
             setRightFolderName("");
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (Exception e) {
+            ExceptionDialog.hideException(e);
         }
     }
 
@@ -70,13 +71,9 @@ public class VersionControlDiff extends FolderDiff {
         return nodes.values();
     }
 
-    @SuppressWarnings("unused")
     public void diff() {
-        DirectoryScanner ds;
         FilesComparatorDiffNode node;
         StopWatch stopWatch;
-        int numberOfNodes;
-        int currentNumber;
         File file;
         List<VersionControlIF> versionControlList;
         VersionControlIF versionControl;
@@ -150,11 +147,9 @@ public class VersionControlDiff extends FolderDiff {
         return node;
     }
 
-    @SuppressWarnings("unused")
     private FilesComparatorDiffNode addNode(FilesComparatorDiffNode node) {
         String parentName;
         FilesComparatorDiffNode parent;
-        File file;
         FileNode fn;
 
         nodes.put(node.getName(), node);

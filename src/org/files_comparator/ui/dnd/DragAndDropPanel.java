@@ -47,6 +47,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRootPane;
 
+import net.sourceforge.open_teradata_viewer.ExceptionDialog;
 import open_teradata_viewer.plugin.FilesComparatorPlugin;
 
 import org.files_comparator.ui.util.ColorUtil;
@@ -90,11 +91,11 @@ public class DragAndDropPanel extends JPanel {
 
     private HierarchyListener getHierarchyListener() {
         return new HierarchyListener() {
-            @SuppressWarnings("static-access")
+
             public void hierarchyChanged(HierarchyEvent e) {
                 JRootPane rootPane;
 
-                if ((e.getChangeFlags() & e.PARENT_CHANGED) != 0) {
+                if ((e.getChangeFlags() & HierarchyEvent.PARENT_CHANGED) != 0) {
                     rootPane = getRootPane();
                     if (rootPane == null) {
                         return;
@@ -225,7 +226,7 @@ public class DragAndDropPanel extends JPanel {
                         }
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    ExceptionDialog.hideException(e);
                 }
 
                 return null;
@@ -269,8 +270,8 @@ public class DragAndDropPanel extends JPanel {
                                             .getAbsolutePath(),
                                     new File(new URL(rightFileName).toURI())
                                             .getAbsolutePath());
-                } catch (Exception ex) {
-                    ex.printStackTrace();
+                } catch (Exception e) {
+                    ExceptionDialog.hideException(e);
                 }
             }
         };

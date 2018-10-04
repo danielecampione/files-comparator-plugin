@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import net.sourceforge.open_teradata_viewer.ExceptionDialog;
+
 import org.files_comparator.settings.EditorSettings;
 import org.files_comparator.settings.FilesComparatorSettings;
 
@@ -90,8 +92,8 @@ public class CharsetDetector {
                     return foundCharset;
                 }
             }
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (Exception e) {
+            ExceptionDialog.hideException(e);
         }
 
         return null;

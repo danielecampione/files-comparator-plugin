@@ -33,6 +33,7 @@ import javax.swing.text.GapContent;
 import javax.swing.text.PlainDocument;
 
 import net.sourceforge.open_teradata_viewer.ApplicationFrame;
+import net.sourceforge.open_teradata_viewer.ExceptionDialog;
 import open_teradata_viewer.plugin.FilesComparatorException;
 
 import org.files_comparator.util.StopWatch;
@@ -191,8 +192,8 @@ public abstract class AbstractBufferDocument
 
             stopWatch = new StopWatch();
             stopWatch.start();
-            ApplicationFrame.getInstance().changeLog.append("before read : "
-                    + this + "\n");
+            ApplicationFrame.getInstance().getConsole()
+                    .println("before read : " + this);
 
             content = new MyGapContent(getBufferSize() + 500);
             document = new PlainDocument(content);
@@ -201,21 +202,24 @@ public abstract class AbstractBufferDocument
             new DefaultEditorKit().read(reader, document, 0);
             reader.close();
 
-            ApplicationFrame.getInstance().changeLog
-                    .append("create document took "
-                            + stopWatch.getElapsedTime() + "\n");
+            ApplicationFrame
+                    .getInstance()
+                    .getConsole()
+                    .println(
+                            "create document took "
+                                    + stopWatch.getElapsedTime());
             document.addDocumentListener(this);
 
             reset();
 
             initLines();
             initDigest();
-        } catch (FilesComparatorException ex) {
-            throw ex;
-        } catch (Exception ex) {
+        } catch (FilesComparatorException fce) {
+            throw fce;
+        } catch (Exception e) {
             throw new FilesComparatorException(
                     "Problem reading document (name=" + getName()
-                            + ") in buffer", ex);
+                            + ") in buffer", e);
         }
     }
 
@@ -251,8 +255,8 @@ public abstract class AbstractBufferDocument
     public void write() throws FilesComparatorException {
         Writer out;
 
-        ApplicationFrame.getInstance().changeLog.append("write : " + getName()
-                + "\n");
+        ApplicationFrame.getInstance().getConsole()
+                .println("write : " + getName());
         try {
             out = getWriter();
             new DefaultEditorKit()
@@ -261,12 +265,12 @@ public abstract class AbstractBufferDocument
             out.close();
 
             initDigest();
-        } catch (FilesComparatorException ex) {
-            throw ex;
-        } catch (Exception ex) {
+        } catch (FilesComparatorException fce) {
+            throw fce;
+        } catch (Exception e) {
             throw new FilesComparatorException(
                     "Problem writing document (name=" + getName()
-                            + ") from buffer", ex);
+                            + ") from buffer", e);
         }
     }
 
@@ -403,8 +407,7 @@ public abstract class AbstractBufferDocument
      * @author D. Campione
      *
      */
-    @SuppressWarnings("rawtypes")
-    public class Line implements Comparable {
+    public class Line implements Comparable<Object> {
         Element element;
 
         Line(Element element) {
@@ -420,9 +423,12 @@ public abstract class AbstractBufferDocument
         }
 
         public void print() {
-            ApplicationFrame.getInstance().changeLog.append(String.format(
-                    "[%08d]: %s\n", getOffset(),
-                    StringUtil.replaceNewLines(toString())));
+            ApplicationFrame
+                    .getInstance()
+                    .getConsole()
+                    .println(
+                            String.format("[%08d]: %s", getOffset(),
+                                    StringUtil.replaceNewLines(toString())));
         }
 
         @Override
@@ -465,8 +471,8 @@ public abstract class AbstractBufferDocument
             try {
                 return content.getString(element.getStartOffset(),
                         element.getEndOffset() - element.getStartOffset());
-            } catch (Exception ex) {
-                ex.printStackTrace();
+            } catch (Exception e) {
+                ExceptionDialog.hideException(e);
                 return "";
             }
         }
@@ -482,8 +488,8 @@ public abstract class AbstractBufferDocument
         la = getLines();
         if (la != null) {
             for (int lineNumber = 0; lineNumber < la.length; lineNumber++) {
-                ApplicationFrame.getInstance().changeLog.append(String.format(
-                        "[%05d]", lineNumber));
+                ApplicationFrame.getInstance().getConsole()
+                        .print(String.format("[%05d]", lineNumber));
                 la[lineNumber].print();
             }
         }
@@ -513,25 +519,24 @@ public abstract class AbstractBufferDocument
         return content.getDigest();
     }
 
-    @SuppressWarnings("unused")
     private void documentChanged(DocumentEvent de) {
         boolean newChanged;
         int newDigest;
         int startLine;
         int numberOfLinesChanged;
         FilesComparatorDocumentEvent filesComparatorDocumentEvent;
-        String text;
 
         filesComparatorDocumentEvent = new FilesComparatorDocumentEvent(this,
                 de);
         numberOfLinesChanged = 0;
 
         if (lineArray != null) {
-            // Make large documents perform well!
+            // Make large documents perform well
             if (de.getType() == DocumentEvent.EventType.INSERT) {
                 try {
-                    text = document.getText(de.getOffset(), de.getLength());
-                } catch (BadLocationException ex) {
+                    document.getText(de.getOffset(), de.getLength());
+                } catch (BadLocationException ble) {
+                    ExceptionDialog.ignoreException(ble);
                 }
             }
 

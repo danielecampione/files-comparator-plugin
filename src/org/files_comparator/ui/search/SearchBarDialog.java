@@ -53,8 +53,6 @@ public class SearchBarDialog extends AbstractBarDialog {
 
     // class variables:
     private static final String CP_FOREGROUND = "FilesComparator.foreground";
-    @SuppressWarnings("unused")
-    private static final String CP_BACKGROUND = "FilesComparator.background";
 
     // Instance variables:
     private JTextField searchField;
@@ -172,14 +170,13 @@ public class SearchBarDialog extends AbstractBarDialog {
 
     private ActionListener executeSearch() {
         return new ActionListener() {
-            @SuppressWarnings("unused")
+
             public void actionPerformed(ActionEvent ae) {
                 boolean notFound;
                 Color color;
-                String searchText;
                 SearchHits searchHits;
 
-                searchText = searchField.getText();
+                searchField.getText();
 
                 searchHits = getFilesComparatorPanel().doSearch(null);
                 notFound = (searchHits == null || searchHits.getSearchHits()

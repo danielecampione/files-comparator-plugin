@@ -73,7 +73,6 @@ public class FilesComparatorDiffNode implements TreeNode {
     private FilesComparatorRevision revision;
     private Ignore ignore;
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     public FilesComparatorDiffNode(String name, boolean leaf) {
         this.name = name;
         this.shortName = name;
@@ -300,8 +299,8 @@ public class FilesComparatorDiffNode implements TreeNode {
     }
 
     public void print(String indent) {
-        ApplicationFrame.getInstance().changeLog.append(indent + shortName
-                + " (" + compareState + ")\n");
+        ApplicationFrame.getInstance().getConsole()
+                .println(indent + shortName + " (" + compareState + ")");
         indent += "  ";
         for (FilesComparatorDiffNode node : children) {
             node.print(indent);

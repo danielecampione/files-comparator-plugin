@@ -39,6 +39,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.tree.TreePath;
 import javax.swing.undo.CompoundEdit;
 
+import net.sourceforge.open_teradata_viewer.ExceptionDialog;
+
 import org.files_comparator.settings.EditorSettings;
 import org.files_comparator.settings.FilesComparatorSettings;
 import org.files_comparator.settings.FolderSettings;
@@ -270,7 +272,6 @@ public class FolderDiffPanel extends FolderDiffForm
         return filter(diff.getRootNode());
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes", "unused"})
     private TreeTableNode filter(FilesComparatorDiffNode diffNode) {
         List<FilesComparatorDiffNode> nodes;
         UINode uiParentNode;
@@ -281,7 +282,7 @@ public class FolderDiffPanel extends FolderDiffForm
         Object hierarchy;
 
         // Filter the nodes:
-        nodes = new ArrayList();
+        nodes = new ArrayList<FilesComparatorDiffNode>();
         for (FilesComparatorDiffNode node : diff.getNodes()) {
             if (!node.isLeaf()) {
                 continue;
@@ -446,8 +447,8 @@ public class FolderDiffPanel extends FolderDiffForm
         for (UINode uiNode : getSelectedUINodes()) {
             try {
                 cc.add(uiNode, uiNode.getDiffNode().getCopyToLeftCmd());
-            } catch (Exception ex) {
-                ex.printStackTrace();
+            } catch (Exception e) {
+                ExceptionDialog.hideException(e);
             }
         }
         cc.execute();
@@ -464,8 +465,8 @@ public class FolderDiffPanel extends FolderDiffForm
         for (UINode uiNode : getSelectedUINodes()) {
             try {
                 cc.add(uiNode, uiNode.getDiffNode().getCopyToRightCmd());
-            } catch (Exception ex) {
-                ex.printStackTrace();
+            } catch (Exception e) {
+                ExceptionDialog.hideException(e);
             }
         }
         cc.execute();
@@ -508,8 +509,8 @@ public class FolderDiffPanel extends FolderDiffForm
 
                 getUndoHandler().add(this);
                 compareContents();
-            } catch (Exception ex) {
-                ex.printStackTrace();
+            } catch (Exception e) {
+                ExceptionDialog.hideException(e);
             }
 
             check();
@@ -582,8 +583,8 @@ public class FolderDiffPanel extends FolderDiffForm
         for (UINode uiNode : getSelectedUINodes()) {
             try {
                 cc.add(uiNode, uiNode.getDiffNode().getRemoveRightCmd());
-            } catch (Exception ex) {
-                ex.printStackTrace();
+            } catch (Exception e) {
+                ExceptionDialog.hideException(e);
             }
         }
         cc.execute();
@@ -600,8 +601,8 @@ public class FolderDiffPanel extends FolderDiffForm
         for (UINode uiNode : getSelectedUINodes()) {
             try {
                 cc.add(uiNode, uiNode.getDiffNode().getRemoveLeftCmd());
-            } catch (Exception ex) {
-                ex.printStackTrace();
+            } catch (Exception e) {
+                ExceptionDialog.hideException(e);
             }
         }
         cc.execute();
@@ -745,9 +746,8 @@ public class FolderDiffPanel extends FolderDiffForm
             }
         }
 
-        @SuppressWarnings({"rawtypes", "unchecked"})
         public List<FilesComparatorDiffNode> getResult() {
-            return new ArrayList(diffNodeSet);
+            return new ArrayList<FilesComparatorDiffNode>(diffNodeSet);
         }
     }
 

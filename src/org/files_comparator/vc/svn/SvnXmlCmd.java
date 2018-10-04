@@ -19,7 +19,6 @@
 package org.files_comparator.vc.svn;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
 import org.files_comparator.util.JaxbPersister;
@@ -40,19 +39,16 @@ public class SvnXmlCmd<T> extends VcCmd<T> {
         this.clazz = clazz;
     }
 
-    @SuppressWarnings("unused")
     public void build(byte[] data) {
-        Result result;
         InputStream is;
-        ByteArrayOutputStream baos;
 
         try {
             is = new ByteArrayInputStream(data);
             setResultData(JaxbPersister.getInstance().load(clazz, is));
             is.close();
             setResult(Result.TRUE());
-        } catch (Exception ex) {
-            setResult(Result.FALSE(ex.getMessage(), ex));
+        } catch (Exception e) {
+            setResult(Result.FALSE(e.getMessage(), e));
         }
     }
 }

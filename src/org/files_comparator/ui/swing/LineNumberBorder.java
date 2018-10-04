@@ -29,6 +29,8 @@ import java.awt.RenderingHints;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
+import net.sourceforge.open_teradata_viewer.ExceptionDialog;
+
 import org.files_comparator.settings.FilesComparatorSettings;
 import org.files_comparator.ui.FilePanel;
 import org.files_comparator.ui.util.ColorUtil;
@@ -51,8 +53,6 @@ public class LineNumberBorder extends EmptyBorder {
     private Font font;
     private int fontWidth;
     private int fontHeight;
-    @SuppressWarnings("unused")
-    private boolean enableBlame = true;
 
     public LineNumberBorder(FilePanel filePanel) {
         super(0, 40 + MARGIN, 0, 0);
@@ -60,10 +60,6 @@ public class LineNumberBorder extends EmptyBorder {
         this.filePanel = filePanel;
 
         init();
-    }
-
-    public void enableBlame(boolean enableBlame) {
-        this.enableBlame = enableBlame;
     }
 
     private void init() {
@@ -134,8 +130,8 @@ public class LineNumberBorder extends EmptyBorder {
                 g.drawString(s, left - (fontWidth * s.length()) - 1 - MARGIN, y
                         - heightCorrection);
             }
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (Exception e) {
+            ExceptionDialog.hideException(e);
         }
     }
 }

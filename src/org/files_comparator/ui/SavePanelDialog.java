@@ -29,6 +29,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import net.sourceforge.open_teradata_viewer.ExceptionDialog;
+import net.sourceforge.open_teradata_viewer.UISupport;
 import open_teradata_viewer.plugin.FilesComparatorException;
 
 import org.files_comparator.ui.text.BufferDocumentIF;
@@ -61,7 +63,6 @@ public class SavePanelDialog {
         documents.add(document);
     }
 
-    @SuppressWarnings("deprecation")
     public void show() {
         JOptionPane pane;
         JDialog dialog;
@@ -72,7 +73,7 @@ public class SavePanelDialog {
         dialog = pane.createDialog(filesComparatorPanel, "Save files");
         dialog.setResizable(true);
         try {
-            dialog.show();
+            UISupport.showDialog(dialog);
 
             if (ObjectUtil.equals(pane.getValue(), JOptionPane.OK_OPTION)) {
                 ok = true;
@@ -106,10 +107,10 @@ public class SavePanelDialog {
 
             try {
                 document.write();
-            } catch (FilesComparatorException ex) {
-                ex.printStackTrace();
+            } catch (FilesComparatorException fce) {
+                ExceptionDialog.hideException(fce);
                 JOptionPane.showMessageDialog(filesComparatorPanel,
-                        "Can't write file" + document.getName(),
+                        "Can't write file " + document.getName(),
                         "Problem writing file", JOptionPane.ERROR_MESSAGE);
             }
         }

@@ -24,6 +24,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import net.sourceforge.open_teradata_viewer.ExceptionDialog;
+
 import org.files_comparator.util.Result;
 import org.files_comparator.vc.StatusResult;
 import org.files_comparator.vc.util.VcCmd;
@@ -97,8 +99,9 @@ public class StatusCmd extends VcCmd<StatusResult> {
 
                 statusResult.addEntry(text.substring(2), status);
             }
-        } catch (IOException ex) {
-            // This cannot happen! We are reading from a byte array.
+        } catch (IOException ioe) {
+            // This cannot happen. We are reading from a byte array
+            ExceptionDialog.ignoreException(ioe);
         }
 
         setResultData(statusResult);

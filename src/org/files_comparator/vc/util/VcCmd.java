@@ -79,12 +79,12 @@ public abstract class VcCmd<T> {
             pb = new ProcessBuilder(command);
             if (workingDirectory != null) {
                 pb = pb.directory(workingDirectory);
-                ApplicationFrame.getInstance().changeLog.append("wd="
-                        + workingDirectory + "\n");
+                ApplicationFrame.getInstance().getConsole()
+                        .println("wd=" + workingDirectory);
             }
 
-            ApplicationFrame.getInstance().changeLog.append("wd2="
-                    + pb.directory() + "\n");
+            ApplicationFrame.getInstance().getConsole()
+                    .println("wd2=" + pb.directory());
             p = pb.start();
 
             debug("execute: " + Arrays.asList(command));
@@ -116,8 +116,8 @@ public abstract class VcCmd<T> {
             build(baos.toByteArray());
             baos.close();
             baos = null;
-        } catch (Exception ex) {
-            result = Result.FALSE(ex.getMessage(), ex);
+        } catch (Exception e) {
+            result = Result.FALSE(e.getMessage(), e);
             baos = null;
             return result;
         }
@@ -128,8 +128,8 @@ public abstract class VcCmd<T> {
     protected abstract void build(byte[] data);
 
     public void printError() {
-        ApplicationFrame.getInstance().changeLog.append(result.getDescription()
-                + "\n");
+        ApplicationFrame.getInstance().getConsole()
+                .println(result.getDescription());
         if (result.hasException()) {
             result.getException().printStackTrace();
         }
@@ -153,7 +153,7 @@ public abstract class VcCmd<T> {
 
     private void debug(String text) {
         if (debug) {
-            ApplicationFrame.getInstance().changeLog.append(text + "\n");
+            ApplicationFrame.getInstance().getConsole().println(text);
         }
     }
 }

@@ -36,10 +36,10 @@ import java.util.List;
  * 
  */
 public class JDiff {
-    @SuppressWarnings({"rawtypes", "unchecked"})
+
     static final String[] loadFile(String name) throws IOException {
         BufferedReader data = new BufferedReader(new FileReader(name));
-        List lines = new ArrayList();
+        List<String> lines = new ArrayList<String>();
         String s;
 
         while ((s = data.readLine()) != null) {

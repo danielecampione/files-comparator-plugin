@@ -56,11 +56,9 @@ public class SwingUtil {
         }
     }
 
-    @SuppressWarnings("unused")
     public static void deInstallKey(JComponent component, String key,
             FilesComparatorAction action) {
         InputMap inputMap;
-        ActionMap actionMap;
         KeyStroke stroke;
 
         stroke = KeyStroke.getKeyStroke(key);

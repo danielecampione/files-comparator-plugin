@@ -27,6 +27,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.open_teradata_viewer.ApplicationFrame;
+import net.sourceforge.open_teradata_viewer.ExceptionDialog;
 
 import org.files_comparator.diff.FilesComparatorChunk;
 import org.files_comparator.diff.FilesComparatorDelta;
@@ -78,8 +79,8 @@ public class DiffCmd extends VcCmd<DiffData> {
                     break;
                 }
 
-                ApplicationFrame.getInstance().changeLog.append("path = "
-                        + path + "\n");
+                ApplicationFrame.getInstance().getConsole()
+                        .println("path = " + path);
 
                 revision = new FilesComparatorRevision(null, null);
                 diffData.addTarget(path, revision);
@@ -95,8 +96,8 @@ public class DiffCmd extends VcCmd<DiffData> {
                     revision.add(delta);
                 }
             }
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        } catch (IOException ioe) {
+            ExceptionDialog.hideException(ioe);
             setResult(Result.FALSE("Parse failed"));
         }
 
@@ -161,8 +162,7 @@ public class DiffCmd extends VcCmd<DiffData> {
             break;
         }
 
-        ApplicationFrame.getInstance().changeLog.append("delta = " + delta
-                + "\n");
+        ApplicationFrame.getInstance().getConsole().println("delta = " + delta);
 
         return delta;
     }

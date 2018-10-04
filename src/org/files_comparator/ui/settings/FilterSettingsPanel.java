@@ -202,7 +202,6 @@ public class FilterSettingsPanel extends FilterSettingsForm
      * @author D. Campione
      *
      */
-    @SuppressWarnings("unchecked")
     private class FilterTableModel extends FilesComparatorTableModel {
 
         private static final long serialVersionUID = -1444770064623042298L;
@@ -252,7 +251,6 @@ public class FilterSettingsPanel extends FilterSettingsForm
      * @author D. Campione
      *
      */
-    @SuppressWarnings("unchecked")
     private class FilterRuleTableModel extends FilesComparatorTableModel {
 
         private static final long serialVersionUID = -1656448154843183164L;
@@ -341,7 +339,6 @@ public class FilterSettingsPanel extends FilterSettingsForm
             return "??";
         }
 
-        @SuppressWarnings("rawtypes")
         public Class getColumnClass(int rowIndex, Column column) {
             FilterRule rule;
 

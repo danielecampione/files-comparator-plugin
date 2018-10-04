@@ -21,6 +21,7 @@ package org.files_comparator.diff;
 import java.util.List;
 
 import net.sourceforge.open_teradata_viewer.ApplicationFrame;
+import net.sourceforge.open_teradata_viewer.ExceptionDialog;
 
 import org.files_comparator.util.Ignore;
 import org.files_comparator.util.TokenizerFactory;
@@ -183,8 +184,8 @@ public class FilesComparatorDelta {
             }
 
             return rev2;
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (Exception e) {
+            ExceptionDialog.hideException(e);
         }
 
         return null;
@@ -222,7 +223,7 @@ public class FilesComparatorDelta {
 
     private void debug(String s) {
         if (debug) {
-            ApplicationFrame.getInstance().changeLog.append(s + "\n");
+            ApplicationFrame.getInstance().getConsole().println(s);
         }
     }
 

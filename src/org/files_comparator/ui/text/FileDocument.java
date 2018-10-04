@@ -32,6 +32,7 @@ import java.io.Reader;
 import java.io.Writer;
 import java.nio.charset.Charset;
 
+import net.sourceforge.open_teradata_viewer.ExceptionDialog;
 import open_teradata_viewer.plugin.FilesComparatorException;
 
 import org.files_comparator.util.CharsetDetector;
@@ -53,8 +54,8 @@ public class FileDocument extends AbstractBufferDocument {
 
         try {
             setName(file.getCanonicalPath());
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (Exception e) {
+            ExceptionDialog.hideException(e);
             setName(file.getName());
         }
 
@@ -74,15 +75,14 @@ public class FileDocument extends AbstractBufferDocument {
         }
 
         try {
-            // Try to create a reader that has the right charset.
-            // If you use new FileReader(file) you get a reader
-            //   with the default charset. 
+            // Try to create a reader that has the right charset. If you use new
+            // FileReader(file) you get a reader with the default charset 
             bis = new BufferedInputStream(new FileInputStream(file));
             charset = CharsetDetector.getInstance().getCharset(bis);
             return new BufferedReader(new InputStreamReader(bis, charset));
-        } catch (Exception ex) {
+        } catch (Exception e) {
             throw new FilesComparatorException(
-                    "Could not create FileReader for : " + file.getName(), ex);
+                    "Could not create FileReader for : " + file.getName(), e);
         }
     }
 
@@ -92,9 +92,9 @@ public class FileDocument extends AbstractBufferDocument {
         try {
             bos = new BufferedOutputStream(new FileOutputStream(file));
             return new BufferedWriter(new OutputStreamWriter(bos, charset));
-        } catch (IOException ex) {
+        } catch (IOException ioe) {
             throw new FilesComparatorException(
-                    "Cannot create FileWriter for file: " + file.getName(), ex);
+                    "Cannot create FileWriter for file: " + file.getName(), ioe);
         }
     }
 }

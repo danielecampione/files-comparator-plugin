@@ -21,6 +21,8 @@ package org.files_comparator.util.conf;
 import java.io.File;
 import java.io.IOException;
 
+import net.sourceforge.open_teradata_viewer.ExceptionDialog;
+
 /**
  * 
  * 
@@ -42,7 +44,7 @@ public abstract class AbstractConfiguration {
     public String getConfigurationFileName() {
         try {
             return preference.getFile().getCanonicalPath();
-        } catch (IOException ex) {
+        } catch (IOException ioe) {
             return "??";
         }
     }
@@ -61,8 +63,8 @@ public abstract class AbstractConfiguration {
                     preference.getFile());
             changed = false;
             fireChanged(changed);
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (Exception e) {
+            ExceptionDialog.hideException(e);
         }
     }
 

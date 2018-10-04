@@ -27,8 +27,9 @@ import java.util.prefs.Preferences;
  *
  */
 public class AppPreferences {
-    @SuppressWarnings("rawtypes")
-    public static Preferences getPreferences(Class clazz) {
+
+    public static Preferences getPreferences(Class<?> clazz) {
         return Preferences.userNodeForPackage(clazz);
     }
+
 }

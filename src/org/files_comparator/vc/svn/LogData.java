@@ -106,10 +106,8 @@ public class LogData {
 
         @XmlAttribute
         private String action;
-        @SuppressWarnings("unused")
         @XmlAttribute(name = "copyfrom-path")
         private String copyFromPath;
-        @SuppressWarnings("unused")
         @XmlAttribute(name = "copyfrom-rev")
         private Integer copyFromRev;
         private String pathName;

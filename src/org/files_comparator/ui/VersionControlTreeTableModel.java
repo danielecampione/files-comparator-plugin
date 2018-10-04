@@ -33,7 +33,6 @@ import org.files_comparator.util.node.VersionControlBaseNode;
  * @author D. Campione
  *
  */
-@SuppressWarnings("unchecked")
 public class VersionControlTreeTableModel extends FilesComparatorTreeTableModel {
 
     private Column fileNameColumn;
@@ -63,9 +62,8 @@ public class VersionControlTreeTableModel extends FilesComparatorTreeTableModel 
                 return "";
             }
 
-            ApplicationFrame.getInstance().changeLog.append(vcbNode.getEntry()
-                    .getStatus().getIconName()
-                    + "\n");
+            ApplicationFrame.getInstance().getConsole()
+                    .println(vcbNode.getEntry().getStatus().getIconName());
             return ImageUtil.getImageIcon("16x16/"
                     + vcbNode.getEntry().getStatus().getIconName());
         }

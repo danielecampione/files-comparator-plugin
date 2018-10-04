@@ -20,6 +20,8 @@ package org.apache.commons.jrcs.diff;
 
 import java.util.List;
 
+import net.sourceforge.open_teradata_viewer.ExceptionDialog;
+
 /**
  * Holds a "delta" difference between to revisions of a text.
  *
@@ -29,9 +31,9 @@ import java.util.List;
  * @see Revision
  */
 public abstract class Delta extends org.apache.commons.jrcs.util.ToString {
+
     protected Chunk original;
     protected Chunk revised;
-    @SuppressWarnings("rawtypes")
     static Class[][] DeltaClass;
 
     static {
@@ -41,7 +43,8 @@ public abstract class Delta extends org.apache.commons.jrcs.util.ToString {
             DeltaClass[0][1] = org.apache.commons.jrcs.diff.AddDelta.class;
             DeltaClass[1][0] = org.apache.commons.jrcs.diff.DeleteDelta.class;
             DeltaClass[1][1] = org.apache.commons.jrcs.diff.ChangeDelta.class;
-        } catch (Throwable o) {
+        } catch (Throwable t) {
+            ExceptionDialog.ignoreException(t);
         }
     }
 
@@ -52,14 +55,14 @@ public abstract class Delta extends org.apache.commons.jrcs.util.ToString {
      * @param orig the chunk in the original text.
      * @param rev  the chunk in the revised text.
      */
-    @SuppressWarnings("rawtypes")
+
     public static Delta newDelta(Chunk orig, Chunk rev) {
-        Class c = DeltaClass[orig.size() > 0 ? 1 : 0][rev.size() > 0 ? 1 : 0];
+        Class<?> c = DeltaClass[orig.size() > 0 ? 1 : 0][rev.size() > 0 ? 1 : 0];
         Delta result;
 
         try {
             result = (Delta) c.newInstance();
-        } catch (Throwable e) {
+        } catch (Throwable t) {
             return null;
         }
 
@@ -95,16 +98,14 @@ public abstract class Delta extends org.apache.commons.jrcs.util.ToString {
      * @param target the text to patch.
      * @throws PatchFailedException if the patch cannot be applied.
      */
-    @SuppressWarnings("rawtypes")
-    public abstract void verify(List target) throws PatchFailedException;
+    public abstract void verify(List<?> target) throws PatchFailedException;
 
     /**
      * Applies this delta as a patch to the given text.
      * @param target the text to patch.
      * @throws PatchFailedException if the patch cannot be applied.
      */
-    @SuppressWarnings("rawtypes")
-    public final void patch(List target) throws PatchFailedException {
+    public final void patch(List<?> target) throws PatchFailedException {
         verify(target);
         try {
             applyTo(target);
@@ -118,8 +119,7 @@ public abstract class Delta extends org.apache.commons.jrcs.util.ToString {
      * @param target the text to patch.
      * @throws PatchFailedException if the patch cannot be applied.
      */
-    @SuppressWarnings("rawtypes")
-    public abstract void applyTo(List target);
+    public abstract void applyTo(List<?> target);
 
     /**
      * Converts this delta into its Unix diff style string representation.

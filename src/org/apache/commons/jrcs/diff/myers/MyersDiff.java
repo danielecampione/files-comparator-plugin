@@ -43,6 +43,7 @@ import org.apache.commons.jrcs.diff.Revision;
  * @see Diff
  */
 public class MyersDiff implements DiffAlgorithm {
+
     private static int MAXTIME = 3000;
     public boolean checkMaxTime = false;
 
@@ -76,7 +77,6 @@ public class MyersDiff implements DiffAlgorithm {
      * @return A minimum {@link PathNode Path} accross the differences graph.
      * @throws DifferentiationFailedException if a diff path could not be found.
      */
-    @SuppressWarnings("unused")
     public PathNode buildPath(Object[] orig, Object[] rev)
             throws DifferentiationFailedException {
         int N;
@@ -87,7 +87,6 @@ public class MyersDiff implements DiffAlgorithm {
         Map<Integer, PathNode> diagonal;
         PathNode d_kminus;
         PathNode d_kplus;
-        PathNode path;
         PathNode node;
         int kmiddle;
         int kplus;
@@ -113,8 +112,6 @@ public class MyersDiff implements DiffAlgorithm {
         size = 1 + 2 * MAX;
         middle = (size + 1) / 2;
         diagonal = new HashMap<Integer, PathNode>();
-
-        path = null;
 
         startTime = System.currentTimeMillis();
 
@@ -172,19 +169,6 @@ public class MyersDiff implements DiffAlgorithm {
 
         // According to Myers, this cannot happen
         throw new DifferentiationFailedException("could not find a diff path");
-    }
-
-    @SuppressWarnings("unused")
-    private boolean isEmpty(Object o) {
-        String s;
-
-        if (!(o instanceof String)) {
-            return false;
-        }
-
-        s = (String) o;
-
-        return (s == null || s.trim().compareTo("") == 0);
     }
 
     /**

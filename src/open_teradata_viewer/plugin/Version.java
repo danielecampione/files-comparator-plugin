@@ -20,6 +20,8 @@ package open_teradata_viewer.plugin;
 
 import java.util.Properties;
 
+import net.sourceforge.open_teradata_viewer.ExceptionDialog;
+
 import org.files_comparator.util.ResourceLoader;
 
 /**
@@ -51,8 +53,8 @@ public class Version {
             p = new Properties();
             p.load(ResourceLoader.getResourceAsStream("ini/Version.txt"));
             version = p.getProperty("version");
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (Exception e) {
+            ExceptionDialog.hideException(e);
         }
     }
 }

@@ -29,6 +29,8 @@ import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+import net.sourceforge.open_teradata_viewer.ExceptionDialog;
+
 import org.files_comparator.util.ResourceLoader;
 
 /**
@@ -47,9 +49,7 @@ public class ImageUtil {
         return getImageIcon("32x32/" + iconName);
     }
 
-    @SuppressWarnings("unused")
     public static synchronized ImageIcon getImageIcon(String iconName) {
-        ImageIcon icon;
         URL url;
 
         iconName = "icons/" + iconName + ".png";
@@ -99,8 +99,8 @@ public class ImageUtil {
         tracker.addImage(image, 1);
         try {
             tracker.waitForID(1);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        } catch (InterruptedException ie) {
+            ExceptionDialog.hideException(ie);
             return null;
         }
 

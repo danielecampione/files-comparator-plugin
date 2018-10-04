@@ -22,7 +22,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -32,13 +31,10 @@ import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JScrollBar;
-import javax.swing.JViewport;
-import javax.swing.text.JTextComponent;
 
 import org.files_comparator.diff.FilesComparatorChunk;
 import org.files_comparator.diff.FilesComparatorDelta;
 import org.files_comparator.diff.FilesComparatorRevision;
-import org.files_comparator.ui.text.BufferDocumentIF;
 import org.files_comparator.ui.util.ColorUtil;
 import org.files_comparator.ui.util.Colors;
 import org.files_comparator.ui.util.RevisionUtil;
@@ -71,7 +67,7 @@ public class RevisionBar extends JComponent {
 
     private MouseListener getMouseListener() {
         return new MouseAdapter() {
-            @SuppressWarnings("unused")
+
             public void mouseClicked(MouseEvent me) {
                 Rectangle r;
                 int y;
@@ -79,11 +75,6 @@ public class RevisionBar extends JComponent {
                 int lineBefore;
                 int lineAfter;
                 FilesComparatorRevision revision;
-                Point p;
-                BufferDocumentIF bd;
-                int offset;
-                JTextComponent editor;
-                JViewport viewport;
                 int numberOfLines;
                 FilesComparatorChunk original;
 
@@ -138,11 +129,10 @@ public class RevisionBar extends JComponent {
     /** Calculate the rectangle that can be used to draw the diffs.
      *    It is essentially the size of the scrollbar minus its buttons.
      */
-    @SuppressWarnings("unused")
+
     private Rectangle getDrawableRectangle() {
         JScrollBar sb;
         Rectangle r;
-        int buttonHeight;
 
         sb = filePanel.getScrollPane().getVerticalScrollBar();
         r = sb.getBounds();

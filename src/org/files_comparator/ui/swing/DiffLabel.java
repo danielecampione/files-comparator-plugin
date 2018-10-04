@@ -27,6 +27,8 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
+import net.sourceforge.open_teradata_viewer.ExceptionDialog;
+
 import org.files_comparator.diff.FilesComparatorChunk;
 import org.files_comparator.diff.FilesComparatorDelta;
 import org.files_comparator.diff.FilesComparatorDiff;
@@ -72,16 +74,13 @@ public class DiffLabel extends JTextPane {
      *  Some parts of the text will be displayed in bold-style.
      *  These parts are the differences between text and otherText.
      */
-    @SuppressWarnings("unused")
     public void setText(String text, String otherText) {
         WordTokenizer wt;
         List<String> textList;
         List<String> otherTextList;
         FilesComparatorRevision revision;
-        JTextPane fl;
         String[] styles;
         FilesComparatorChunk chunk;
-        String styleName;
         StyledDocument doc;
 
         try {
@@ -110,10 +109,10 @@ public class DiffLabel extends JTextPane {
                 doc.insertString(doc.getLength(), textList.get(i),
                         (styles[i] != null ? doc.getStyle(styles[i]) : null));
             }
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (Exception e) {
+            ExceptionDialog.hideException(e);
 
-            // Make the best out of this situation. (Should never happen)
+            // Make the best out of this situation (should never happen)
             setText(text);
         }
     }

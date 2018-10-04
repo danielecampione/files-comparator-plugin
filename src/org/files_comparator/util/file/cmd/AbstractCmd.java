@@ -25,6 +25,8 @@ import java.util.List;
 import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.CannotRedoException;
 
+import net.sourceforge.open_teradata_viewer.ExceptionDialog;
+
 /**
  * 
  * 
@@ -97,8 +99,8 @@ public abstract class AbstractCmd extends AbstractUndoableEdit {
                 command.undo();
             }
             Collections.reverse(finallyCommandList);
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (Exception e) {
+            ExceptionDialog.hideException(e);
             throw new CannotRedoException();
         }
     }
@@ -131,8 +133,8 @@ public abstract class AbstractCmd extends AbstractUndoableEdit {
         public void redo() {
             try {
                 execute();
-            } catch (Exception ex) {
-                ex.printStackTrace();
+            } catch (Exception e) {
+                ExceptionDialog.hideException(e);
                 throw new CannotRedoException();
             }
         }

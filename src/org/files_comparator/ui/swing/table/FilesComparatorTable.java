@@ -81,9 +81,8 @@ public class FilesComparatorTable extends JTable {
         }
     }
 
-    @SuppressWarnings("rawtypes")
     public TableCellEditor getCellEditor(int row, int column) {
-        Class clazz;
+        Class<?> clazz;
         TableCellEditor editor;
 
         clazz = ((FilesComparatorTableModel) getModel()).getColumnClass(row,
@@ -96,9 +95,8 @@ public class FilesComparatorTable extends JTable {
         return super.getCellEditor(row, column);
     }
 
-    @SuppressWarnings("rawtypes")
     public TableCellRenderer getCellRenderer(int row, int column) {
-        Class clazz;
+        Class<?> clazz;
         TableCellRenderer renderer;
         TableModel model;
 

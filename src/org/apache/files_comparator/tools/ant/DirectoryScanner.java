@@ -32,6 +32,7 @@ import java.util.Map;
 import java.util.Set;
 
 import net.sourceforge.open_teradata_viewer.ApplicationFrame;
+import net.sourceforge.open_teradata_viewer.ExceptionDialog;
 
 import org.apache.files_comparator.tools.ant.taskdefs.condition.Os;
 import org.apache.files_comparator.tools.ant.types.Resource;
@@ -162,20 +163,17 @@ public class DirectoryScanner implements SelectorScanner, ResourceFactory {
      * The files which matched at least one include and no excludes
      * and were selected.
      */
-    @SuppressWarnings("rawtypes")
-    protected List filesIncluded;
+    protected List<String> filesIncluded;
     protected Map<String, FileNode> filesIncludedMap;
 
     /** The files which did not match any includes or selectors. */
-    @SuppressWarnings("rawtypes")
-    protected List filesNotIncluded;
+    protected List<String> filesNotIncluded;
 
     /**
      * The files which matched at least one include and at least
      * one exclude.
      */
-    @SuppressWarnings("rawtypes")
-    protected List filesExcluded;
+    protected List<String> filesExcluded;
 
     /**
      * The directories which matched at least one include and no excludes
@@ -225,14 +223,12 @@ public class DirectoryScanner implements SelectorScanner, ResourceFactory {
     /**
      * Temporary table to speed up the various scanning methods.
      */
-    @SuppressWarnings("rawtypes")
-    private Map fileListMap = new HashMap();
+    private Map<File, String[]> fileListMap = new HashMap<File, String[]>();
 
     /**
      * List of all scanned directories.
      */
-    @SuppressWarnings("rawtypes")
-    private Set scannedDirs = new HashSet();
+    private Set<String> scannedDirs = new HashSet<String>();
 
     /**
      * Set of all include patterns that are full file names and don't
@@ -619,7 +615,7 @@ public class DirectoryScanner implements SelectorScanner, ResourceFactory {
                 while (scanning) {
                     try {
                         scanLock.wait();
-                    } catch (InterruptedException e) {
+                    } catch (InterruptedException ie) {
                         continue;
                     }
                 }
@@ -679,9 +675,8 @@ public class DirectoryScanner implements SelectorScanner, ResourceFactory {
      * This routine is actually checking all the include patterns in
      * order to avoid scanning everything under base dir.
      */
-    @SuppressWarnings({"rawtypes", "unchecked"})
     private void checkIncludePatterns() {
-        Hashtable newroots = new Hashtable();
+        Hashtable<String, String> newroots = new Hashtable<String, String>();
 
         // put in the newroots vector the include patterns without
         // wildcard tokens
@@ -690,18 +685,18 @@ public class DirectoryScanner implements SelectorScanner, ResourceFactory {
         }
 
         if (newroots.containsKey("")) {
-            // we are going to scan everything anyway
+            // We are going to scan everything anyway
             scandir(basedir, "", true);
         } else {
-            // only scan directories that can include matched files or
+            // Only scan directories that can include matched files or
             // directories
-            Enumeration enum2 = newroots.keys();
+            Enumeration<String> enum2 = newroots.keys();
 
             File canonBase = null;
             try {
                 canonBase = basedir.getCanonicalFile();
-            } catch (IOException ex) {
-                throw new BuildException(ex);
+            } catch (IOException ioe) {
+                throw new BuildException(ioe);
             }
             while (enum2.hasMoreElements()) {
                 String currentelement = (String) enum2.nextElement();
@@ -723,8 +718,8 @@ public class DirectoryScanner implements SelectorScanner, ResourceFactory {
                                         basedir, myfile);
                             }
                         }
-                    } catch (IOException ex) {
-                        throw new BuildException(ex);
+                    } catch (IOException ioe) {
+                        throw new BuildException(ioe);
                     }
                 }
                 if ((myfile == null || !myfile.exists()) && !isCaseSensitive()) {
@@ -803,7 +798,8 @@ public class DirectoryScanner implements SelectorScanner, ResourceFactory {
                 while (slowScanning) {
                     try {
                         slowScanLock.wait();
-                    } catch (InterruptedException e) {
+                    } catch (InterruptedException ie) {
+                        ExceptionDialog.ignoreException(ie);
                     }
                 }
                 return;
@@ -857,7 +853,6 @@ public class DirectoryScanner implements SelectorScanner, ResourceFactory {
      * @see #dirsExcluded
      * @see #slowScan
      */
-    @SuppressWarnings("unchecked")
     protected void scandir(File dir, String vpath, boolean fast) {
         if (dir == null) {
             throw new BuildException("dir must not be null.");
@@ -901,10 +896,14 @@ public class DirectoryScanner implements SelectorScanner, ResourceFactory {
                     }
                 } catch (IOException ioe) {
                     String msg = "IOException caught while checking "
-                            + "for links, couldn't get canonical path.\n";
+                            + "for links, couldn't get canonical path.";
                     // will be caught and redirected to Ant's logging system
-                    ApplicationFrame.getInstance().changeLog.append(msg,
-                            ApplicationFrame.WARNING_FOREGROUND_COLOR_LOG);
+                    ApplicationFrame
+                            .getInstance()
+                            .getConsole()
+                            .println(
+                                    msg,
+                                    ApplicationFrame.WARNING_FOREGROUND_COLOR_LOG);
                     noLinks.add(newfiles[i]);
                 }
             }
@@ -945,7 +944,6 @@ public class DirectoryScanner implements SelectorScanner, ResourceFactory {
      * @param name  path of the file relative to the directory of the FileSet.
      * @param file  included File.
      */
-    @SuppressWarnings("unchecked")
     private void accountForIncludedFile(String name, File file, File dir) {
         if (filesIncludedMap.get(name) != null || filesExcluded.contains(name)
                 || filesDeselected.contains(name)) {
@@ -1047,10 +1045,9 @@ public class DirectoryScanner implements SelectorScanner, ResourceFactory {
      * @param name the name to check.
      * @return whether the pattern is deeper than the name.
      */
-    @SuppressWarnings("rawtypes")
     private boolean isDeeper(String pattern, String name) {
-        List p = SelectorUtils.tokenizePath(pattern);
-        List n = SelectorUtils.tokenizePath(name);
+        List<?> p = SelectorUtils.tokenizePath(pattern);
+        List<?> n = SelectorUtils.tokenizePath(name);
         return p.contains("**") || p.size() > n.size();
     }
 
@@ -1149,7 +1146,6 @@ public class DirectoryScanner implements SelectorScanner, ResourceFactory {
      * @return the names of the files which matched at least one of the
      *         include patterns and none of the exclude patterns.
      */
-    @SuppressWarnings("unchecked")
     public synchronized List<String> getIncludedFiles() {
         if (filesIncluded == null) {
             throw new IllegalStateException();
@@ -1184,7 +1180,6 @@ public class DirectoryScanner implements SelectorScanner, ResourceFactory {
      *
      * @see #slowScan
      */
-    @SuppressWarnings("unchecked")
     public synchronized List<String> getNotIncludedFiles() {
         slowScan();
         return filesNotIncluded;
@@ -1201,7 +1196,6 @@ public class DirectoryScanner implements SelectorScanner, ResourceFactory {
      *
      * @see #slowScan
      */
-    @SuppressWarnings("unchecked")
     public synchronized List<String> getExcludedFiles() {
         slowScan();
         return filesExcluded;
@@ -1321,7 +1315,6 @@ public class DirectoryScanner implements SelectorScanner, ResourceFactory {
      *
      * @param file File (dir) to list.
      */
-    @SuppressWarnings("unchecked")
     private String[] list(File file) {
         String[] files = (String[]) fileListMap.get(file);
         if (files == null) {
@@ -1355,8 +1348,7 @@ public class DirectoryScanner implements SelectorScanner, ResourceFactory {
      * @param cs whether to scan case-sensitively.
      * @return File object that points to the file in question or null.
      */
-    @SuppressWarnings("rawtypes")
-    private File findFile(File base, List pathElements, boolean cs) {
+    private File findFile(File base, List<?> pathElements, boolean cs) {
         if (pathElements.size() == 0) {
             return base;
         }
@@ -1400,8 +1392,7 @@ public class DirectoryScanner implements SelectorScanner, ResourceFactory {
      * @param base base File (dir).
      * @param pathElements ArrayList of path elements (dirs...file).
      */
-    @SuppressWarnings("rawtypes")
-    private boolean isSymlink(File base, List pathElements) {
+    private boolean isSymlink(File base, List<?> pathElements) {
         if (pathElements.size() > 0) {
             String current = (String) pathElements.remove(0);
             try {
@@ -1409,10 +1400,13 @@ public class DirectoryScanner implements SelectorScanner, ResourceFactory {
                         || isSymlink(new File(base, current), pathElements);
             } catch (IOException ioe) {
                 String msg = "IOException caught while checking "
-                        + "for links, couldn't get canonical path.\n";
+                        + "for links, couldn't get canonical path.";
                 // will be caught and redirected to Ant's logging system
-                ApplicationFrame.getInstance().changeLog.append(msg,
-                        ApplicationFrame.WARNING_FOREGROUND_COLOR_LOG);
+                ApplicationFrame
+                        .getInstance()
+                        .getConsole()
+                        .println(msg,
+                                ApplicationFrame.WARNING_FOREGROUND_COLOR_LOG);
             }
         }
         return false;
@@ -1423,7 +1417,6 @@ public class DirectoryScanner implements SelectorScanner, ResourceFactory {
      *
      * <p>Registers the given directory as scanned as a side effect.</p>
      */
-    @SuppressWarnings("unchecked")
     private boolean hasBeenScanned(String vpath) {
         return !scannedDirs.add(vpath);
     }
@@ -1433,9 +1426,7 @@ public class DirectoryScanner implements SelectorScanner, ResourceFactory {
      * Set is live and should not be modified.
      * @return the Set of relative directory names that have been scanned.
      */
-
-    @SuppressWarnings("rawtypes")
-    /* package-private */Set getScannedDirs() {
+    /* package-private */Set<String> getScannedDirs() {
         return scannedDirs;
     }
 

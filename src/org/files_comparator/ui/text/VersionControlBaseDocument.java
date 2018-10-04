@@ -27,6 +27,7 @@ import java.io.Reader;
 import java.io.Writer;
 import java.nio.charset.Charset;
 
+import net.sourceforge.open_teradata_viewer.ExceptionDialog;
 import open_teradata_viewer.plugin.FilesComparatorException;
 
 import org.files_comparator.util.CharsetDetector;
@@ -61,8 +62,8 @@ public class VersionControlBaseDocument extends AbstractBufferDocument {
 
         try {
             setName(file.getCanonicalPath());
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (Exception e) {
+            ExceptionDialog.hideException(e);
             setName(file.getName());
         }
 
@@ -90,10 +91,10 @@ public class VersionControlBaseDocument extends AbstractBufferDocument {
                         baseFile.getByteArray()));
                 charset = CharsetDetector.getInstance().getCharset(bais);
                 return new BufferedReader(new InputStreamReader(bais, charset));
-            } catch (Exception ex) {
+            } catch (Exception e) {
                 throw new FilesComparatorException(
                         "Could not create FileReader for : " + file.getName(),
-                        ex);
+                        e);
             }
         } else {
             return fileNode.getDocument().getReader();

@@ -41,9 +41,8 @@ public abstract class FilesComparatorTableModel extends AbstractTableModel {
         columns = new ArrayList<Column>();
     }
 
-    @SuppressWarnings("rawtypes")
     public Column addColumn(String id, String columnGroupName,
-            String columnName, Class columnClass, int columnSize,
+            String columnName, Class<?> columnClass, int columnSize,
             boolean editable) {
         Column column;
 
@@ -70,18 +69,15 @@ public abstract class FilesComparatorTableModel extends AbstractTableModel {
         return getColumn(columnIndex).columnName;
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     public Class getColumnClass(int columnIndex) {
         return getColumn(columnIndex).columnClass;
     }
 
-    @SuppressWarnings("rawtypes")
-    public Class getColumnClass(int rowIndex, Column column) {
+    public Class<?> getColumnClass(int rowIndex, Column column) {
         return null;
     }
 
-    @SuppressWarnings("rawtypes")
-    public Class getColumnClass(int rowIndex, int columnIndex) {
+    public Class<?> getColumnClass(int rowIndex, int columnIndex) {
         return getColumnClass(rowIndex, getColumn(columnIndex));
     }
 
@@ -153,16 +149,14 @@ public abstract class FilesComparatorTableModel extends AbstractTableModel {
         private int columnIndex;
         private String columnGroupName;
         private String columnName;
-        @SuppressWarnings("rawtypes")
-        private Class columnClass;
+        private Class<?> columnClass;
         private int columnSize;
         private boolean editable;
         private TableCellRenderer renderer;
         private TableCellEditor editor;
 
-        @SuppressWarnings("rawtypes")
         public Column(String id, int columnIndex, String columnGroupName,
-                String columnName, Class columnClass, int columnSize,
+                String columnName, Class<?> columnClass, int columnSize,
                 boolean editable) {
             this.id = id;
             this.columnIndex = columnIndex;
@@ -189,8 +183,7 @@ public abstract class FilesComparatorTableModel extends AbstractTableModel {
             return columnName;
         }
 
-        @SuppressWarnings("rawtypes")
-        public Class getColumnClass() {
+        public Class<?> getColumnClass() {
             return columnClass;
         }
 

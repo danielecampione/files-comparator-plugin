@@ -27,6 +27,8 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.JTextComponent;
 
+import net.sourceforge.open_teradata_viewer.ExceptionDialog;
+
 import org.files_comparator.settings.EditorSettings;
 import org.files_comparator.settings.FilesComparatorSettings;
 import org.files_comparator.ui.util.Colors;
@@ -145,8 +147,8 @@ public class FilesComparatorHighlightPainter
                     g.fillRect(0, r1.y, b.x + b.width, height);
                 }
             }
-        } catch (BadLocationException ex) {
-            ex.printStackTrace();
+        } catch (BadLocationException ble) {
+            ExceptionDialog.hideException(ble);
         }
     }
 

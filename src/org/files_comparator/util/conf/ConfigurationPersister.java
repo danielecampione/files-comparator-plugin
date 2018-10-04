@@ -61,8 +61,7 @@ public class ConfigurationPersister {
         return configuration;
     }
 
-    /** Save a configuration to a file.
-     */
+    /** Save a configuration to a file. */
     public void save(AbstractConfiguration configuration, File file)
             throws JAXBException, IOException {
         JaxbPersister.getInstance().save(configuration, file);

@@ -211,7 +211,7 @@ public class FolderSettingsForm extends javax.swing.JPanel {
     private org.files_comparator.ui.swing.DetailHeader detailHeader1;
     private org.files_comparator.ui.swing.DetailHeader detailHeader2;
     private org.files_comparator.ui.swing.GradientLabel gradientLabel1;
-    protected javax.swing.JComboBox hierarchyComboBox;
+    protected javax.swing.JComboBox<?> hierarchyComboBox;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -222,5 +222,4 @@ public class FolderSettingsForm extends javax.swing.JPanel {
     protected javax.swing.JToggleButton onlyLeftButton;
     protected javax.swing.JToggleButton onlyRightButton;
     // End of variables declaration//GEN-END:variables
-
 }

@@ -43,6 +43,8 @@ import javax.swing.event.ChangeListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.JTextComponent;
 
+import net.sourceforge.open_teradata_viewer.ExceptionDialog;
+
 import org.files_comparator.diff.FilesComparatorChunk;
 import org.files_comparator.diff.FilesComparatorDelta;
 import org.files_comparator.diff.FilesComparatorRevision;
@@ -296,7 +298,7 @@ public class DiffScrollComponent extends JComponent
                     continue;
                 }
                 toRect = editorFrom.modelToView(offset);
-                // ApplicationFrame.getInstance().changeLog.append("from=" + fromRect + ", to=" + toRect + "\n");
+                // ApplicationFrame.getInstance().getConsole().println("from=" + fromRect + ", to=" + toRect);
 
                 x = 0;
                 y = fromRect.y - viewportRect.y + 1;
@@ -558,8 +560,8 @@ public class DiffScrollComponent extends JComponent
                     }
                 }
             }
-        } catch (BadLocationException ex) {
-            ex.printStackTrace();
+        } catch (BadLocationException ble) {
+            ExceptionDialog.hideException(ble);
         }
 
         resetAntiAlias(g2);

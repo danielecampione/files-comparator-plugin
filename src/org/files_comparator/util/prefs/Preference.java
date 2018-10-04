@@ -100,7 +100,6 @@ public abstract class Preference {
         return preferenceName + "-" + name;
     }
 
-    @SuppressWarnings("unused")
     private String getKey(String name, int index) {
         return preferenceName + "-" + name + "-" + index;
     }

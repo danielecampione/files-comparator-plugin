@@ -33,7 +33,6 @@ import com.jgoodies.forms.layout.FormLayout;
  */
 public class ToolBarBuilder extends AbstractFormBuilder {
 
-    @SuppressWarnings("deprecation")
     public ToolBarBuilder(JComponent toolBar) {
         super(toolBar, new FormLayout("", "fill:p"));
 

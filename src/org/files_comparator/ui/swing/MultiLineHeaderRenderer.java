@@ -20,10 +20,8 @@ package org.files_comparator.ui.swing;
 
 import java.awt.Component;
 
-import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.JTable;
-import javax.swing.ListCellRenderer;
 import javax.swing.LookAndFeel;
 import javax.swing.table.TableCellRenderer;
 
@@ -37,13 +35,7 @@ public class MultiLineHeaderRenderer extends JLabel
         implements
             TableCellRenderer {
 
-    @SuppressWarnings("unused")
-    private Icon icon;
-
-    @SuppressWarnings("unused")
     public MultiLineHeaderRenderer() {
-        ListCellRenderer renderer;
-
         LookAndFeel.installColorsAndFont(this, "TableHeader.background",
                 "TableHeader.foreground", "TableHeader.font");
         LookAndFeel.installBorder(this, "TableHeader.cellBorder");
@@ -70,10 +62,6 @@ public class MultiLineHeaderRenderer extends JLabel
         setHorizontalAlignment(JLabel.CENTER);
 
         return this;
-    }
-
-    public void setIcon(Icon icon) {
-        this.icon = icon;
     }
 
     /*

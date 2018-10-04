@@ -23,6 +23,7 @@ import java.util.Collections;
 import java.util.List;
 
 import net.sourceforge.open_teradata_viewer.ApplicationFrame;
+import net.sourceforge.open_teradata_viewer.ExceptionDialog;
 
 import org.files_comparator.util.file.FileUtil;
 import org.files_comparator.util.node.FileNode;
@@ -84,16 +85,16 @@ public class CopyFileCmd extends AbstractCmd {
 
         public void execute() throws Exception {
             if (debug) {
-                ApplicationFrame.getInstance().changeLog.append("mkdir : "
-                        + dirFile + "\n");
+                ApplicationFrame.getInstance().getConsole()
+                        .println("mkdir : " + dirFile);
             }
             dirFile.mkdir();
         }
 
         public void undo() {
             if (debug) {
-                ApplicationFrame.getInstance().changeLog.append("rmdir : "
-                        + dirFile + "\n");
+                ApplicationFrame.getInstance().getConsole()
+                        .println("rmdir : " + dirFile);
             }
             dirFile.delete();
         }
@@ -125,16 +126,16 @@ public class CopyFileCmd extends AbstractCmd {
                         "backup");
 
                 if (debug) {
-                    ApplicationFrame.getInstance().changeLog.append("copy : "
-                            + toFile + " -> " + backupFile + "\n");
+                    ApplicationFrame.getInstance().getConsole()
+                            .println("copy : " + toFile + " -> " + backupFile);
                 }
 
                 FileUtil.copy(toFile, backupFile);
             }
 
             if (debug) {
-                ApplicationFrame.getInstance().changeLog.append("copy : "
-                        + fromFile + " -> " + toFile + "\n");
+                ApplicationFrame.getInstance().getConsole()
+                        .println("copy : " + fromFile + " -> " + toFile);
             }
 
             FileUtil.copy(fromFile, toFile);
@@ -145,9 +146,12 @@ public class CopyFileCmd extends AbstractCmd {
                 if (toFileExists) {
                     if (backupFile != null) {
                         if (debug) {
-                            ApplicationFrame.getInstance().changeLog
-                                    .append("copy : " + backupFile + " -> "
-                                            + toFile + "\n");
+                            ApplicationFrame
+                                    .getInstance()
+                                    .getConsole()
+                                    .println(
+                                            "copy : " + backupFile + " -> "
+                                                    + toFile);
                         }
 
                         FileUtil.copy(backupFile, toFile);
@@ -156,14 +160,14 @@ public class CopyFileCmd extends AbstractCmd {
                     }
                 } else {
                     if (debug) {
-                        ApplicationFrame.getInstance().changeLog
-                                .append("delete : " + toFile + "\n");
+                        ApplicationFrame.getInstance().getConsole()
+                                .println("delete : " + toFile);
                     }
 
                     toFile.delete();
                 }
-            } catch (Exception ex) {
-                ex.printStackTrace();
+            } catch (Exception e) {
+                ExceptionDialog.hideException(e);
             }
         }
 
@@ -171,8 +175,8 @@ public class CopyFileCmd extends AbstractCmd {
         public void discard() {
             if (backupFile != null) {
                 if (debug) {
-                    ApplicationFrame.getInstance().changeLog.append("delete : "
-                            + backupFile + "\n");
+                    ApplicationFrame.getInstance().getConsole()
+                            .println("delete : " + backupFile);
                 }
 
                 backupFile.delete();

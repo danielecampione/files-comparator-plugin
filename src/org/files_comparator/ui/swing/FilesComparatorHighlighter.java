@@ -75,9 +75,7 @@ public class FilesComparatorHighlighter implements Highlighter {
      *
      * @param g the graphics context
      */
-    @SuppressWarnings("unused")
     public void paint(Graphics g) {
-        int upperLayer;
         List<Highlighter.Highlight> list;
         Rectangle a;
         Insets insets;

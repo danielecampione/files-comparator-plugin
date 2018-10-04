@@ -26,6 +26,7 @@ import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 
 import net.sourceforge.open_teradata_viewer.ApplicationFrame;
+import net.sourceforge.open_teradata_viewer.ExceptionDialog;
 
 import org.files_comparator.ui.util.ImageUtil;
 
@@ -61,8 +62,8 @@ public class FilesComparatorAction extends AbstractAction {
         try {
             actionMethod = object.getClass().getMethod("do" + getName(),
                     ActionEvent.class);
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (Exception e) {
+            ExceptionDialog.hideException(e);
             System.exit(1);
         }
 
@@ -71,7 +72,8 @@ public class FilesComparatorAction extends AbstractAction {
             //   If it is not available the method is always enabled.
             isActionEnabledMethod = object.getClass().getMethod(
                     "is" + getName() + "Enabled");
-        } catch (NoSuchMethodException ex) {
+        } catch (NoSuchMethodException nsme) {
+            ExceptionDialog.ignoreException(nsme);
         }
     }
 
@@ -95,8 +97,8 @@ public class FilesComparatorAction extends AbstractAction {
 
     public void actionPerformed(ActionEvent ae) {
         if (object == null || actionMethod == null) {
-            ApplicationFrame.getInstance().changeLog
-                    .append("setActionCommand() has not been executed!\n");
+            ApplicationFrame.getInstance().getConsole()
+                    .println("setActionCommand() has not been executed.");
             return;
         }
 
@@ -104,12 +106,12 @@ public class FilesComparatorAction extends AbstractAction {
             actionMethod.invoke(object, ae);
 
             actionHandler.checkActions();
-        } catch (IllegalAccessException ex) {
-            ex.printStackTrace();
-        } catch (IllegalArgumentException ex) {
-            ex.printStackTrace();
-        } catch (InvocationTargetException ex) {
-            ex.printStackTrace();
+        } catch (IllegalAccessException iae) {
+            ExceptionDialog.hideException(iae);
+        } catch (IllegalArgumentException iae2) {
+            ExceptionDialog.hideException(iae2);
+        } catch (InvocationTargetException ite) {
+            ExceptionDialog.hideException(ite);
         }
     }
 
@@ -120,12 +122,12 @@ public class FilesComparatorAction extends AbstractAction {
 
         try {
             return (Boolean) isActionEnabledMethod.invoke(object);
-        } catch (IllegalAccessException ex) {
-            ex.printStackTrace();
-        } catch (IllegalArgumentException ex) {
-            ex.printStackTrace();
-        } catch (InvocationTargetException ex) {
-            ex.printStackTrace();
+        } catch (IllegalAccessException iae) {
+            ExceptionDialog.hideException(iae);
+        } catch (IllegalArgumentException iae2) {
+            ExceptionDialog.hideException(iae2);
+        } catch (InvocationTargetException ite) {
+            ExceptionDialog.hideException(ite);
         }
 
         return true;

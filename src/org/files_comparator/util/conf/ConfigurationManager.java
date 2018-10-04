@@ -23,6 +23,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import net.sourceforge.open_teradata_viewer.ExceptionDialog;
+
 import org.files_comparator.util.WeakHashSet;
 
 /**
@@ -49,8 +51,7 @@ public class ConfigurationManager {
         return instance;
     }
 
-    @SuppressWarnings("rawtypes")
-    public boolean reload(File file, Class clazz) {
+    public boolean reload(File file, Class<?> clazz) {
         AbstractConfiguration configuration;
 
         configuration = load(clazz, file);
@@ -69,8 +70,7 @@ public class ConfigurationManager {
         return true;
     }
 
-    @SuppressWarnings("rawtypes")
-    public AbstractConfiguration get(Class clazz) {
+    public AbstractConfiguration get(Class<?> clazz) {
         AbstractConfiguration configuration;
         String key;
 
@@ -85,8 +85,8 @@ public class ConfigurationManager {
                     configuration.disableFireChanged(true);
                     configuration.init();
                     configuration.disableFireChanged(false);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
+                } catch (Exception e) {
+                    ExceptionDialog.hideException(e);
                 }
             }
 
@@ -96,8 +96,7 @@ public class ConfigurationManager {
         return configuration;
     }
 
-    @SuppressWarnings("rawtypes")
-    private AbstractConfiguration load(Class clazz) {
+    private AbstractConfiguration load(Class<?> clazz) {
         ConfigurationPreference preference;
         File file;
 
@@ -107,21 +106,20 @@ public class ConfigurationManager {
         return load(clazz, file);
     }
 
-    @SuppressWarnings({"rawtypes", "unchecked"})
     private AbstractConfiguration load(Class clazz, File file) {
         if (file.exists()) {
             try {
                 return ConfigurationPersister.getInstance().load(clazz, file);
-            } catch (Exception ex) {
-                ex.printStackTrace();
+            } catch (Exception e) {
+                ExceptionDialog.hideException(e);
             }
         }
 
         return null;
     }
 
-    @SuppressWarnings("rawtypes")
-    void addConfigurationListener(Class clazz, ConfigurationListenerIF listener) {
+    void addConfigurationListener(Class<?> clazz,
+            ConfigurationListenerIF listener) {
         WeakHashSet<ConfigurationListenerIF> listeners;
         String key;
 
@@ -136,8 +134,7 @@ public class ConfigurationManager {
         listeners.add(listener);
     }
 
-    @SuppressWarnings("rawtypes")
-    void removeConfigurationListener(Class clazz,
+    void removeConfigurationListener(Class<?> clazz,
             ConfigurationListenerIF listener) {
         Set<ConfigurationListenerIF> listeners;
 
@@ -147,8 +144,7 @@ public class ConfigurationManager {
         }
     }
 
-    @SuppressWarnings("rawtypes")
-    void fireChanged(Class clazz) {
+    void fireChanged(Class<?> clazz) {
         Set<ConfigurationListenerIF> listeners;
 
         listeners = listenerMap.get(clazz.getName());

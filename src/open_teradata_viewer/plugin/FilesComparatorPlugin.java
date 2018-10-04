@@ -33,8 +33,9 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 
 import net.sourceforge.open_teradata_viewer.ApplicationFrame;
+import net.sourceforge.open_teradata_viewer.ExceptionDialog;
 import net.sourceforge.open_teradata_viewer.Main;
-import net.sourceforge.open_teradata_viewer.plugin.PluginEntry;
+import net.sourceforge.open_teradata_viewer.plugin.IPluginEntry;
 import net.sourceforge.open_teradata_viewer.util.SwingUtil;
 import open_teradata_viewer.plugin.actions.Actions;
 
@@ -49,7 +50,10 @@ import org.files_comparator.util.prefs.WindowPreference;
  * @author D. Campione
  *
  */
-public class FilesComparatorPlugin extends JFrame implements PluginEntry, Runnable {
+public class FilesComparatorPlugin extends JFrame
+        implements
+            IPluginEntry,
+            Runnable {
 
     private static final long serialVersionUID = -8762617897106467374L;
 
@@ -63,8 +67,8 @@ public class FilesComparatorPlugin extends JFrame implements PluginEntry, Runnab
         PLUGIN = this;
         try {
             initComponents();
-        } catch (Throwable e) {
-            e.printStackTrace();
+        } catch (Throwable t) {
+            ExceptionDialog.hideException(t);
         }
     }
 
@@ -91,8 +95,7 @@ public class FilesComparatorPlugin extends JFrame implements PluginEntry, Runnab
             fileMenu.add(Actions.FILES_COMPARATOR);
         }
 
-        setTitle(String.format("%s ( %s )", Main.APPLICATION_NAME,
-                FilesComparatorPlugin.getInstance()));
+        setTitle(String.format("%s ( %s )", Main.APPLICATION_NAME, this));
         double screenWidth = Toolkit.getDefaultToolkit().getScreenSize()
                 .getWidth();
         double screenHeight = Toolkit.getDefaultToolkit().getScreenSize()

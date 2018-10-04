@@ -23,7 +23,6 @@ import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
-import org.files_comparator.ui.action.ActionHandler;
 import org.files_comparator.ui.swing.table.FilesComparatorTreeTableModel;
 import org.files_comparator.util.conf.ConfigurationListenerIF;
 import org.files_comparator.util.file.FolderDiff;
@@ -42,8 +41,7 @@ public class VersionControlPanel extends AbstractContentPanel
 
     private FilesComparatorPanel mainPanel;
     private FolderDiff diff;
-    @SuppressWarnings("unused")
-    private ActionHandler actionHandler;
+
     private JPanel bufferDiffPanelHolder;
 
     VersionControlPanel(FilesComparatorPanel mainPanel, FolderDiff diff) {

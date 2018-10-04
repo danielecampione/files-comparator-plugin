@@ -159,12 +159,10 @@ public class TabIcon implements Icon {
         return height;
     }
 
-    @SuppressWarnings("unused")
     public void paintIcon(Component c, Graphics g, int x, int y) {
         FontMetrics fm;
         int x0;
         int y0;
-        Rectangle b;
         Icon cIcon;
         Graphics2D g2;
 
