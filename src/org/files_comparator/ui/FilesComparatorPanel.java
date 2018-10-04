@@ -53,6 +53,7 @@ import net.sourceforge.open_teradata_viewer.ExceptionDialog;
 import org.files_comparator.settings.FilesComparatorSettings;
 import org.files_comparator.settings.util.Filter;
 import org.files_comparator.ui.action.ActionHandler;
+import org.files_comparator.ui.action.Actions;
 import org.files_comparator.ui.action.FilesComparatorAction;
 import org.files_comparator.ui.bar.LineNumberBarDialog;
 import org.files_comparator.ui.search.SearchBarDialog;
@@ -84,40 +85,22 @@ import com.jidesoft.swing.JideTabbedPane;
  * @author D. Campione
  *
  */
-public class FilesComparatorPanel extends JPanel
-        implements
-            ConfigurationListenerIF {
+public class FilesComparatorPanel extends JPanel implements
+        ConfigurationListenerIF {
 
     private static final long serialVersionUID = 6792275363984163092L;
 
     // class variables:
     // All actions:
-    private static final String NEW_ACTION = "New";
-    private static final String SAVE_ACTION = "Save";
-    private static final String UNDO_ACTION = "Undo";
-    private static final String REDO_ACTION = "Redo";
-    private static final String RIGHT_ACTION = "Right";
-    private static final String LEFT_ACTION = "Left";
-    private static final String UP_ACTION = "Up";
-    private static final String DOWN_ACTION = "Down";
-    private static final String ZOOMPLUS_ACTION = "ZoomPlus";
-    private static final String ZOOMMIN_ACTION = "ZoomMin";
-    private static final String GOTOSELECTED_ACTION = "GoToSelected";
-    private static final String GOTOFIRST_ACTION = "GoToFirst";
-    private static final String GOTOLAST_ACTION = "GoToLast";
-    private static final String GOTOLINE_ACTION = "GoToLine";
-    private static final String STARTSEARCH_ACTION = "StartSearch";
-    private static final String NEXTSEARCH_ACTION = "NextSearch";
-    private static final String PREVIOUSSEARCH_ACTION = "PreviousSearch";
-    private static final String REFRESH_ACTION = "Refresh";
-    private static final String MERGEMODE_ACTION = "MergeMode";
-    private static final String HELP_ACTION = "Help";
-    private static final String SETTINGS_ACTION = "Settings";
-    private static final String EXIT_ACTION = "Exit";
+    public final Actions actions = new Actions();
 
     // Options (enable/disable before adding this component to its container)
     public final Option SHOW_TOOLBAR_OPTION = new Option(true);
+    public final Option SHOW_STATUSBAR_OPTION = new Option(true);
     public final Option SHOW_TABBEDPANE_OPTION = new Option(true);
+    public final Option SHOW_FILE_TOOLBAR_OPTION = new Option(true);
+    public final Option SHOW_FILE_STATUSBAR_OPTION = new Option(true);
+    public final Option STANDALONE_INSTALLKEY_OPTION = new Option(false);
 
     // instance variables:
     private ActionHandler actionHandler;
@@ -159,9 +142,11 @@ public class FilesComparatorPanel extends JPanel
         //   after the instantiation of tabbedPane.
         initActions();
 
-        // Watch out: actionHandler gets initialized in 'initActions' so this
-        //   statement should be AFTER initActions();
-        tabbedPane.setCloseAction(actionHandler.get(EXIT_ACTION));
+        if (SHOW_TABBEDPANE_OPTION.isEnabled()) {
+            // Watch out: actionHandler gets initialized in 'initActions' so this
+            //   statement should be AFTER initActions();
+            tabbedPane.setCloseAction(getAction(actions.EXIT));
+        }
 
         setLayout(new BorderLayout());
         addToolBar();
@@ -270,8 +255,12 @@ public class FilesComparatorPanel extends JPanel
         new NewDirectoryComparisonPanel(leftFile, rightFile, filter).execute();
     }
 
-    public void openVersionControlComparison(File directory) {
-        new NewVersionControlComparisonPanel(directory).execute();
+    public void openVersionControlComparison(File file) {
+        new NewVersionControlComparisonPanel(file).execute();
+    }
+
+    public FilesComparatorAction getAction(Actions.Action action) {
+        return getActionHandler().get(action);
     }
 
     public void addToolBar() {
@@ -298,25 +287,24 @@ public class FilesComparatorPanel extends JPanel
 
         builder = new ToolBarBuilder(tb);
 
-        button = WidgetFactory.getToolBarButton(actionHandler.get(NEW_ACTION));
+        button = WidgetFactory.getToolBarButton(getAction(actions.NEW));
         builder.addButton(button);
-        button = WidgetFactory.getToolBarButton(actionHandler.get(SAVE_ACTION));
+        button = WidgetFactory.getToolBarButton(getAction(actions.SAVE));
         builder.addButton(button);
 
         builder.addSeparator();
 
-        button = WidgetFactory.getToolBarButton(actionHandler.get(UNDO_ACTION));
+        button = WidgetFactory.getToolBarButton(getAction(actions.UNDO));
         builder.addButton(button);
-        button = WidgetFactory.getToolBarButton(actionHandler.get(REDO_ACTION));
+        button = WidgetFactory.getToolBarButton(getAction(actions.REDO));
         builder.addButton(button);
 
         builder.addSpring();
 
-        button = WidgetFactory.getToolBarButton(actionHandler
-                .get(SETTINGS_ACTION));
+        button = WidgetFactory.getToolBarButton(getAction(actions.SETTINGS));
         builder.addButton(button);
 
-        button = WidgetFactory.getToolBarButton(actionHandler.get(HELP_ACTION));
+        button = WidgetFactory.getToolBarButton(getAction(actions.HELP));
         builder.addButton(button);
 
         return tb;
@@ -329,7 +317,9 @@ public class FilesComparatorPanel extends JPanel
 
         barContainer = new JPanel(new FormLayout("0:grow", "pref, pref, pref"));
         barContainer.add(new JSeparator(), cc.xy(1, 2));
-        barContainer.add(StatusBar.getInstance(), cc.xy(1, 3));
+        if (SHOW_STATUSBAR_OPTION.isEnabled()) {
+            barContainer.add(StatusBar.getInstance(), cc.xy(1, 3));
+        }
 
         return barContainer;
     }
@@ -347,96 +337,100 @@ public class FilesComparatorPanel extends JPanel
 
         actionHandler = new ActionHandler();
 
-        action = actionHandler.createAction(this, NEW_ACTION);
+        action = actionHandler.createAction(this, actions.NEW);
         action.setIcon("stock_new");
         action.setToolTip("Merge 2 new files");
 
-        action = actionHandler.createAction(this, SAVE_ACTION);
+        action = actionHandler.createAction(this, actions.SAVE);
         action.setIcon("stock_save");
         action.setToolTip("Save the changed files");
-        installKey("ctrl S", action);
+        if (!STANDALONE_INSTALLKEY_OPTION.isEnabled()) {
+            installKey("ctrl S", action);
+        }
 
-        action = actionHandler.createAction(this, UNDO_ACTION);
+        action = actionHandler.createAction(this, actions.UNDO);
         action.setIcon("stock_undo");
         action.setToolTip("Undo the latest change");
         installKey("control Z", action);
         installKey("control Y", action);
 
-        action = actionHandler.createAction(this, REDO_ACTION);
+        action = actionHandler.createAction(this, actions.REDO);
         action.setIcon("stock_redo");
         action.setToolTip("Redo the latest change");
         installKey("control R", action);
 
-        action = actionHandler.createAction(this, LEFT_ACTION);
+        action = actionHandler.createAction(this, actions.LEFT);
         installKey("LEFT", action);
         installKey("alt LEFT", action);
         installKey("alt KP_LEFT", action);
 
-        action = actionHandler.createAction(this, RIGHT_ACTION);
+        action = actionHandler.createAction(this, actions.RIGHT);
         installKey("RIGHT", action);
         installKey("alt RIGHT", action);
         installKey("alt KP_RIGHT", action);
 
-        action = actionHandler.createAction(this, UP_ACTION);
+        action = actionHandler.createAction(this, actions.UP);
         installKey("UP", action);
         installKey("alt UP", action);
         installKey("alt KP_UP", action);
         installKey("F7", action);
 
-        action = actionHandler.createAction(this, DOWN_ACTION);
+        action = actionHandler.createAction(this, actions.DOWN);
         installKey("DOWN", action);
         installKey("alt DOWN", action);
         installKey("alt KP_DOWN", action);
         installKey("F8", action);
 
-        action = actionHandler.createAction(this, ZOOMPLUS_ACTION);
+        action = actionHandler.createAction(this, actions.ZOOM_PLUS);
         installKey("alt EQUALS", action);
         installKey("shift alt EQUALS", action);
         installKey("alt ADD", action);
 
-        action = actionHandler.createAction(this, ZOOMMIN_ACTION);
+        action = actionHandler.createAction(this, actions.ZOOM_MIN);
         installKey("alt MINUS", action);
         installKey("shift alt MINUS", action);
         installKey("alt SUBTRACT", action);
 
-        action = actionHandler.createAction(this, GOTOSELECTED_ACTION);
+        action = actionHandler.createAction(this, actions.GOTO_SELECTED);
         installKey("alt ENTER", action);
 
-        action = actionHandler.createAction(this, GOTOFIRST_ACTION);
+        action = actionHandler.createAction(this, actions.GOTO_FIRST);
         installKey("alt HOME", action);
 
-        action = actionHandler.createAction(this, GOTOLAST_ACTION);
+        action = actionHandler.createAction(this, actions.GOTO_LAST);
         installKey("alt END", action);
 
-        action = actionHandler.createAction(this, GOTOLINE_ACTION);
+        action = actionHandler.createAction(this, actions.GOTO_LINE);
         installKey("ctrl L", action);
 
-        action = actionHandler.createAction(this, STARTSEARCH_ACTION);
+        action = actionHandler.createAction(this, actions.START_SEARCH);
         installKey("ctrl F", action);
 
-        action = actionHandler.createAction(this, NEXTSEARCH_ACTION);
+        action = actionHandler.createAction(this, actions.NEXT_SEARCH);
         installKey("F3", action);
         installKey("ctrl G", action);
 
-        action = actionHandler.createAction(this, PREVIOUSSEARCH_ACTION);
+        action = actionHandler.createAction(this, actions.PREVIOUS_SEARCH);
         installKey("shift F3", action);
 
-        action = actionHandler.createAction(this, REFRESH_ACTION);
+        action = actionHandler.createAction(this, actions.REFRESH);
         installKey("F5", action);
 
-        action = actionHandler.createAction(this, MERGEMODE_ACTION);
+        action = actionHandler.createAction(this, actions.MERGEMODE);
         installKey("F9", action);
 
-        action = actionHandler.createAction(this, HELP_ACTION);
-        action.setIcon("stock_help-agent");
-        installKey("F1", action);
+        if (!STANDALONE_INSTALLKEY_OPTION.isEnabled()) {
+            action = actionHandler.createAction(this, actions.HELP);
+            action.setIcon("stock_help-agent");
+            installKey("F1", action);
 
-        action = actionHandler.createAction(this, SETTINGS_ACTION);
-        action.setIcon("stock_preferences");
-        action.setToolTip("Settings");
+            action = actionHandler.createAction(this, actions.SETTINGS);
+            action.setIcon("stock_preferences");
+            action.setToolTip("Settings");
 
-        action = actionHandler.createAction(this, EXIT_ACTION);
-        installKey("ESCAPE", action);
+            action = actionHandler.createAction(this, actions.EXIT);
+            installKey("ESCAPE", action);
+        }
     }
 
     public ActionHandler getActionHandler() {
@@ -626,16 +620,16 @@ public class FilesComparatorPanel extends JPanel
 
         mergeMode = !mergeMode;
 
-        action = actionHandler.get(LEFT_ACTION);
+        action = getAction(actions.LEFT);
         installKey(mergeMode, "LEFT", action);
 
-        action = actionHandler.get(RIGHT_ACTION);
+        action = getAction(actions.RIGHT);
         installKey(mergeMode, "RIGHT", action);
 
-        action = actionHandler.get(UP_ACTION);
+        action = getAction(actions.UP);
         installKey(mergeMode, "UP", action);
 
-        action = actionHandler.get(DOWN_ACTION);
+        action = getAction(actions.DOWN);
         installKey(mergeMode, "DOWN", action);
 
         getCurrentContentPanel().doMergeMode(mergeMode);
@@ -645,11 +639,12 @@ public class FilesComparatorPanel extends JPanel
             StatusBar
                     .getInstance()
                     .setNotification(
-                            MERGEMODE_ACTION,
+                            actions.MERGEMODE.getName(),
                             ImageUtil
                                     .getSmallImageIcon("files-comparator_mergemode-on"));
         } else {
-            StatusBar.getInstance().removeNotification(MERGEMODE_ACTION);
+            StatusBar.getInstance().removeNotification(
+                    actions.MERGEMODE.getName());
         }
     }
 
@@ -767,6 +762,7 @@ public class FilesComparatorPanel extends JPanel
 
     private ChangeListener getChangeListener() {
         return new ChangeListener() {
+            @Override
             public void stateChanged(ChangeEvent e) {
                 checkActions();
             }
@@ -917,6 +913,7 @@ public class FilesComparatorPanel extends JPanel
 
         private Runnable getDoGoToFirst() {
             return new Runnable() {
+                @Override
                 public void run() {
                     panel.doGoToFirst();
                     panel.repaint();
@@ -1028,36 +1025,29 @@ public class FilesComparatorPanel extends JPanel
      */
     class NewVersionControlComparisonPanel extends SwingWorker<String, Object> {
 
-        private File directory;
+        private File file;
         private VersionControlDiff diff;
         private AbstractContentPanel contentPanel;
         private String contentId;
 
-        NewVersionControlComparisonPanel(File directory) {
-            this.directory = directory;
+        NewVersionControlComparisonPanel(File file) {
+            this.file = file;
         }
 
         @Override
         public String doInBackground() {
-            if (StringUtil.isEmpty(directory.getName())) {
-                return "directory is empty";
+            if (StringUtil.isEmpty(file.getName())) {
+                return "file is empty";
             }
 
-            if (!directory.exists()) {
-                return "directory(" + directory.getAbsolutePath()
-                        + ") doesn't exist";
+            if (!file.exists()) {
+                return "file(" + file.getAbsolutePath() + ") doesn't exist";
             }
 
-            if (!directory.isDirectory()) {
-                return "directoryName(" + directory.getName()
-                        + ") is not a directory";
-            }
-
-            contentId = "VersionControlDiffPanel:" + directory.getName();
+            contentId = "VersionControlDiffPanel:" + file.getName();
             contentPanel = getAlreadyOpen(contentId);
             if (contentPanel == null) {
-                diff = new VersionControlDiff(directory,
-                        DirectoryDiff.Mode.TWO_WAY);
+                diff = new VersionControlDiff(file, DirectoryDiff.Mode.TWO_WAY);
                 diff.diff();
             }
 
@@ -1196,6 +1186,7 @@ public class FilesComparatorPanel extends JPanel
         }
     }
 
+    @Override
     public void configurationChanged() {
         checkActions();
     }
@@ -1207,6 +1198,7 @@ public class FilesComparatorPanel extends JPanel
      *
      */
     public class Option {
+
         private boolean enabled;
 
         Option(boolean enabled) {
@@ -1215,6 +1207,10 @@ public class FilesComparatorPanel extends JPanel
 
         public boolean isEnabled() {
             return enabled;
+        }
+
+        public boolean isDisabled() {
+            return !isEnabled();
         }
 
         public void enable() {
@@ -1240,13 +1236,16 @@ public class FilesComparatorPanel extends JPanel
 
     private AncestorListener getAncestorListener() {
         return new AncestorListener() {
+            @Override
             public void ancestorAdded(AncestorEvent event) {
                 start();
             }
 
+            @Override
             public void ancestorMoved(AncestorEvent event) {
             }
 
+            @Override
             public void ancestorRemoved(AncestorEvent event) {
             }
         };

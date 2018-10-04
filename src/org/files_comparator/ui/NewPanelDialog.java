@@ -76,6 +76,7 @@ public class NewPanelDialog {
 
     private static String RIGHT_FILENAME = "RIGHT_FILENAME";
     private static String LEFT_FILENAME = "LEFT_FILENAME";
+    private static String previousDirectoryName;
 
     // Directory comparison:
     private static String RIGHT_DIRECTORY = "RIGHT_DIRECTORY";
@@ -116,17 +117,17 @@ public class NewPanelDialog {
             if (ObjectUtil.equals(pane.getValue(), JOptionPane.OK_OPTION)) {
                 switch (tabbedPane.getSelectedIndex()) {
 
-                    case 0 :
-                        setFunction(Function.FILE_COMPARISON);
-                        break;
+                case 0:
+                    setFunction(Function.FILE_COMPARISON);
+                    break;
 
-                    case 1 :
-                        setFunction(Function.DIRECTORY_COMPARISON);
-                        break;
+                case 1:
+                    setFunction(Function.DIRECTORY_COMPARISON);
+                    break;
 
-                    case 2 :
-                        setFunction(Function.VERSION_CONTROL);
-                        break;
+                case 2:
+                    setFunction(Function.VERSION_CONTROL);
+                    break;
                 }
             }
         } finally {
@@ -234,6 +235,7 @@ public class NewPanelDialog {
     public ActionListener getFileBrowseAction() {
         return new ActionListener() {
 
+            @Override
             public void actionPerformed(ActionEvent ae) {
                 FileChooserPreference pref;
                 JFileChooser chooser;
@@ -285,6 +287,7 @@ public class NewPanelDialog {
 
     public ActionListener getFileSelectAction() {
         return new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent ae) {
                 Object source;
 
@@ -352,6 +355,7 @@ public class NewPanelDialog {
     public ActionListener getDirectoryBrowseAction() {
         return new ActionListener() {
 
+            @Override
             public void actionPerformed(ActionEvent ae) {
                 DirectoryChooserPreference pref;
                 JFileChooser chooser;
@@ -369,7 +373,7 @@ public class NewPanelDialog {
                 chooser.setDialogTitle("Choose directory");
                 chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
                 pref = new DirectoryChooserPreference("Browse-"
-                        + ae.getActionCommand(), chooser);
+                        + ae.getActionCommand(), chooser, previousDirectoryName);
 
                 ancestor = SwingUtilities.getWindowAncestor((Component) ae
                         .getSource());
@@ -380,6 +384,7 @@ public class NewPanelDialog {
 
                     try {
                         fileName = chooser.getSelectedFile().getCanonicalPath();
+                        previousDirectoryName = fileName;
 
                         comboBox = null;
                         if (ae.getActionCommand().equals(LEFT_DIRECTORY)) {
@@ -404,6 +409,7 @@ public class NewPanelDialog {
 
     public ActionListener getDirectorySelectAction() {
         return new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent ae) {
                 Object source;
 
@@ -422,6 +428,7 @@ public class NewPanelDialog {
     public ActionListener getVersionControlDirectoryBrowseAction() {
         return new ActionListener() {
 
+            @Override
             public void actionPerformed(ActionEvent ae) {
                 DirectoryChooserPreference pref;
                 JFileChooser chooser;
@@ -439,7 +446,7 @@ public class NewPanelDialog {
                 chooser.setDialogTitle("Choose directory");
                 chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
                 pref = new DirectoryChooserPreference("VersionControlBrowse",
-                        chooser);
+                        chooser, previousDirectoryName);
 
                 ancestor = SwingUtilities.getWindowAncestor((Component) ae
                         .getSource());
@@ -450,6 +457,7 @@ public class NewPanelDialog {
 
                     try {
                         fileName = chooser.getSelectedFile().getCanonicalPath();
+                        previousDirectoryName = fileName;
 
                         comboBox = versionControlDirectoryComboBox;
                         comboBox.insertItemAt(fileName, 0);
@@ -465,6 +473,7 @@ public class NewPanelDialog {
 
     public ActionListener getVersionControlDirectorySelectAction() {
         return new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent ae) {
                 versionControlDirectoryName = (String) versionControlDirectoryComboBox
                         .getSelectedItem();

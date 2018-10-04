@@ -112,6 +112,8 @@ public class FilterSettings extends AbstractConfigurationElement {
                 FilterRule.Rule.excludes, "**/SCCS/**", true));
         filter.addRule(new FilterRule("Versioncontrol",
                 FilterRule.Rule.excludes, "**/vssver.scc", true));
+        filter.addRule(new FilterRule("Versioncontrol",
+                FilterRule.Rule.excludes, "**/.SYNC", true));
         filter.addRule(new FilterRule("Mac", FilterRule.Rule.excludes,
                 "**/.DS_Store", true));
         filter.addRule(new FilterRule("Media", FilterRule.Rule.excludes,

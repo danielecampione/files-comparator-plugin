@@ -1,3 +1,6 @@
+0.03a (10/02/2014)
+    - Minor bugs fixed.
+
 0.02c (14/01/2014)
     - Guaranteed compatibility with Open Teradata Viewer 0.2a.
     - Moved files comparator from using StringBuffer to using StringBuilder.

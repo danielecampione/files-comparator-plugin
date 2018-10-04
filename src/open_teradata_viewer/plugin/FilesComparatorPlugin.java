@@ -50,10 +50,8 @@ import org.files_comparator.util.prefs.WindowPreference;
  * @author D. Campione
  *
  */
-public class FilesComparatorPlugin extends JFrame
-        implements
-            IPluginEntry,
-            Runnable {
+public class FilesComparatorPlugin extends JFrame implements IPluginEntry,
+        Runnable {
 
     private static final long serialVersionUID = -8762617897106467374L;
 
@@ -107,7 +105,7 @@ public class FilesComparatorPlugin extends JFrame
                 (int) (screenHeight * .2)));
         SwingUtil.centerWithinScreen(this);
         setLayout(new BorderLayout());
-        filesComparatorPanel = new FilesComparatorPanel();
+        setFilesComparatorPanel(new FilesComparatorPanel());
         getContentPane().add(getFilesComparatorPanel(), BorderLayout.CENTER);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -168,7 +166,6 @@ public class FilesComparatorPlugin extends JFrame
     @Override
     public void run() {
         debugKeyboard();
-        setFilesComparatorPanel(new FilesComparatorPanel());
     }
 
     void debugKeyboard() {

@@ -130,6 +130,7 @@ import org.files_comparator.util.node.FileNode;
  * 
  */
 public class DirectoryScanner implements SelectorScanner, ResourceFactory {
+
     /** Is OpenVMS the operating system we're running on? */
     private static final boolean ON_VMS = Os.isFamily("openvms");
 
@@ -137,10 +138,10 @@ public class DirectoryScanner implements SelectorScanner, ResourceFactory {
     private static final FileUtils FILE_UTILS = FileUtils.getFileUtils();
 
     /** iterations for case-sensitive scanning. */
-    private static final boolean[] CS_SCAN_ONLY = new boolean[]{true};
+    private static final boolean[] CS_SCAN_ONLY = new boolean[] { true };
 
     /** iterations for non-case-sensitive scanning. */
-    private static final boolean[] CS_THEN_NON_CS = new boolean[]{true, false};
+    private static final boolean[] CS_THEN_NON_CS = new boolean[] { true, false };
 
     /**
      * Show state information in the statusbar.
@@ -228,7 +229,7 @@ public class DirectoryScanner implements SelectorScanner, ResourceFactory {
     /**
      * List of all scanned directories.
      */
-    private Set<String> scannedDirs = new HashSet<String>();
+    private Set<File> scannedDirs = new HashSet<File>();
 
     /**
      * Set of all include patterns that are full file names and don't
@@ -585,6 +586,7 @@ public class DirectoryScanner implements SelectorScanner, ResourceFactory {
      *
      * @param selectors specifies the selectors to be invoked on a scan.
      */
+    @Override
     public synchronized void setSelectors(FileSelector[] selectors) {
         this.selectors = selectors;
     }
@@ -863,7 +865,7 @@ public class DirectoryScanner implements SelectorScanner, ResourceFactory {
         }
 
         // avoid double scanning of directories, can only happen in fast mode
-        if (fast && hasBeenScanned(vpath)) {
+        if (fast && hasBeenScanned(dir)) {
             return;
         }
 
@@ -1001,8 +1003,7 @@ public class DirectoryScanner implements SelectorScanner, ResourceFactory {
     protected boolean isIncluded(String name) {
         ensureNonPatternSetsReady();
 
-        if (isCaseSensitive()
-                ? includeNonPatterns.contains(name)
+        if (isCaseSensitive() ? includeNonPatterns.contains(name)
                 : includeNonPatterns.contains(name.toUpperCase())) {
             return true;
         }
@@ -1106,8 +1107,7 @@ public class DirectoryScanner implements SelectorScanner, ResourceFactory {
     protected boolean isExcluded(String name) {
         ensureNonPatternSetsReady();
 
-        if (isCaseSensitive()
-                ? excludeNonPatterns.contains(name)
+        if (isCaseSensitive() ? excludeNonPatterns.contains(name)
                 : excludeNonPatterns.contains(name.toUpperCase())) {
             return true;
         }
@@ -1212,6 +1212,7 @@ public class DirectoryScanner implements SelectorScanner, ResourceFactory {
      *
      * @see #slowScan
      */
+    @Override
     public synchronized String[] getDeselectedFiles() {
         slowScan();
         return filesDeselected.toArray(new String[filesDeselected.size()]);
@@ -1292,6 +1293,7 @@ public class DirectoryScanner implements SelectorScanner, ResourceFactory {
      *
      * @see #slowScan
      */
+    @Override
     public synchronized String[] getDeselectedDirectories() {
         slowScan();
         return dirsDeselected.toArray(new String[dirsDeselected.size()]);
@@ -1303,6 +1305,7 @@ public class DirectoryScanner implements SelectorScanner, ResourceFactory {
      * @param name path name of the file relative to the dir attribute.
      * @return the resource with the given name.
      */
+    @Override
     public synchronized Resource getResource(String name) {
         File f = FILE_UTILS.resolveFile(basedir, name);
         return new Resource(name, f.exists(), f.lastModified(),
@@ -1411,14 +1414,19 @@ public class DirectoryScanner implements SelectorScanner, ResourceFactory {
         }
         return false;
     }
+
     /**
      * Has the directory with the given path relative to the base
      * directory already been scanned?
      *
      * <p>Registers the given directory as scanned as a side effect.</p>
      */
-    private boolean hasBeenScanned(String vpath) {
-        return !scannedDirs.add(vpath);
+    private boolean hasBeenScanned(File dir) {
+        try {
+            return !scannedDirs.add(dir.getCanonicalFile());
+        } catch (IOException ex) {
+            return true;
+        }
     }
 
     /**
@@ -1426,7 +1434,7 @@ public class DirectoryScanner implements SelectorScanner, ResourceFactory {
      * Set is live and should not be modified.
      * @return the Set of relative directory names that have been scanned.
      */
-    /* package-private */Set<String> getScannedDirs() {
+    /* package-private */Set<File> getScannedDirs() {
         return scannedDirs;
     }
 

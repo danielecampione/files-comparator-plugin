@@ -29,20 +29,20 @@ import java.util.Map;
  */
 public class ActionHandler {
 
-    private Map<String, FilesComparatorAction> actions = new HashMap<String, FilesComparatorAction>();
+    private Map<Actions.Action, FilesComparatorAction> actions = new HashMap<Actions.Action, FilesComparatorAction>();
 
     public ActionHandler() {
     }
 
-    public FilesComparatorAction get(String name) {
-        return actions.get(name);
+    public FilesComparatorAction get(Actions.Action a) {
+        return actions.get(a);
     }
 
-    public FilesComparatorAction createAction(Object object, String name) {
+    public FilesComparatorAction createAction(Object object, Actions.Action a) {
         FilesComparatorAction action;
 
-        action = new FilesComparatorAction(this, object, name);
-        actions.put(name, action);
+        action = new FilesComparatorAction(this, object, a.getName());
+        actions.put(a, action);
 
         checkActions();
 
