@@ -1,3 +1,7 @@
+0.03b (14/03/2014)
+    - Upgraded forms library 1.7.2 -> 1.8.0
+    - Upgraded common library 1.7.0 -> 1.8.0
+
 0.03a (10/02/2014)
     - Minor bugs fixed.
 
