@@ -1,6 +1,6 @@
 /*
  * Open Teradata Viewer ( files comparator plugin )
- * Copyright (C) 2011, D. Campione
+ * Copyright (C) 2014, D. Campione
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -123,10 +123,11 @@ public abstract class Delta extends org.apache.commons.jrcs.util.ToString {
 
     /**
      * Converts this delta into its Unix diff style string representation.
-     * @param s a {@link StringBuffer StringBuffer} to which the string
+     * @param s a {@link StringBuilder StringBuilder} to which the string
      * representation will be appended.
      */
-    public void toString(StringBuffer s) {
+    @Override
+    public void toString(StringBuilder s) {
         original.rangeString(s);
         s.append("x");
         revised.rangeString(s);
@@ -139,18 +140,18 @@ public abstract class Delta extends org.apache.commons.jrcs.util.ToString {
 
     /**
      * Converts this delta into its RCS style string representation.
-     * @param s a {@link StringBuffer StringBuffer} to which the string
+     * @param s a {@link StringBuilder StringBuilder} to which the string
      * representation will be appended.
      * @param EOL the string to use as line separator.
      */
-    public abstract void toRCSString(StringBuffer s, String EOL);
+    public abstract void toRCSString(StringBuilder s, String EOL);
 
     /**
      * Converts this delta into its RCS style string representation.
      * @param EOL the string to use as line separator.
      */
     public String toRCSString(String EOL) {
-        StringBuffer s = new StringBuffer();
+        StringBuilder s = new StringBuilder();
 
         toRCSString(s, EOL);
         return s.toString();

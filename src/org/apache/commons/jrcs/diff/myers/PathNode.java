@@ -1,6 +1,6 @@
 /*
  * Open Teradata Viewer ( files comparator plugin )
- * Copyright (C) 2011, D. Campione
+ * Copyright (C) 2014, D. Campione
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -89,8 +89,9 @@ public abstract class PathNode {
     /**
      * {@inheritDoc}
      */
+    @Override
     public String toString() {
-        StringBuffer buf = new StringBuffer("[");
+        StringBuilder buf = new StringBuilder("[");
         PathNode node = this;
 
         while (node != null) {

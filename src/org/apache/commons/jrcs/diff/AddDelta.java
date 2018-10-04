@@ -1,6 +1,6 @@
 /*
  * Open Teradata Viewer ( files comparator plugin )
- * Copyright (C) 2011, D. Campione
+ * Copyright (C) 2014, D. Campione
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,17 +37,19 @@ public class AddDelta extends Delta {
         init(new Chunk(origpos, 0), rev);
     }
 
+    @Override
     public void verify(List<?> target) throws PatchFailedException {
         if (original.first() > target.size()) {
             throw new PatchFailedException("original.first() > target.size()");
         }
     }
 
+    @Override
     public void applyTo(List<?> target) {
         revised.applyAdd(original.first(), target);
     }
 
-    public void toString(StringBuffer s) {
+    public void toString(StringBuilder s) {
         s.append(original.anchor());
         s.append("a");
         s.append(revised.rangeString());
@@ -55,7 +57,8 @@ public class AddDelta extends Delta {
         revised.toString(s, "> ", Diff.NL);
     }
 
-    public void toRCSString(StringBuffer s, String EOL) {
+    @Override
+    public void toRCSString(StringBuilder s, String EOL) {
         s.append("a");
         s.append(original.anchor());
         s.append(" ");
@@ -68,6 +71,7 @@ public class AddDelta extends Delta {
         visitor.visit(this);
     }
 
+    @Override
     public void accept(RevisionVisitor visitor) {
         visitor.visit(this);
     }

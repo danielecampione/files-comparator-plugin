@@ -1,6 +1,6 @@
 /*
  * Open Teradata Viewer ( files comparator plugin )
- * Copyright (C) 2011, D. Campione
+ * Copyright (C) 2014, D. Campione
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -260,7 +260,7 @@ public final class SelectorUtils {
             int patLength = (patIdxTmp - patIdxStart - 1);
             int strLength = (strIdxEnd - strIdxStart + 1);
             int foundIdx = -1;
-            strLoop : for (int i = 0; i <= strLength - patLength; i++) {
+            strLoop: for (int i = 0; i <= strLength - patLength; i++) {
                 for (int j = 0; j < patLength; j++) {
                     String subPat = patDirs[patIdxStart + j + 1];
                     String subStr = strDirs[strIdxStart + i + j];
@@ -445,7 +445,7 @@ public final class SelectorUtils {
             int patLength = (patIdxTmp - patIdxStart - 1);
             int strLength = (strIdxEnd - strIdxStart + 1);
             int foundIdx = -1;
-            strLoop : for (int i = 0; i <= strLength - patLength; i++) {
+            strLoop: for (int i = 0; i <= strLength - patLength; i++) {
                 for (int j = 0; j < patLength; j++) {
                     ch = patArr[patIdxStart + j + 1];
                     if (ch != '?') {
@@ -615,7 +615,7 @@ public final class SelectorUtils {
      * @return a String that has had all whitespace removed.
      */
     public static String removeWhitespace(String input) {
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
         if (input != null) {
             StringTokenizer st = new StringTokenizer(input);
             while (st.hasMoreTokens()) {
@@ -641,7 +641,7 @@ public final class SelectorUtils {
      */
     public static String rtrimWildcardTokens(String input) {
         Vector<String> v = tokenizePath(input, File.separator);
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (int counter = 0; counter < v.size(); counter++) {
             if (hasWildcards((String) v.elementAt(counter))) {
                 break;

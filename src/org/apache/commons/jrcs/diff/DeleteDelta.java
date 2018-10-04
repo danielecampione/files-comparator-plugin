@@ -1,6 +1,6 @@
 /*
  * Open Teradata Viewer ( files comparator plugin )
- * Copyright (C) 2011, D. Campione
+ * Copyright (C) 2014, D. Campione
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,17 +37,19 @@ public class DeleteDelta extends Delta {
         init(orig, null);
     }
 
+    @Override
     public void verify(List<?> target) throws PatchFailedException {
         if (!original.verify(target)) {
             throw new PatchFailedException();
         }
     }
 
+    @Override
     public void applyTo(List<?> target) {
         original.applyDelete(target);
     }
 
-    public void toString(StringBuffer s) {
+    public void toString(StringBuilder s) {
         s.append(original.rangeString());
         s.append("d");
         s.append(revised.rcsto());
@@ -55,7 +57,8 @@ public class DeleteDelta extends Delta {
         original.toString(s, "< ", Diff.NL);
     }
 
-    public void toRCSString(StringBuffer s, String EOL) {
+    @Override
+    public void toRCSString(StringBuilder s, String EOL) {
         s.append("d");
         s.append(original.rcsfrom());
         s.append(" ");
@@ -63,6 +66,7 @@ public class DeleteDelta extends Delta {
         s.append(EOL);
     }
 
+    @Override
     public void accept(RevisionVisitor visitor) {
         visitor.visit(this);
     }

@@ -1,6 +1,6 @@
 /*
  * Open Teradata Viewer ( files comparator plugin )
- * Copyright (C) 2011, D. Campione
+ * Copyright (C) 2014, D. Campione
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -215,7 +215,8 @@ public class Chunk extends org.apache.commons.jrcs.util.ToString {
      * Provide a string image of the chunk using the an empty prefix and
      * postfix.
      */
-    public void toString(StringBuffer s) {
+    @Override
+    public void toString(StringBuilder s) {
         toString(s, "", "");
     }
 
@@ -227,7 +228,7 @@ public class Chunk extends org.apache.commons.jrcs.util.ToString {
      * @param prefix the text thatshould prefix each line.
      * @param postfix the text that should end each line.
      */
-    public StringBuffer toString(StringBuffer s, String prefix, String postfix) {
+    public StringBuilder toString(StringBuilder s, String prefix, String postfix) {
         if (chunk != null) {
             Iterator<Object> i = chunk.iterator();
 
@@ -273,7 +274,7 @@ public class Chunk extends org.apache.commons.jrcs.util.ToString {
      * Provide a string representation of the numeric range of this chunk.
      */
     public String rangeString() {
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
 
         rangeString(result);
         return result.toString();
@@ -284,7 +285,7 @@ public class Chunk extends org.apache.commons.jrcs.util.ToString {
      * 
      * @param s where the string representation should be appended.
      */
-    public void rangeString(StringBuffer s) {
+    public void rangeString(StringBuilder s) {
         rangeString(s, ",");
     }
 
@@ -294,7 +295,7 @@ public class Chunk extends org.apache.commons.jrcs.util.ToString {
      * @param s where the string representation should be appended.
      * @param separ what to use as line separator.
      */
-    public void rangeString(StringBuffer s, String separ) {
+    public void rangeString(StringBuilder s, String separ) {
         if (size() <= 1) {
             s.append(Integer.toString(rcsfrom()));
         } else {

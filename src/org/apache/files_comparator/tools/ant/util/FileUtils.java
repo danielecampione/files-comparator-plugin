@@ -1,6 +1,6 @@
 /*
  * Open Teradata Viewer ( files comparator plugin )
- * Copyright (C) 2011, D. Campione
+ * Copyright (C) 2014, D. Campione
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -85,8 +85,8 @@ public class FileUtils {
         isSpecial[0x7f] = true;
         escapedChar1[0x7f] = '7';
         escapedChar2[0x7f] = 'F';
-        char[] escChs = {'<', '>', '#', '%', '"', '{', '}', '|', '\\', '^',
-                '~', '[', ']', '`'};
+        char[] escChs = { '<', '>', '#', '%', '"', '{', '}', '|', '\\', '^',
+                '~', '[', ']', '`' };
         int len = escChs.length;
         char ch;
         for (int i = 0; i < len; i++) {
@@ -257,7 +257,7 @@ public class FileUtils {
             dosWithDrive = true;
 
             char[] ca = path.replace('/', '\\').toCharArray();
-            StringBuffer sbRoot = new StringBuffer();
+            StringBuilder sbRoot = new StringBuilder();
             for (int i = 0; i < colon; i++) {
                 sbRoot.append(Character.toUpperCase(ca[i]));
             }
@@ -268,7 +268,7 @@ public class FileUtils {
             root = sbRoot.toString();
 
             // Eliminate consecutive slashes after the drive spec
-            StringBuffer sbPath = new StringBuffer();
+            StringBuilder sbPath = new StringBuilder();
             for (int i = colon + 1; i < ca.length; i++) {
                 if ((ca[i] != '\\') || (ca[i] == '\\' && ca[i - 1] != '\\')) {
                     sbPath.append(ca[i]);
@@ -305,7 +305,7 @@ public class FileUtils {
                 s.push(thisToken);
             }
         }
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < s.size(); i++) {
             if (i > 1) {
                 // not before the filesystem root and not after it, since root
@@ -342,7 +342,7 @@ public class FileUtils {
                 && !name.regionMatches(true, name.length() - 4, ".DIR", 0, 4);
 
         String device = null;
-        StringBuffer directory = null;
+        StringBuilder directory = null;
         String file = null;
 
         int index = 0;
@@ -356,14 +356,14 @@ public class FileUtils {
             }
         }
         if (isDirectory) {
-            directory = new StringBuffer(path.substring(index).replace(
+            directory = new StringBuilder(path.substring(index).replace(
                     File.separatorChar, '.'));
         } else {
             int dirEnd = path.lastIndexOf(File.separatorChar, path.length());
             if (dirEnd == -1 || dirEnd < index) {
                 file = path.substring(index);
             } else {
-                directory = new StringBuffer(path.substring(index, dirEnd)
+                directory = new StringBuilder(path.substring(index, dirEnd)
                         .replace(File.separatorChar, '.'));
                 index = dirEnd + 1;
                 if (path.length() > index) {
@@ -582,12 +582,11 @@ public class FileUtils {
         }
         final char[] buffer = new char[bufferSize];
         int bufferLength = 0;
-        StringBuffer textBuffer = null;
+        StringBuilder textBuffer = null;
         while (bufferLength != -1) {
             bufferLength = rdr.read(buffer);
             if (bufferLength > 0) {
-                textBuffer = (textBuffer == null)
-                        ? new StringBuffer()
+                textBuffer = (textBuffer == null) ? new StringBuilder()
                         : textBuffer;
                 textBuffer.append(new String(buffer, 0, bufferLength));
             }
@@ -686,7 +685,7 @@ public class FileUtils {
     public String toURI(String path) {
         boolean isDir = (new File(path)).isDirectory();
 
-        StringBuffer sb = new StringBuffer("file:");
+        StringBuilder sb = new StringBuilder("file:");
 
         // catch exception if normalize thinks this is not an absolute path
         try {
@@ -746,8 +745,7 @@ public class FileUtils {
      * in order for the two files to be given a creation order.
      */
     public long getFileTimestampGranularity() {
-        return onDos
-                ? FAT_FILE_TIMESTAMP_GRANULARITY
+        return onDos ? FAT_FILE_TIMESTAMP_GRANULARITY
                 : UNIX_FILE_TIMESTAMP_GRANULARITY;
     }
 

@@ -1,6 +1,6 @@
 /*
  * Open Teradata Viewer ( files comparator plugin )
- * Copyright (C) 2011, D. Campione
+ * Copyright (C) 2014, D. Campione
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -139,10 +139,10 @@ public class Revision extends ToString {
 
     /**
      * Converts this revision into its Unix diff style string representation.
-     * @param s a {@link StringBuffer StringBuffer} to which the string
+     * @param s a {@link StringBuilder StringBuilder} to which the string
      * representation will be appended.
      */
-    public synchronized void toString(StringBuffer s) {
+    public synchronized void toString(StringBuilder s) {
         Iterator<Delta> i = deltas_.iterator();
 
         while (i.hasNext()) {
@@ -152,11 +152,11 @@ public class Revision extends ToString {
 
     /**
      * Converts this revision into its RCS style string representation.
-     * @param s a {@link StringBuffer StringBuffer} to which the string
+     * @param s a {@link StringBuilder StringBuilder} to which the string
      * representation will be appended.
      * @param EOL the string to use as line separator.
      */
-    public synchronized void toRCSString(StringBuffer s, String EOL) {
+    public synchronized void toRCSString(StringBuilder s, String EOL) {
         Iterator<Delta> i = deltas_.iterator();
 
         while (i.hasNext()) {
@@ -166,10 +166,10 @@ public class Revision extends ToString {
 
     /**
      * Converts this revision into its RCS style string representation.
-     * @param s a {@link StringBuffer StringBuffer} to which the string
+     * @param s a {@link StringBuilder StringBuilder} to which the string
      * representation will be appended.
      */
-    public void toRCSString(StringBuffer s) {
+    public void toRCSString(StringBuilder s) {
         toRCSString(s, Diff.NL);
     }
 
@@ -178,7 +178,7 @@ public class Revision extends ToString {
      * @param EOL the string to use as line separator.
      */
     public String toRCSString(String EOL) {
-        StringBuffer s = new StringBuffer();
+        StringBuilder s = new StringBuilder();
 
         toRCSString(s, EOL);
         return s.toString();

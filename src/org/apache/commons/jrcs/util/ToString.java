@@ -1,6 +1,6 @@
 /*
  * Open Teradata Viewer ( files comparator plugin )
- * Copyright (C) 2011, D. Campione
+ * Copyright (C) 2014, D. Campione
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ import java.util.List;
 import net.sourceforge.open_teradata_viewer.ExceptionDialog;
 
 /**
- * This class delegates handling of the to a StringBuffer based version.
+ * This class delegates handling of the to a StringBuilder based version.
  *
  * @author D. Campione
  * 
@@ -40,21 +40,22 @@ public class ToString {
     /**
      * Default implementation of the
      * {@link java.lang.Object#toString toString() } method that
-     * delegates work to a {@link java.lang.StringBuffer StringBuffer}
+     * delegates work to a {@link java.lang.StringBuilder StringBuilder}
      * base version.
      */
+    @Override
     public String toString() {
-        StringBuffer s = new StringBuffer();
+        StringBuilder s = new StringBuilder();
 
         toString(s);
         return s.toString();
     }
 
     /**
-     * Place a string image of the object in a StringBuffer.
+     * Place a string image of the object in a StringBuilder.
      * @param s the string buffer.
      */
-    public void toString(StringBuffer s) {
+    public void toString(StringBuilder s) {
         s.append(super.toString());
     }
 
@@ -97,7 +98,7 @@ public class ToString {
      * @param EOL the string to use as line separator.
      */
     public static String arrayToString(Object[] o, String EOL) {
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
 
         for (int i = 0; i < o.length - 1; i++) {
             buf.append(o[i]);
