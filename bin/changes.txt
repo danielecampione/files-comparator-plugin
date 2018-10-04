@@ -1,5 +1,8 @@
+0.02a (31/08/2011)
+    - Guaranteed compatibility with Open Teradata Viewer 0.07b.
+
 0.01c (17/08/2011)
-    - Added the compatibility with the latest version of Open Teradata Viewer.
+    - Guaranteed compatibility with Open Teradata Viewer 0.07a.
 
 0.01b (20/07/2011)
     - Added the "Help" module.

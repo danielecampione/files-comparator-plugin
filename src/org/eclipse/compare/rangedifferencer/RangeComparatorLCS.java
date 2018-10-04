@@ -99,7 +99,6 @@ public class RangeComparatorLCS extends LCS {
                 int end2 = l2 - 1;
                 if (s1 == -1 && (end1 != 0 || end2 != 0)) {
                     // There is a diff at the beginning
-                    // TODO: We need to conform that this is the proper order
                     differences.add(new RangeDifference(RangeDifference.CHANGE,
                             0, end2, 0, end1));
                 } else if (end1 != s1 + 1 || end2 != s2 + 1) {
@@ -108,7 +107,6 @@ public class RangeComparatorLCS extends LCS {
                     int leftLength = end1 - leftStart;
                     int rightStart = s2 + 1;
                     int rightLength = end2 - rightStart;
-                    // TODO: We need to conform that this is the proper order
                     differences.add(new RangeDifference(RangeDifference.CHANGE,
                             rightStart, rightLength, leftStart, leftLength));
                 }
@@ -120,10 +118,8 @@ public class RangeComparatorLCS extends LCS {
             if (s1 != -1
                     && (s1 + 1 < comparator1.getRangeCount() || s2 + 1 < comparator2
                             .getRangeCount())) {
-                // TODO: we need to find the proper way of representing an append
                 int leftStart = s1 < comparator1.getRangeCount() ? s1 + 1 : s1;
                 int rightStart = s2 < comparator2.getRangeCount() ? s2 + 1 : s2;
-                // TODO: We need to conform that this is the proper order
                 differences.add(new RangeDifference(RangeDifference.CHANGE,
                         rightStart, comparator2.getRangeCount() - (s2 + 1),
                         leftStart, comparator1.getRangeCount() - (s1 + 1)));

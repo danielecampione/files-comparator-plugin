@@ -97,8 +97,6 @@ public class VersionControlDiff extends FolderDiff {
             return;
         }
 
-        // TODO: versioncontrol should be a parameter in the constructor. 
-        //       The user has to decide which vc is used (popup)
         versionControl = versionControlList.get(0);
 
         statusResult = versionControl.executeStatus(directory);

@@ -183,7 +183,6 @@ public class FilesComparatorDiffNode implements TreeNode {
     }
 
     public AbstractCmd getCopyToRightCmd() throws Exception {
-        // TODO: This is NOT OO!
         if (nodeLeft.exists() && nodeLeft instanceof FileNode
                 && nodeRight instanceof FileNode) {
             return new CopyFileCmd(this, (FileNode) nodeLeft,
@@ -194,7 +193,6 @@ public class FilesComparatorDiffNode implements TreeNode {
     }
 
     public AbstractCmd getCopyToLeftCmd() throws Exception {
-        // TODO: This is NOT OO!
         if (nodeRight.exists() && nodeLeft instanceof FileNode
                 && nodeRight instanceof FileNode) {
             return new CopyFileCmd(this, (FileNode) nodeRight,
@@ -205,7 +203,6 @@ public class FilesComparatorDiffNode implements TreeNode {
     }
 
     public AbstractCmd getRemoveLeftCmd() throws Exception {
-        // TODO: This is NOT OO!
         if (nodeLeft instanceof FileNode) {
             return new RemoveFileCmd(this, (FileNode) nodeLeft);
         }
@@ -214,7 +211,6 @@ public class FilesComparatorDiffNode implements TreeNode {
     }
 
     public AbstractCmd getRemoveRightCmd() throws Exception {
-        // TODO: This is NOT OO!
         if (nodeRight instanceof FileNode) {
             return new RemoveFileCmd(this, (FileNode) nodeRight);
         }

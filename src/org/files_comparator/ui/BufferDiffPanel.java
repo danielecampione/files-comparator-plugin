@@ -519,7 +519,6 @@ public class BufferDiffPanel extends AbstractContentPanel {
             fromBufferDocument = filePanels[fromPanelIndex].getBufferDocument();
             toBufferDocument = filePanels[toPanelIndex].getBufferDocument();
 
-            // TODO: delta and revision are not yet ready for 3-way merge!
             if (fromPanelIndex < toPanelIndex) {
                 fromChunk = delta.getOriginal();
                 toChunk = delta.getRevised();

@@ -22,7 +22,7 @@ import java.awt.event.ActionEvent;
 
 import net.sourceforge.open_teradata_viewer.ApplicationFrame;
 import net.sourceforge.open_teradata_viewer.actions.CustomAction;
-import open_teradata_viewer.plugin.CustomPlugin;
+import open_teradata_viewer.plugin.FilesComparatorPlugin;
 
 /**
  * 
@@ -52,10 +52,9 @@ public class FilesComparatorAction extends CustomAction {
 
     @Override
     protected void performThreaded(ActionEvent e) throws Exception {
-        CustomPlugin plugin = (CustomPlugin) ApplicationFrame.getInstance().PLUGIN;
-        if (plugin.getMainFrame() != null && plugin.getMainFrame().isVisible()) {
+        if (FilesComparatorPlugin.getInstance().isVisible()) {
             return;
         }
-        plugin.showPanel();
+        FilesComparatorPlugin.getInstance().startPluginEntry();
     }
 }

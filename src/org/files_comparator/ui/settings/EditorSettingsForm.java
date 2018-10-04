@@ -614,17 +614,14 @@ public class EditorSettingsForm extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void antialiasCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_antialiasCheckBoxActionPerformed
-                                                                                   // TODO add your handling code here:
     }//GEN-LAST:event_antialiasCheckBoxActionPerformed
 
     private void rightsideReadonlyCheckBoxActionPerformed(
             java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rightsideReadonlyCheckBoxActionPerformed
-                                             // TODO add your handling code here:
     }//GEN-LAST:event_rightsideReadonlyCheckBoxActionPerformed
 
     private void leftsideReadonlyCheckBoxActionPerformed(
             java.awt.event.ActionEvent evt) {//GEN-FIRST:event_leftsideReadonlyCheckBoxActionPerformed
-                                             // TODO add your handling code here:
     }//GEN-LAST:event_leftsideReadonlyCheckBoxActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

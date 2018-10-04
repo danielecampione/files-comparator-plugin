@@ -59,9 +59,6 @@ public class FilesComparatorTreeTable extends JXTreeTable {
              .setClickCountToStart(1);
          */
         if (tableModel != null) {
-            //TODO[KKU]: Dit werkt niet meer. Zowel JXTable als JTable proberen
-            //           de preferred size te berekenen. ouch.
-
             // Make sure the icons fit well.
             if (getRowHeight() < 22) {
                 setRowHeight(22);

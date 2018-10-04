@@ -30,7 +30,7 @@ import javax.swing.JDialog;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import open_teradata_viewer.plugin.FilesComparator;
+import open_teradata_viewer.plugin.FilesComparatorPlugin;
 
 import org.files_comparator.settings.EditorSettings;
 import org.files_comparator.settings.FilesComparatorSettings;
@@ -318,7 +318,8 @@ public class EditorSettingsPanel extends EditorSettingsForm
                         .setToolbarButtonIcon(
                                 (EditorSettings.ToolbarButtonIcon) toolbarButtonIconComboBox
                                         .getSelectedItem());
-                FilesComparator.getFilesComparatorPanel().addToolBar();
+                FilesComparatorPlugin.getInstance().getFilesComparatorPanel()
+                        .addToolBar();
             }
         };
     }
@@ -328,7 +329,8 @@ public class EditorSettingsPanel extends EditorSettingsForm
             public void actionPerformed(ActionEvent evt) {
                 getEditorSettings().setToolbarButtonTextEnabled(
                         toolbarButtonTextEnabledCheckBox.isSelected());
-                FilesComparator.getFilesComparatorPanel().addToolBar();
+                FilesComparatorPlugin.getInstance().getFilesComparatorPanel()
+                        .addToolBar();
             }
         };
     }

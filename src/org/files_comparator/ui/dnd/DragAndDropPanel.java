@@ -47,7 +47,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRootPane;
 
-import open_teradata_viewer.plugin.FilesComparator;
+import open_teradata_viewer.plugin.FilesComparatorPlugin;
 
 import org.files_comparator.ui.util.ColorUtil;
 import org.files_comparator.ui.util.Colors;
@@ -261,7 +261,8 @@ public class DragAndDropPanel extends JPanel {
                 rightDragAndDropArea.setBackground(Colors.DND_SELECTED_USED);
 
                 try {
-                    FilesComparator
+                    FilesComparatorPlugin
+                            .getInstance()
                             .getFilesComparatorPanel()
                             .openComparison(
                                     new File(new URL(leftFileName).toURI())
