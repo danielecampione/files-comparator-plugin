@@ -25,15 +25,21 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.help.HelpSet;
+import javax.help.JHelpContentViewer;
+import javax.help.JHelpNavigator;
+import javax.help.NavigatorView;
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
+import javax.swing.JSplitPane;
 import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 import javax.swing.event.AncestorEvent;
@@ -104,6 +110,7 @@ public class FilesComparatorPanel extends JPanel
     private static final String PREVIOUSSEARCH_ACTION = "PreviousSearch";
     private static final String REFRESH_ACTION = "Refresh";
     private static final String MERGEMODE_ACTION = "MergeMode";
+    private static final String HELP_ACTION = "Help";
     private static final String SETTINGS_ACTION = "Settings";
     private static final String EXIT_ACTION = "Exit";
 
@@ -308,6 +315,9 @@ public class FilesComparatorPanel extends JPanel
                 .get(SETTINGS_ACTION));
         builder.addButton(button);
 
+        button = WidgetFactory.getToolBarButton(actionHandler.get(HELP_ACTION));
+        builder.addButton(button);
+
         return tb;
     }
 
@@ -415,6 +425,10 @@ public class FilesComparatorPanel extends JPanel
 
         action = actionHandler.createAction(this, MERGEMODE_ACTION);
         installKey("F9", action);
+
+        action = actionHandler.createAction(this, HELP_ACTION);
+        action.setIcon("stock_help-agent");
+        installKey("F1", action);
 
         action = actionHandler.createAction(this, SETTINGS_ACTION);
         action.setIcon("stock_preferences");
@@ -635,6 +649,48 @@ public class FilesComparatorPanel extends JPanel
                                     .getSmallImageIcon("files-comparator_mergemode-on"));
         } else {
             StatusBar.getInstance().removeNotification(MERGEMODE_ACTION);
+        }
+    }
+
+    public void doHelp(ActionEvent ae) {
+        try {
+            AbstractContentPanel content;
+            URL url;
+            HelpSet helpSet;
+            JHelpContentViewer viewer;
+            JHelpNavigator navigator;
+            NavigatorView navigatorView;
+            JSplitPane splitPane;
+            String contentId;
+
+            contentId = "HelpPanel";
+            if (checkAlreadyOpen(contentId)) {
+                return;
+            }
+
+            url = HelpSet.findHelpSet(getClass().getClassLoader(),
+                    "files-comparator");
+            helpSet = new HelpSet(getClass().getClassLoader(), url);
+            viewer = new JHelpContentViewer(helpSet);
+            navigatorView = helpSet.getNavigatorView("TOC");
+            navigator = (JHelpNavigator) navigatorView.createNavigator(viewer
+                    .getModel());
+            splitPane = new JSplitPane();
+            splitPane.setLeftComponent(navigator);
+            splitPane.setRightComponent(viewer);
+            content = new AbstractContentPanel();
+            content.setId(contentId);
+            content.setLayout(new BorderLayout());
+            content.add(splitPane, BorderLayout.CENTER);
+
+            /*
+               content = new HelpPanel(this);
+             */
+            tabbedPane.addTab("Help",
+                    ImageUtil.getSmallImageIcon("stock_help-agent"), content);
+            tabbedPane.setSelectedComponent(content);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 

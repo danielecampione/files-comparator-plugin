@@ -1,0 +1,5 @@
+0.01b (20-jul-11)
+    - Added the "Help" module.
+
+0.01a (13-jul-11)
+    - First release.

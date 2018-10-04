@@ -40,10 +40,9 @@ public class FilesComparatorAction extends CustomAction {
     }
 
     public void actionPerformed(final ActionEvent e) {
-        // The "check time period" selection process can be performed altough
-        // other processes are running. No ThreadAction object must be
-        // instantiated because the focus must still remains on the calendar
-        // frame.
+        // The "Files Comparator plug-in" can be used altough other processes
+        // are running. No ThreadAction object must be instantiated because the
+        // focus must still remains on the Files Comparator frame.
         try {
             performThreaded(e);
         } catch (Throwable t) {
